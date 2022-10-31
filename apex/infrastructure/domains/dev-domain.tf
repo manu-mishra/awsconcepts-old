@@ -1,7 +1,3 @@
-resource "aws_route53_zone" "main" {
-  name = "awsconcepts.com"
-}
-
 resource "aws_route53_zone" "dev" {
   name = "dev.awsconcepts.com"
 
