@@ -13,6 +13,14 @@ resource "aws_route53_record" "websiteurl" {
   }
 }
 
+resource "aws_route53_record" "www_url" {
+  zone_id = aws_route53_zone.main.zone_id
+  name    = "www.${var.endpoint}"
+  type    = "CNAME"
+  ttl = "300"
+  records = [var.endpoint]
+}
+
 resource "aws_route53_record" "certvalidation" {
   for_each = {
     for d in aws_acm_certificate.cert.domain_validation_options : d.domain_name => {
