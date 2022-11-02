@@ -2,6 +2,17 @@ resource "aws_cloudfront_distribution" "cf" {
   enabled             = true
   aliases             = [var.endpoint,"www.${var.endpoint}"]
   default_root_object = "index.html"
+  custom_error_response {
+    error_code    = 403
+    response_code = 200
+    response_page_path = "/index.html"
+  }
+
+  custom_error_response {
+    error_code    = 404
+    response_code = 200
+    response_page_path = "/index.html"
+  }
   origin {
     domain_name = aws_s3_bucket.website.bucket_regional_domain_name
     origin_id   = aws_s3_bucket.website.bucket_regional_domain_name
