@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: '/apex/ui'
+        working-directory: 'apex/ui'
     steps:
       - name: Checking out code
         uses: actions/checkout@v3
