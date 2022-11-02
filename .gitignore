@@ -384,3 +384,5 @@ override.tf.json
 .terraformrc
 terraform.rc
 apex/infrastructure/.terraform.lock.hcl
+
+/.vscode/
