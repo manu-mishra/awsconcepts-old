@@ -1,15 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Application.Values.Queries;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace awsconcepts.api.Controllers;
 
-[Route("api/[controller]")]
-public class ValuesController : ControllerBase
+public class ValuesController : ApiController
 {
     // GET api/values
     [HttpGet]
-    public IEnumerable<string> Get()
+    public async Task<IEnumerable<string>> Get()
     {
-        return new string[] { "value1", "value2" };
+        return await Mediator.Send(new GetValuesQuery());
     }
 
     // GET api/values/5

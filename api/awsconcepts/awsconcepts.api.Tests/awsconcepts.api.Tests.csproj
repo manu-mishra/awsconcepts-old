@@ -25,6 +25,6 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\awsconcepts.api\awsconcepts.api.csproj" />
+    <ProjectReference Include="..\awsconcepts.api\awsconcepts.api.csproj" />
   </ItemGroup>
 </Project>

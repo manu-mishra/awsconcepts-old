@@ -1,4 +1,8 @@
-﻿namespace awsconcepts.api;
+﻿using Application;
+using Application.Common.Interfaces;
+using awsconcepts.api.Authentication;
+
+namespace awsconcepts.api;
 
 public class Startup
 {
@@ -12,6 +16,7 @@ public class Startup
     // This method gets called by the runtime. Use this method to add services to the container
     public void ConfigureServices(IServiceCollection services)
     {
+        services.AddApplicationDependencies().AddScoped<ICurrentUser, CurrentUser>();
         services.AddControllers();
     }
 
@@ -34,7 +39,7 @@ public class Startup
             endpoints.MapControllers();
             endpoints.MapGet("/", async context =>
             {
-                await context.Response.WriteAsync("Welcome to running ASP.NET Core on AWS Lambda");
+                await context.Response.WriteAsync("Healthy");
             });
         });
     }
