@@ -1,12 +1,12 @@
 {
   "profiles": {
-    "awsconcepts.api": {
+    "AwsConceptsRootLambda": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:60188;http://localhost:60189"
+      "applicationUrl": "https://localhost:57446;http://localhost:57447"
     },
     "Mock Lambda Test Tool": {
       "commandName": "Executable",

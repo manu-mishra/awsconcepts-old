@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Calculator\Queries\" />
     <Folder Include="Common\Constants\" />
     <Folder Include="Values\Commands\" />
   </ItemGroup>

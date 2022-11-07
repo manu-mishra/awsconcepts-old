@@ -1,6 +1,6 @@
-﻿using Application.Common.Behaviours;
-using FluentValidation;
-using MediatR;
+﻿global using MediatR;
+global using FluentValidation;
+using Application.Common.Behaviours;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
