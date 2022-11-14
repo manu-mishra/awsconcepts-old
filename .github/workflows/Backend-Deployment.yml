@@ -27,17 +27,11 @@ jobs:
       run: |
         dotnet build --configuration Release 
         dotnet publish -c Release -o ../lambdapackage -r linux-x64 --no-self-contained
-    - name: dir
-      run: |
-        cd ..
-        mkdir output
+        mkdir ../output
     - name: Create Zip File
       uses: montudor/action-zip@v0.1.0
       with:
         args: zip -r ./api/awsconcepts/output/rootlambdapackage.zip ./api/awsconcepts/lambdapackage
-    - name: dir
-      run: |
-        ls
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
@@ -45,7 +39,7 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1
     - name: Upload to S3 bucket
-      run: aws s3 sync ./api/awsconcepts/output/ s3://awsconcepts-terraform-deployments/awsconcepts/lambdapackages --delete
+      run: aws s3 sync ../output/ s3://awsconcepts-terraform-deployments/awsconcepts/lambdapackages --delete
     - name: Deploy to AWS CloudFormation
       uses: aws-actions/aws-cloudformation-github-deploy@v1
       with:
