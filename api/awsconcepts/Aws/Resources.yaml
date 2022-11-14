@@ -9,25 +9,17 @@ Parameters:
 
 Resources:
   apiGateway:
-    Type: AWS::ApiGatewayV2::Api
+    Type: AWS::ApiGatewayV2::Integration
     Properties:
-      Description: awsconcepts API Gateway
-      ProtocolType: HTTP
-      CorsConfiguration:
-        AllowOrigins:
-          - '*'
-        AllowMethods:
-          - GET
-          - HEAD
-          - OPTIONS
-          - POST
-          - PUT
-          - DELETE
-          - PATCH
-      Target: !Sub
+      ApiId: !Ref DemoHttpApi
+      Description: Lambda proxy integration
+      IntegrationType: AWS_PROXY
+      IntegrationMethod: ANY
+      PayloadFormatVersion: "2.0"
+      Name: !Sub "${environmentName}-api-gtw" 
+      IntegrationUri: !Sub
           - arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${lambdaArn}/invocations
           - lambdaArn: !GetAtt lambdaFunction.Arn
-      Name: !Sub "${environmentName}-api-gtw" 
 
   lambdaFunction:
     Type: AWS::Serverless::Function
