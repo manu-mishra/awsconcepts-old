@@ -1,0 +1,23 @@
+# Name of workflow as seen in Github actions tab
+name: awsconcepts-build-and-deploy
+# Run workflow only on push to main branch
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - "api/**"
+      - ".github/workflows/Backend-Deployment.yml"
+jobs:
+  # To build the project
+  build-ui:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 'api/awsconcepts'
+    steps:
+    - name: Deploy to AWS CloudFormation
+      uses: aws-actions/aws-cloudformation-github-deploy@v1
+      with:
+        name: AwsConceptsBackEndStack
+        template: /Aws/Resources.yaml
+        parameter-overrides: "environmentName=Prod"
