@@ -9,35 +9,25 @@ Parameters:
 
 Resources:
   apiGateway:
-    Type: AWS::ApiGateway::RestApi
+    Type: AWS::ApiGatewayV2::API
     Properties:
       Description: awsconcepts API Gateway
-      EndpointConfiguration:
-        Types:
-          - REGIONAL
-      Name: !Sub "${environmentName}-api-gtw" 
-
-  apiGatewayRootMethod:
-    Type: AWS::ApiGateway::Method
-    Properties:
-      AuthorizationType: NONE
-      HttpMethod: ANY
-      Integration:
-        IntegrationHttpMethod: ANY
-        Type: AWS_PROXY
-        Uri: !Sub
+      ProtocolType: HTTP
+      CorsConfiguration:
+        AllowOrigins:
+          - '*'
+        AllowMethods:
+          - GET
+          - HEAD
+          - OPTIONS
+          - POST
+          - PUT
+          - DELETE
+          - PATCH
+      Target: !Sub
           - arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${lambdaArn}/invocations
           - lambdaArn: !GetAtt lambdaFunction.Arn
-      ResourceId: !GetAtt apiGateway.RootResourceId
-      RestApiId: !Ref apiGateway
-
-  apiGatewayDeployment:
-    Type: AWS::ApiGateway::Deployment
-    DependsOn:
-      - apiGatewayRootMethod
-    Properties:
-      RestApiId: !Ref apiGateway
-      StageName: api
+      Name: !Sub "${environmentName}-api-gtw" 
 
   lambdaFunction:
     Type: AWS::Serverless::Function
