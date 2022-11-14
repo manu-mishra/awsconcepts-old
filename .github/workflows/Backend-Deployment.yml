@@ -13,11 +13,19 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: './api/awsconcepts'
+        working-directory: './api/awsconcepts/AwsConceptsRootLambda'
     steps:
     - name: Checking out code
       uses: actions/checkout@v3
-    - name: print dir
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    - name: Install dependencies
+      run: dotnet restore
+    - name: Build Lambda
+      run: dotnet build --configuration Release 
+    - name: dir
       run: ls
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
