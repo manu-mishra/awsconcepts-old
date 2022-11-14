@@ -1,5 +1,5 @@
 # Name of workflow as seen in Github actions tab
-name: awsconcepts-build-and-deploy
+name: awsconcepts-build-and-deploy-backend
 # Run workflow only on push to main branch
 on:
   push:
