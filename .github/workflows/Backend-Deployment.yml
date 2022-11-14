@@ -27,15 +27,11 @@ jobs:
       run: |
         dotnet build --configuration Release 
         dotnet publish -c Release -o ../lambdapackage -r linux-x64 --no-self-contained
-    - name: dir
-      run: |
-        cd ..
-        mkdir output
-        ls
+        mkdir ../output
     - name: Create Zip File
       uses: montudor/action-zip@v0.1.0
       with:
-        args: zip -r ./output/rootlambdapackage.zip ./api/awsconcepts/lambdapackage
+        args: zip -r ./api/awsconcepts/output/rootlambdapackage.zip ./api/awsconcepts/lambdapackage
     - name: dir
       run: |
         ls
