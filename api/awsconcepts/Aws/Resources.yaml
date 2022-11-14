@@ -51,6 +51,18 @@ Resources:
       MemorySize: 256
       Role: !GetAtt lambdaIAMRole.Arn
       Runtime: dotnet6
+      Timeout: 30
+      Events:
+        ProxyResource:
+          Type: Api
+          Properties:
+            Path: "/{proxy+}"
+            Method: ANY
+        RootResource:
+          Type: Api
+          Properties:
+            Path: "/"
+            Method: ANY
 
   lambdaApiGatewayInvoke:
     Type: AWS::Lambda::Permission
