@@ -31,3 +31,4 @@ jobs:
         name: AwsConceptsBackEndStack
         template: ./api/awsconcepts/Aws/Resources.yaml
         parameter-overrides: "environmentName=Prod"
+        capabilities: "'CAPABILITY_IAM','CAPABILITY_AUTO_EXPAND'"
