@@ -53,11 +53,6 @@ Resources:
       Runtime: dotnet6
       Timeout: 30
       Events:
-        ProxyResource:
-          Type: Api
-          Properties:
-            Path: "/{proxy+}"
-            Method: ANY
         RootResource:
           Type: Api
           Properties:
