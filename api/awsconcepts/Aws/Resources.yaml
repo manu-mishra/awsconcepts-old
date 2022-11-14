@@ -40,7 +40,7 @@ Resources:
       StageName: api
 
   lambdaFunction:
-    Type: AWS::Lambda::Function
+    Type: AWS::Serverless::Function
     Properties:
       CodeUri: ../AwsConceptsRootLambda/
       Description: Root Lambda function
