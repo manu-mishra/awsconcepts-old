@@ -15,8 +15,7 @@ Resources:
       ProtocolType: HTTP
       CorsConfiguration:
         AllowOrigins:
-          - 'awsconcepts.com'
-          - 'www.awsconcepts.com'
+          - '*'
         AllowMethods:
           - GET
           - HEAD
