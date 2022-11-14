@@ -11,12 +11,11 @@ Resources:
   apiGateway:
     Type: AWS::ApiGatewayV2::Integration
     Properties:
-      ApiId: !Ref DemoHttpApi
+      ApiId: !Sub "${environmentName}-api-gtw" 
       Description: Lambda proxy integration
       IntegrationType: AWS_PROXY
       IntegrationMethod: ANY
       PayloadFormatVersion: "2.0"
-      Name: !Sub "${environmentName}-api-gtw" 
       IntegrationUri: !Sub
           - arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${lambdaArn}/invocations
           - lambdaArn: !GetAtt lambdaFunction.Arn
