@@ -9,13 +9,14 @@ Parameters:
 
 Resources:
   apiGateway:
-    Type: AWS::ApiGatewayV2::API
+    Type: AWS::ApiGatewayV2::Api
     Properties:
       Description: awsconcepts API Gateway
       ProtocolType: HTTP
       CorsConfiguration:
         AllowOrigins:
-          - '*'
+          - 'awsconcepts.com'
+          - 'www.awsconcepts.com'
         AllowMethods:
           - GET
           - HEAD
