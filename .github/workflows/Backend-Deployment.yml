@@ -29,5 +29,5 @@ jobs:
       uses: aws-actions/aws-cloudformation-github-deploy@v1
       with:
         name: AwsConceptsBackEndStack
-        template: /Aws/Resources.yaml
+        template: ./Aws/Resources.yaml
         parameter-overrides: "environmentName=Prod"
