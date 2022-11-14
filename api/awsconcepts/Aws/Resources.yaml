@@ -42,7 +42,7 @@ Resources:
   lambdaFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: ../AwsConceptsRootLambda/
+      CodeUri: s3://awsconcepts-terraform-deployments/awsconcepts/lambdapackages/rootlambdapackage.zip
       Description: Root Lambda function
       FunctionName: !Sub "${environmentName}-root-lambda"
       Handler: AwsConceptsRootLambda
