@@ -110,7 +110,7 @@ Resources:
       Timeout: 30
       TracingConfig:
         Mode: "Active"
-
+        abc
   lambdaApiGatewayInvoke:
     Type: AWS::Lambda::Permission
     Properties:
@@ -119,7 +119,7 @@ Resources:
       Principal: apigateway.amazonaws.com
       # note: if route *not* at API Gateway root, `SourceArn` would take the form of:
       #               arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${apiGateway}/${apiGatewayStageName}/${apiGatewayHTTPMethod}/PATH_PART
-      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${apiGateway}/api/ANY/
+      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${apiGateway}/*/*/{proxy+}
 
   lambdaIAMRole:
     Type: AWS::IAM::Role
