@@ -11,7 +11,6 @@ Parameters:
     Default: arn:aws:acm:us-east-1:639658585076:certificate/6fc81c16-b064-43aa-bc79-5b8d56f65fcd
   lambdaCodeUri:
     Type: String
-    Required: true
 Resources:
   
   apiGateway:
