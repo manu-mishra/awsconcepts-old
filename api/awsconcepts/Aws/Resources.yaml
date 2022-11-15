@@ -6,12 +6,70 @@ Parameters:
   environmentName:
     Type: String
     Default: Prod
+  certificateArnName:
+    Type: String
+    Default: arn:aws:acm:us-east-1:639658585076:certificate/6fc81c16-b064-43aa-bc79-5b8d56f65fcd
 
 Resources:
+  
   apiGateway:
+    Type: AWS::ApiGatewayV2::Api
+    Properties:
+      Description: awsconcepts API Gateway
+      ProtocolType: HTTP
+      CorsConfiguration:
+        AllowOrigins:
+          - '*'
+        AllowMethods:
+          - GET
+          - HEAD
+          - OPTIONS
+          - POST
+          - PUT
+          - DELETE
+          - PATCH
+      Name: !Sub "${environmentName}-api-gtw" 
+  demoApiStage:
+    Type: AWS::ApiGatewayV2::Stage
+    Properties:
+      ApiId: !Ref apiGateway
+      StageName: prod
+      Description: Live Stage
+      AutoDeploy: true 
+
+  DemoApiDomainName1:
+    Type: AWS::ApiGatewayV2::DomainName
+    Properties:
+      DomainName: awsconcepts.com
+      DomainNameConfigurations:
+        - EndpointType: REGIONAL
+          CertificateArn: !Ref certificateArnName
+ 
+  DemoApiDomainName2:
+    Type: AWS::ApiGatewayV2::DomainName
+    Properties:
+      DomainName: www.awsconcepts.com
+      DomainNameConfigurations:
+        - EndpointType: REGIONAL
+          CertificateArn: !Ref certificateArnName
+  DemoApiBasePathMapping1:
+    Type: AWS::ApiGatewayV2::ApiMapping
+    Properties:
+      DomainName: awsconcepts.com
+      ApiId: !Ref apiGateway
+      Stage: !Ref demoApiStage
+
+  DemoApiBasePathMapping2:
+    Type: AWS::ApiGatewayV2::ApiMapping
+    Properties:
+      DomainName: www.awsconcepts.com
+      ApiId: !Ref apiGateway
+      Stage: !Ref demoApiStage
+
+  apiGatewayLambdaIntegration:
     Type: AWS::ApiGatewayV2::Integration
     Properties:
-      ApiId: !Sub "${environmentName}-api-gtw" 
+      ApiId: !Ref apiGateway
       Description: Lambda proxy integration
       IntegrationType: AWS_PROXY
       IntegrationMethod: ANY
