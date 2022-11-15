@@ -21,6 +21,6 @@ jobs:
         ls
         mkdir ../output
         zip -r ../output/release$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT.zip .
-        echo $GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT.zip.zip
+        echo $GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT.zip
       
 
