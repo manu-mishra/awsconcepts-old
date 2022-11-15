@@ -39,7 +39,7 @@ Resources:
       Description: Live Stage
       AutoDeploy: true 
 
-  ApiGatewayV2Route:
+  apiGatewayV2Route:
     Type: "AWS::ApiGatewayV2::Route"
     Properties:
         ApiId: !Ref apiGateway
@@ -80,14 +80,14 @@ Resources:
     Properties:
       DomainName: !Ref apiDomainName1
       ApiId: !Ref apiGateway
-      Stage: !Ref demoApiStage
+      Stage: !Ref apiGatewayStage
 
   apiBasePathMapping2:
     Type: AWS::ApiGatewayV2::ApiMapping
     Properties:
       DomainName: !Ref apiDomainName2
       ApiId: !Ref apiGateway
-      Stage: !Ref demoApiStage
+      Stage: !Ref apiGatewayStage
 
   lambdaFunction:
     Type: AWS::Serverless::Function
