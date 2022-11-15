@@ -11,7 +11,7 @@ Parameters:
     Default: arn:aws:acm:us-east-1:639658585076:certificate/6fc81c16-b064-43aa-bc79-5b8d56f65fcd
   lambdaCodeUri:
     Type: String
-    Default: s3://awsconcepts-terraform-deployments/awsconcepts/lambdapackages/rootlambdapackage.zip
+    Required: true
 Resources:
   
   apiGateway:
@@ -94,7 +94,7 @@ Resources:
   lambdaFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: !Ref lambdaCodeUri
+      CodeUri: !Sub "${lambdaCodeUri}" 
       Description: Root Lambda function
       FunctionName: !Sub "${environmentName}-root-lambda"
       Handler: AwsConceptsRootLambda
