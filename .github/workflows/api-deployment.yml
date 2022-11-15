@@ -6,7 +6,7 @@ on:
     branches: [ main ]
     paths:
       - "api/**"
-      - ".github/workflows/Backend-Deployment.yml"
+      - ".github/workflows/api-deployment.yml"
 jobs:
   # To build the project
   deploy-backend:
@@ -26,12 +26,13 @@ jobs:
     - name: Build and package Lambda
       run: |
         dotnet build --configuration Release 
-        dotnet publish -c Release -o ../lambdapackage -r linux-x64 --no-self-contained
+        dotnet publish -c Release -o ./rootlambdapackage -r linux-x64 --no-self-contained
         mkdir ../output
     - name: Create Zip File
-      uses: montudor/action-zip@v0.1.0
-      with:
-        args: zip -r ./api/awsconcepts/output/rootlambdapackage.zip ./api/awsconcepts/lambdapackage
+      run: |
+        ls
+        mkdir ../output
+        zip -r ../output/rootlambdapackage.zip ./rootlambdapackage    
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
