@@ -27,7 +27,6 @@ jobs:
       run: |
         dotnet build --configuration Release 
         dotnet publish -c Release -o ./rootlambdapackage -r linux-x64 --no-self-contained
-        mkdir ../output
     - name: Create Zip File
       run: |
         ls
