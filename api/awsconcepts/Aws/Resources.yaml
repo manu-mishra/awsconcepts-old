@@ -72,7 +72,7 @@ Resources:
       ApiId: !Ref apiGateway
       Description: Lambda proxy integration
       IntegrationType: AWS_PROXY
-      IntegrationMethod: ANY
+      IntegrationMethod: POST
       PayloadFormatVersion: "2.0"
       IntegrationUri: !Sub
           - arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${lambdaArn}/invocations
