@@ -14,9 +14,7 @@
         "MemorySize": 256,
         "Timeout": 30,
         "Role": null,
-        "Policies": [
-          "AWSLambda_FullAccess"
-        ],
+        "Policies": ,
         "Events": {
           "ProxyResource": {
             "Type": "Api",
