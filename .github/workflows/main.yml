@@ -23,6 +23,6 @@ jobs:
         zip -r ../output/release$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT.zip .
         echo $GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT.zip
         echo "lambda_package_url=s3://awsconcepts-terraform-deployments/awsconcepts/lambdapackages/rootlambdapackage$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT.zip"  >> $GITHUB_ENV
-        echo "xcxc${{ env.lambda_package_url }}"
+        echo "xcxc${{ env.lambda_package_url }}-${{ github.run_id }}"
       
 
