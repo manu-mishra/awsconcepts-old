@@ -1,0 +1,159 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+Description: Aws-Concepts-Backend-Infrastructure
+
+Parameters:
+  environmentName:
+    Type: String
+    Default: Prod
+  certificateArnName:
+    Type: String
+    Default: arn:aws:acm:us-east-1:639658585076:certificate/6fc81c16-b064-43aa-bc79-5b8d56f65fcd
+  lambdaCodeUriKey:
+    Type: String
+  lambdaCodeUriBucket:
+    Type: String
+Resources:
+  
+  apiGateway:
+    Type: AWS::ApiGatewayV2::Api
+    Properties:
+      Description: awsconcepts API Gateway
+      ProtocolType: HTTP
+      DisableExecuteApiEndpoint: false
+      CorsConfiguration:
+        AllowOrigins:
+          - '*'
+        AllowMethods:
+          - GET
+          - HEAD
+          - OPTIONS
+          - POST
+          - PUT
+          - DELETE
+          - PATCH
+      Name: !Sub "${environmentName}-api-gtw" 
+
+  apiGatewayStage:
+    Type: AWS::ApiGatewayV2::Stage
+    Properties:
+      ApiId: !Ref apiGateway
+      StageName: "$default"
+      Description: Live Stage
+      AutoDeploy: true 
+
+  apiGatewayV2Route:
+    Type: "AWS::ApiGatewayV2::Route"
+    Properties:
+        ApiId: !Ref apiGateway
+        ApiKeyRequired: false
+        AuthorizationType: "NONE"
+        RouteKey: "ANY /{proxy+}"
+        Target: !Sub "integrations/${apiGatewayLambdaIntegration}"
+
+  apiGatewayLambdaIntegration:
+    Type: "AWS::ApiGatewayV2::Integration"
+    Properties:
+        ApiId: !Ref apiGateway
+        ConnectionType: "INTERNET"
+        IntegrationMethod: "POST"
+        IntegrationType: "AWS_PROXY"
+        IntegrationUri: !GetAtt lambdaFunction.Arn
+        TimeoutInMillis: 30000
+        PayloadFormatVersion: "2.0"
+
+  apiDomainName1:
+    Type: AWS::ApiGatewayV2::DomainName
+    Properties:
+      DomainName: awsconcepts.com
+      DomainNameConfigurations:
+        - EndpointType: REGIONAL
+          CertificateArn: !Ref certificateArnName
+ 
+  apiDomainName2:
+    Type: AWS::ApiGatewayV2::DomainName
+    Properties:
+      DomainName: www.awsconcepts.com
+      DomainNameConfigurations:
+        - EndpointType: REGIONAL
+          CertificateArn: !Ref certificateArnName
+
+  apiBasePathMapping1:
+    Type: AWS::ApiGatewayV2::ApiMapping
+    Properties:
+      DomainName: !Ref apiDomainName1
+      ApiId: !Ref apiGateway
+      Stage: !Ref apiGatewayStage
+
+  apiBasePathMapping2:
+    Type: AWS::ApiGatewayV2::ApiMapping
+    Properties:
+      DomainName: !Ref apiDomainName2
+      ApiId: !Ref apiGateway
+      Stage: !Ref apiGatewayStage
+
+  lambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code: 
+        S3Bucket: !Ref lambdaCodeUriBucket
+        S3Key: !Ref lambdaCodeUriKey
+        
+      Description: Root Lambda function
+      FunctionName: !Sub "${environmentName}-root-lambda"
+      Handler: AwsConceptsRootLambda
+      Architectures:
+        - x86_64
+      MemorySize: 256
+      Role: !GetAtt lambdaIAMRole.Arn
+      Runtime: dotnet6
+      Timeout: 30
+      TracingConfig:
+        Mode: "Active"
+  lambdaApiGatewayInvoke:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !GetAtt lambdaFunction.Arn
+      Principal: apigateway.amazonaws.com
+      # note: if route *not* at API Gateway root, `SourceArn` would take the form of:
+      #               arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${apiGateway}/${apiGatewayStageName}/${apiGatewayHTTPMethod}/PATH_PART
+      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${apiGateway}/*/*/{proxy+}
+
+  lambdaIAMRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Action:
+              - sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+      Policies:
+        - PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Effect: Allow
+                Resource:
+                  - !Sub arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/${environmentName}-root-lambda:*
+          PolicyName: lambda
+
+  lambdaLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /aws/lambda/${environmentName}-root-lambda
+      RetentionInDays: 90
+
+Outputs:
+  apiGatewayInvokeURL:
+    Value: !Sub https://${apiGateway}.execute-api.${AWS::Region}.amazonaws.com/api
+
+  lambdaArn:
+    Value: !GetAtt lambdaFunction.Arn

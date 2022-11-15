@@ -1,0 +1,28 @@
+name: awsconcepts-build-and-deploy-backend
+# Run workflow only on push to main branch
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - ".github/workflows/main.yml"
+jobs:
+  # To build the project
+  deploy-backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: './api/awsconcepts/AwsConceptsRootLambda'
+    steps:
+    - name: Checking out code
+      uses: actions/checkout@v3
+
+    - name: Create Zip File
+      run: |
+        ls
+        mkdir ../output
+        zip -r ../output/release$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT.zip .
+        echo $GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT.zip
+        echo "lambda_package_url=s3://awsconcepts-terraform-deployments/awsconcepts/lambdapackages/rootlambdapackage$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT.zip"  >> $GITHUB_ENV
+        echo "xcxc${{ env.lambda_package_url }}-${{ github.run_id }}"
+      
+
