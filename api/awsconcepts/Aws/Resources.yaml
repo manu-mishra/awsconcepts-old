@@ -9,7 +9,9 @@ Parameters:
   certificateArnName:
     Type: String
     Default: arn:aws:acm:us-east-1:639658585076:certificate/6fc81c16-b064-43aa-bc79-5b8d56f65fcd
-  lambdaCodeUri:
+  lambdaCodeUriKey:
+    Type: String
+  lambdaCodeUriBucket:
     Type: String
 Resources:
   
@@ -93,7 +95,10 @@ Resources:
   lambdaFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: !Sub "${lambdaCodeUri}" 
+      CodeUri: 
+        Bucket: !Ref lambdaCodeUriBucket
+        Key: !Ref lambdaCodeUriKey
+        
       Description: Root Lambda function
       FunctionName: !Sub "${environmentName}-root-lambda"
       Handler: AwsConceptsRootLambda
