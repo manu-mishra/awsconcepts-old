@@ -32,7 +32,7 @@ jobs:
         mkdir ../output
         cd rootlambdapackage
         ls
-        zip -r ../../output/rootlambdapackage${{ env.GITHUB_RUN_ID}}-${{ env.GITHUB_RUN_ATTEMPT}}.zip .  
+        zip -r ../../output/rootlambdapackage$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT.zip .  
         cd ..
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -41,11 +41,11 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1
     - name: Upload to S3 bucket
-      run: aws s3 sync ../output/ s3://awsconcepts-terraform-deployments/awsconcepts/lambdapackages --delete
+      run: aws s3 sync ../output/ s3://awsconcepts-terraform-deployments/awsconcepts/lambdapackages
     - name: Deploy to AWS CloudFormation
       uses: aws-actions/aws-cloudformation-github-deploy@v1
       with:
         name: AwsConceptsBackEndStack
         template: ./api/awsconcepts/Aws/Resources.yaml
-        parameter-overrides: "environmentName=Prod,lambdaCodeUri=s3://awsconcepts-terraform-deployments/awsconcepts/lambdapackages/rootlambdapackage${{ env.GITHUB_RUN_ID}}-${{ env.GITHUB_RUN_ATTEMPT}}.zip"
+        parameter-overrides: "environmentName=Prod,lambdaCodeUri=s3://awsconcepts-terraform-deployments/awsconcepts/lambdapackages/rootlambdapackage$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT.zip"
         capabilities: "CAPABILITY_IAM,CAPABILITY_AUTO_EXPAND"
