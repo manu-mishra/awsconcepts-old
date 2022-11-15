@@ -32,7 +32,7 @@ jobs:
         mkdir ../output
         cd rootlambdapackage
         ls
-        zip -r ../../output/rootlambdapackage$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT.zip .  
+        zip -r ../../output/rootlambdapackage-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT.zip .  
         cd ..
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -47,5 +47,5 @@ jobs:
       with:
         name: AwsConceptsBackEndStack
         template: ./api/awsconcepts/Aws/Resources.yaml
-        parameter-overrides: "environmentName=Prod,lambdaCodeUri=s3://awsconcepts-terraform-deployments/awsconcepts/lambdapackages/rootlambdapackage$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT.zip"
+        parameter-overrides: "environmentName=Prod,lambdaCodeUri=s3://awsconcepts-terraform-deployments/awsconcepts/lambdapackages/rootlambdapackage-${{ github.run_id }}-${{ github.run_attempt }}.zip"
         capabilities: "CAPABILITY_IAM,CAPABILITY_AUTO_EXPAND"
