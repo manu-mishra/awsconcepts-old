@@ -1,0 +1,31 @@
+name: awsconcepts-build-and-deploy-backend
+# Run workflow only on push to main branch
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - ".github/workflows/main.yml"
+jobs:
+  # To build the project
+  deploy-backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: './api/awsconcepts/AwsConceptsRootLambda'
+    steps:
+    - name: Checking out code
+      uses: actions/checkout@v3
+
+    - name: Create Zip File
+      run: |
+        mkdir ../output
+        zip -r ./output/release.zip 
+      
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+    - name: Upload to S3 bucket
+      run: aws s3 sync ../output/ s3://awsconcepts-terraform-deployments/awsconcepts/lambdapackages --delete
