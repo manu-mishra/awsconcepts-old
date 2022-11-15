@@ -17,6 +17,7 @@ Resources:
     Properties:
       Description: awsconcepts API Gateway
       ProtocolType: HTTP
+      DisableExecuteApiEndpoint: false
       CorsConfiguration:
         AllowOrigins:
           - '*'
@@ -29,13 +30,34 @@ Resources:
           - DELETE
           - PATCH
       Name: !Sub "${environmentName}-api-gtw" 
-  demoApiStage:
+
+  apiGatewayStage:
     Type: AWS::ApiGatewayV2::Stage
     Properties:
       ApiId: !Ref apiGateway
-      StageName: prod
+      StageName: "$default"
       Description: Live Stage
       AutoDeploy: true 
+
+  ApiGatewayV2Route:
+    Type: "AWS::ApiGatewayV2::Route"
+    Properties:
+        ApiId: !Ref apiGateway
+        ApiKeyRequired: false
+        AuthorizationType: "NONE"
+        RouteKey: "ANY /{proxy+}"
+        Target: !Sub "integrations/${apiGatewayLambdaIntegration}"
+
+  apiGatewayLambdaIntegration:
+    Type: "AWS::ApiGatewayV2::Integration"
+    Properties:
+        ApiId: !Ref ApiGatewayV2Api
+        ConnectionType: "INTERNET"
+        IntegrationMethod: "POST"
+        IntegrationType: "AWS_PROXY"
+        IntegrationUri: !GetAtt lambdaFunction.Arn
+        TimeoutInMillis: 30000
+        PayloadFormatVersion: "2.0"
 
   apiDomainName1:
     Type: AWS::ApiGatewayV2::DomainName
@@ -52,31 +74,20 @@ Resources:
       DomainNameConfigurations:
         - EndpointType: REGIONAL
           CertificateArn: !Ref certificateArnName
-  DemoApiBasePathMapping1:
+
+  apiBasePathMapping1:
     Type: AWS::ApiGatewayV2::ApiMapping
     Properties:
       DomainName: !Ref apiDomainName1
       ApiId: !Ref apiGateway
       Stage: !Ref demoApiStage
 
-  DemoApiBasePathMapping2:
+  apiBasePathMapping2:
     Type: AWS::ApiGatewayV2::ApiMapping
     Properties:
       DomainName: !Ref apiDomainName2
       ApiId: !Ref apiGateway
       Stage: !Ref demoApiStage
-
-  apiGatewayLambdaIntegration:
-    Type: AWS::ApiGatewayV2::Integration
-    Properties:
-      ApiId: !Ref apiGateway
-      Description: Lambda proxy integration
-      IntegrationType: AWS_PROXY
-      IntegrationMethod: POST
-      PayloadFormatVersion: "2.0"
-      IntegrationUri: !Sub
-          - arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${lambdaArn}/invocations
-          - lambdaArn: !GetAtt lambdaFunction.Arn
 
   lambdaFunction:
     Type: AWS::Serverless::Function
