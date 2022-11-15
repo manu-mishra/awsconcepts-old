@@ -29,9 +29,11 @@ jobs:
         dotnet publish -c Release -o ./rootlambdapackage -r linux-x64 --no-self-contained
     - name: Create Zip File
       run: |
-        ls
         mkdir ../output
-        zip -r ../output/rootlambdapackage.zip ./rootlambdapackage    
+        cd rootlambdapackage
+        ls
+        zip -r ../../output/rootlambdapackage.zip .  
+        cd ..
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
