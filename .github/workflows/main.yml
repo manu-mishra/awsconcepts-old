@@ -20,7 +20,7 @@ jobs:
       run: |
         ls
         mkdir ../output
-        zip -r ../output/release${{ env.GITHUB_RUN_ID}}-${{ env.GITHUB_RUN_ATTEMPT}}.zip .
-        echo ${{ env.GITHUB_RUN_ID}}-${{ env.GITHUB_RUN_ATTEMPT}}.zip
+        zip -r ../output/release$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT.zip .
+        echo $GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT.zip.zip
       
 
