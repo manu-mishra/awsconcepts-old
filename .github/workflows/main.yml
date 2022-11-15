@@ -18,6 +18,7 @@ jobs:
 
     - name: Create Zip File
       run: |
+        ls
         mkdir ../output
         zip -r ./output/release.zip 
       
