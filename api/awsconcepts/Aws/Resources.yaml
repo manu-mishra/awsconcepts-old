@@ -93,11 +93,11 @@ Resources:
       Stage: !Ref apiGatewayStage
 
   lambdaFunction:
-    Type: AWS::Serverless::Function
+    Type: AWS::Lambda::Function
     Properties:
-      CodeUri: 
-        Bucket: !Ref lambdaCodeUriBucket
-        Key: !Ref lambdaCodeUriKey
+      Code: 
+        S3Bucket: !Ref lambdaCodeUriBucket
+        S3Key: !Ref lambdaCodeUriKey
         
       Description: Root Lambda function
       FunctionName: !Sub "${environmentName}-root-lambda"
@@ -108,12 +108,8 @@ Resources:
       Role: !GetAtt lambdaIAMRole.Arn
       Runtime: dotnet6
       Timeout: 30
-      Events:
-        RootResource:
-          Type: Api
-          Properties:
-            Path: "/"
-            Method: ANY
+      TracingConfig:
+        Mode: "Active"
 
   lambdaApiGatewayInvoke:
     Type: AWS::Lambda::Permission
