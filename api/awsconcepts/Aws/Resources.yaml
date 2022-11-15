@@ -37,7 +37,7 @@ Resources:
       Description: Live Stage
       AutoDeploy: true 
 
-  DemoApiDomainName1:
+  apiDomainName1:
     Type: AWS::ApiGatewayV2::DomainName
     Properties:
       DomainName: awsconcepts.com
@@ -45,7 +45,7 @@ Resources:
         - EndpointType: REGIONAL
           CertificateArn: !Ref certificateArnName
  
-  DemoApiDomainName2:
+  apiDomainName2:
     Type: AWS::ApiGatewayV2::DomainName
     Properties:
       DomainName: www.awsconcepts.com
@@ -55,14 +55,14 @@ Resources:
   DemoApiBasePathMapping1:
     Type: AWS::ApiGatewayV2::ApiMapping
     Properties:
-      DomainName: awsconcepts.com
+      DomainName: !Ref apiDomainName1
       ApiId: !Ref apiGateway
       Stage: !Ref demoApiStage
 
   DemoApiBasePathMapping2:
     Type: AWS::ApiGatewayV2::ApiMapping
     Properties:
-      DomainName: www.awsconcepts.com
+      DomainName: !Ref apiDomainName2
       ApiId: !Ref apiGateway
       Stage: !Ref demoApiStage
 
