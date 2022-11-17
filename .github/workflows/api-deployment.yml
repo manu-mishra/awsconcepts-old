@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: './api/awsconcepts/AwsConceptsRootLambda'
+        working-directory: './api/awsconcepts'
     steps:
     - name: Checking out code
       uses: actions/checkout@v3
@@ -21,6 +21,8 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.0.x
+    - run: |
+        cd AwsConceptsRootLambda
     - name: Install dependencies
       run: dotnet restore
     - name: Build and package Lambda
