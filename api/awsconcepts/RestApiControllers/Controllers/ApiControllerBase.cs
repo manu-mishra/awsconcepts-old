@@ -6,7 +6,7 @@ global using MediatR;
 namespace RestApiControllers.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class ApiControllerBase : ControllerBase
     {
         private IMediator _mediator;
