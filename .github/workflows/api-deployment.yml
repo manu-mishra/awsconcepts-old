@@ -25,11 +25,11 @@ jobs:
       run: dotnet restore
     - name: Build and package Lambda
       run: |
+        mkdir ../output
         dotnet build --configuration Release 
         dotnet publish -c Release -o ./rootlambdapackage -r linux-x64 --no-self-contained
     - name: Create Zip File
       run: |
-        mkdir ../output
         cd rootlambdapackage
         ls
         zip -r ../../output/rootlambdapackage.zip .  
@@ -42,7 +42,6 @@ jobs:
         dotnet publish -c Release -o ./datastreamprocessor -r linux-x64 --no-self-contained
     - name: Create Zip File
       run: |
-        mkdir ../output
         cd datastreamprocessor
         ls
         zip -r ../../output/datastreamprocessor.zip .  
