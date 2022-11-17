@@ -1,5 +1,8 @@
 using RestApiControllers;
 using System.Reflection;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 var  MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -9,7 +12,22 @@ builder.Services.AddControllers().WithApplicationDomainControllers();
 // Add AWS Lambda support. When application is run in Lambda Kestrel is swapped out as the web server with Amazon.Lambda.AspNetCoreServer. This
 // package will act as the webserver translating request and responses between the Lambda event source and ASP.NET Core.
 builder.Services.AddAWSLambdaHosting(LambdaEventSource.HttpApi)
-    .WithApiControllerServiceDependencies();
+    .WithApiControllerServiceDependencies()
+    .AddAuthentication(options => { 
+        options.DefaultAuthenticateScheme = options.DefaultScheme= options.DefaultChallengeScheme=
+        JwtBearerDefaults.AuthenticationScheme; })
+    .AddJwtBearer(x =>
+    {
+        //x.MetadataAddress = "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_QBoIUnnt6/.well-known/openid-configuration";
+        x.Audience = "4trdfg3041lq5nqgbfqrsjiod9";
+        x.Authority = "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_QBoIUnnt6";
+        x.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+        {
+            ValidateAudience = false
+        };
+    });
+builder.Services.AddAuthorization();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name:MyAllowSpecificOrigins,
@@ -24,9 +42,10 @@ var app = builder.Build();
 
 
 app.UseHttpsRedirection();
-app.UseAuthorization();
-app.MapControllers();
 app.UseCors(MyAllowSpecificOrigins);
+app.UseAuthentication();
+app.UseAuthorization();
+app.MapControllers().RequireAuthorization();
 
 app.MapGet("/", () => "Ok");
 
