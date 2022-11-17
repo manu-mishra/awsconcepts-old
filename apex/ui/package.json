@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@aws-amplify/ui-react": "^4.0.0",
     "@fluentui/react": "^8.99.2",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^12.1.5",
@@ -11,6 +12,7 @@
     "@types/node": "^14.18.33",
     "@types/react": "^17.0.52",
     "@types/react-dom": "^17.0.18",
+    "aws-amplify": "^5.0.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "5.0.1",
