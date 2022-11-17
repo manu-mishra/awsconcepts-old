@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestApiControllers", "RestA
 EndProject
 Project("{22325025-CDA3-4736-83CB-2D32D2FCC215}") = "Aws", "Aws\Aws.cfproj", "{99999999-9999-9999-9999-999999999999}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataStreamProcessor", "DataStreamProcessor\DataStreamProcessor.csproj", "{8EEF77FE-0AF8-4368-8533-A3553355D08E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +93,14 @@ Global
 		{99999999-9999-9999-9999-999999999999}.Release|Any CPU.Build.0 = Release|x86
 		{99999999-9999-9999-9999-999999999999}.Release|x86.ActiveCfg = Release|x86
 		{99999999-9999-9999-9999-999999999999}.Release|x86.Build.0 = Release|x86
+		{8EEF77FE-0AF8-4368-8533-A3553355D08E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EEF77FE-0AF8-4368-8533-A3553355D08E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EEF77FE-0AF8-4368-8533-A3553355D08E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8EEF77FE-0AF8-4368-8533-A3553355D08E}.Debug|x86.Build.0 = Debug|Any CPU
+		{8EEF77FE-0AF8-4368-8533-A3553355D08E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EEF77FE-0AF8-4368-8533-A3553355D08E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EEF77FE-0AF8-4368-8533-A3553355D08E}.Release|x86.ActiveCfg = Release|Any CPU
+		{8EEF77FE-0AF8-4368-8533-A3553355D08E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -102,6 +112,7 @@ Global
 		{07D9059E-C36A-448F-89D6-4C91FF485367} = {71A2C587-CFCF-437F-AB45-F99C9B43E85D}
 		{5F9D7862-82A3-47D4-A6BD-1C0AB40DCF0C} = {E767F7BE-5131-41B9-8855-BB4CE600EF21}
 		{99999999-9999-9999-9999-999999999999} = {E419A42B-6AF3-418E-9404-89289B296FA1}
+		{8EEF77FE-0AF8-4368-8533-A3553355D08E} = {71A2C587-CFCF-437F-AB45-F99C9B43E85D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9D809C2E-61CB-4B19-A1BC-2F0C928536C1}

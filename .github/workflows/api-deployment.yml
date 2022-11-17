@@ -32,7 +32,20 @@ jobs:
         mkdir ../output
         cd rootlambdapackage
         ls
-        zip -r ../../output/rootlambdapackage-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT.zip .  
+        zip -r ../../output/rootlambdapackage.zip .  
+        cd ..
+    - name: Build and package Lambda
+      run: |
+        cd ..
+        cd DataStreamProcessor
+        dotnet build --configuration Release 
+        dotnet publish -c Release -o ./datastreamprocessor -r linux-x64 --no-self-contained
+    - name: Create Zip File
+      run: |
+        mkdir ../output
+        cd datastreamprocessor
+        ls
+        zip -r ../../output/datastreamprocessor.zip .  
         cd ..
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -47,5 +60,5 @@ jobs:
       with:
         name: AwsConceptsBackEndStack
         template: ./api/awsconcepts/Aws/Resources.yaml
-        parameter-overrides: "environmentName=Prod,lambdaCodeUriBucket=awsconcepts-terraform-deployments,lambdaCodeUriKey=awsconcepts/lambdapackages/rootlambdapackage-${{ github.run_id }}-${{ github.run_attempt }}.zip"
+        parameter-overrides: "environmentName=Prod,lambdaCodeUriBucket=awsconcepts-terraform-deployments,lambdaCodeUriKey=awsconcepts/lambdapackages/${{ github.run_id }}${{ github.run_attempt }}"
         capabilities: "CAPABILITY_IAM,CAPABILITY_AUTO_EXPAND"

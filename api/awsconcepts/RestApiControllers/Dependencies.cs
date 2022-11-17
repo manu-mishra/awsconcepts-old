@@ -17,6 +17,7 @@ namespace RestApiControllers
         public static IServiceCollection WithApiControllerServiceDependencies(this IServiceCollection services)
         {
             services.AddApplicationDependencies()
+                .AddHttpContextAccessor()
                 .AddScoped<ICurrentUser, CurrentUserService>();
             return services;
         }
