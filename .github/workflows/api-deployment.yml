@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: './api/awsconcepts'
+        working-directory: './api/awsconcepts/AwsConceptsRootLambda'
     steps:
     - name: Checking out code
       uses: actions/checkout@v3
@@ -21,33 +21,35 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.0.x
-    - run: |
-        cd AwsConceptsRootLambda
     - name: Install dependencies
       run: dotnet restore
     - name: Build and package Lambda
       run: |
-        mkdir ../output
         dotnet build --configuration Release 
         dotnet publish -c Release -o ./rootlambdapackage -r linux-x64 --no-self-contained
     - name: Create Zip File
       run: |
+        mkdir ../output
         cd rootlambdapackage
         ls
         zip -r ../../output/rootlambdapackage.zip .  
         cd ..
     - name: Build and package Lambda
       run: |
+        ls
         cd ..
+        ls
         cd DataStreamProcessor
         dotnet build --configuration Release 
         dotnet publish -c Release -o ./datastreamprocessor -r linux-x64 --no-self-contained
     - name: Create Zip File
       run: |
+        ls
         cd datastreamprocessor
         ls
         zip -r ../../output/datastreamprocessor.zip .  
         cd ..
+        ls
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
