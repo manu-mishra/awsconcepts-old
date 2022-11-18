@@ -247,7 +247,6 @@ Resources:
       KinesisStreamSpecification:
           StreamArn: !GetAtt kinesisStream.Arn
       StreamSpecification:
-        StreamEnabled: true
         StreamViewType: NEW_IMAGE
 
   s3Bucket:
