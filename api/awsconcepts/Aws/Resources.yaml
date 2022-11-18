@@ -92,8 +92,8 @@ Resources:
       Name: "api.awsconcepts.com."
       Type: "A"
       AliasTarget: 
-        HostedZoneId: !GetAtt apiDomainName3.DistributionHostedZoneId
-        DNSName: !GetAtt apiDomainName3.DistributionDomainName
+        HostedZoneId: !GetAtt apiDomainName3.RegionalHostedZoneId
+        DNSName: !GetAtt apiDomainName3.RegionalDomainName
         EvaluateTargetHealth: true
       HostedZoneId: "Z0127351KJ3CF358L0CT"
 
