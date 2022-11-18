@@ -182,6 +182,7 @@ Resources:
       BisectBatchOnFunctionError: false
       MaximumRetryAttempts: -1
       TumblingWindowInSeconds: 0
+      StartingPosition: TRIM_HORIZON 
 
   lambdaIAMRole:
     Type: AWS::IAM::Role
