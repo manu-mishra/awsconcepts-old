@@ -22,8 +22,13 @@ Resources:
       ProtocolType: HTTP
       DisableExecuteApiEndpoint: false
       CorsConfiguration:
+        AllowHeaders: 
+          - "authorization"
+          - "*"
         AllowOrigins:
-          - '*'
+        - !Sub "https://${apiDomainName1}"
+        - !Sub "https://${apiDomainName2}"
+        - "http://localhost:3000"
         AllowMethods:
           - GET
           - HEAD
