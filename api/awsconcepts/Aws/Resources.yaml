@@ -184,9 +184,7 @@ Resources:
                   - dynamodb:Update*
                   - dynamodb:PutItem
                   - dynamodb:GetShardIterator
-                Resource: !GetAtt
-                  - dynamoDBTable
-                  - Arn
+                Resource: *
                 Effect: Allow
               - Action:
                   - s3:PutObject
