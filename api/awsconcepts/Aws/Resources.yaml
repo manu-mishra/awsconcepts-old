@@ -22,8 +22,13 @@ Resources:
       ProtocolType: HTTP
       DisableExecuteApiEndpoint: false
       CorsConfiguration:
+        AllowHeaders: 
+          - "authorization"
+          - "*"
         AllowOrigins:
-          - '*'
+        - !Sub "https://${apiDomainName1}"
+        - !Sub "https://${apiDomainName2}"
+        - "http://localhost:3000"
         AllowMethods:
           - GET
           - HEAD
@@ -77,6 +82,33 @@ Resources:
       DomainNameConfigurations:
         - EndpointType: REGIONAL
           CertificateArn: !Ref certificateArnName
+ 
+  apiDomainName3:
+    Type: AWS::ApiGatewayV2::DomainName
+    Properties:
+      DomainName: api.awsconcepts.com
+      DomainNameConfigurations:
+        - EndpointType: REGIONAL
+          CertificateArn: !Ref certificateArnName
+
+  ApiGatewayV2ApiMapping:
+    Type: "AWS::ApiGatewayV2::ApiMapping"
+    Properties:
+      ApiId: !Sub ${apiGateway}
+      DomainName: "api.awsconcepts.com"
+      Stage: "$default"
+      ApiMappingKey: "api"
+
+  route53RecordSet:
+    Type: "AWS::Route53::RecordSet"
+    Properties:
+      Name: "api.awsconcepts.com."
+      Type: "A"
+      AliasTarget: 
+        HostedZoneId: !GetAtt apiDomainName3.RegionalHostedZoneId
+        DNSName: !GetAtt apiDomainName3.RegionalDomainName
+        EvaluateTargetHealth: true
+      HostedZoneId: "Z0127351KJ3CF358L0CT"
 
   apiBasePathMapping1:
     Type: AWS::ApiGatewayV2::ApiMapping
@@ -117,8 +149,6 @@ Resources:
       Action: lambda:InvokeFunction
       FunctionName: !GetAtt lambdaFunction.Arn
       Principal: apigateway.amazonaws.com
-      # note: if route *not* at API Gateway root, `SourceArn` would take the form of:
-      #               arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${apiGateway}/${apiGatewayStageName}/${apiGatewayHTTPMethod}/PATH_PART
       SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${apiGateway}/*/*/{proxy+}
 
   lambdaFunctionStreamProcessor:
@@ -138,6 +168,21 @@ Resources:
       Timeout: 30
       TracingConfig:
         Mode: "Active"
+
+  lambdaEventSourceMapping:
+    Type: "AWS::Lambda::EventSourceMapping"
+    Properties:
+      BatchSize: 1
+      EventSourceArn: !GetAtt dynamoDBTable.StreamArn
+      FunctionName: !GetAtt lambdaFunctionStreamProcessor.Arn
+      Enabled: true
+      MaximumBatchingWindowInSeconds: 0
+      ParallelizationFactor: 1
+      MaximumRecordAgeInSeconds: -1
+      BisectBatchOnFunctionError: false
+      MaximumRetryAttempts: -1
+      TumblingWindowInSeconds: 0
+      StartingPosition: TRIM_HORIZON 
 
   lambdaIAMRole:
     Type: AWS::IAM::Role
@@ -173,6 +218,7 @@ Resources:
                   - dynamodb:PutItem
                   - dynamodb:BatchGet*
                   - dynamodb:DescribeStream
+                  - dynamodb:ListStreams
                   - dynamodb:DescribeTable
                   - dynamodb:Get*
                   - dynamodb:Query
@@ -182,9 +228,8 @@ Resources:
                   - dynamodb:Delete*
                   - dynamodb:Update*
                   - dynamodb:PutItem
-                Resource: !GetAtt
-                  - dynamoDBTable
-                  - Arn
+                  - dynamodb:GetShardIterator
+                Resource: "*"
                 Effect: Allow
               - Action:
                   - s3:PutObject
@@ -242,6 +287,10 @@ Resources:
           ProvisionedThroughput: 
               ReadCapacityUnits: 0
               WriteCapacityUnits: 0
+      KinesisStreamSpecification:
+          StreamArn: !GetAtt kinesisStream.Arn
+      StreamSpecification:
+        StreamViewType: NEW_IMAGE
 
   s3Bucket:
     Type: "AWS::S3::Bucket"
@@ -249,6 +298,14 @@ Resources:
       BucketName: !Sub "awsconcepts"
       VersioningConfiguration: 
           Status: "Enabled"
+  
+  kinesisStream:
+    Type: "AWS::Kinesis::Stream"
+    Properties:
+      Name: "awsconcepts"
+      RetentionPeriodHours: 24
+      ShardCount: 1
+
 Outputs:
   apiGatewayInvokeURL:
     Value: !Sub https://${apiGateway}.execute-api.${AWS::Region}.amazonaws.com/api
