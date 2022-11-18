@@ -169,19 +169,19 @@ Resources:
       TracingConfig:
         Mode: "Active"
 
-  # lambdaEventSourceMapping:
-  #   Type: "AWS::Lambda::EventSourceMapping"
-  #   Properties:
-  #     BatchSize: 1
-  #     EventSourceArn: !GetAtt dynamoDBTable.StreamArn
-  #     FunctionName: !GetAtt lambdaFunctionStreamProcessor.Arn
-  #     Enabled: true
-  #     MaximumBatchingWindowInSeconds: 0
-  #     ParallelizationFactor: 1
-  #     MaximumRecordAgeInSeconds: -1
-  #     BisectBatchOnFunctionError: false
-  #     MaximumRetryAttempts: -1
-  #     TumblingWindowInSeconds: 0
+  lambdaEventSourceMapping:
+    Type: "AWS::Lambda::EventSourceMapping"
+    Properties:
+      BatchSize: 1
+      EventSourceArn: !GetAtt dynamoDBTable.StreamArn
+      FunctionName: !GetAtt lambdaFunctionStreamProcessor.Arn
+      Enabled: true
+      MaximumBatchingWindowInSeconds: 0
+      ParallelizationFactor: 1
+      MaximumRecordAgeInSeconds: -1
+      BisectBatchOnFunctionError: false
+      MaximumRetryAttempts: -1
+      TumblingWindowInSeconds: 0
 
   lambdaIAMRole:
     Type: AWS::IAM::Role
