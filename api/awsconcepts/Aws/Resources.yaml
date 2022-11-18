@@ -245,9 +245,7 @@ Resources:
               ReadCapacityUnits: 0
               WriteCapacityUnits: 0
       KinesisStreamSpecification:
-          StreamArn: !GetAtt
-                  - KinesisStream
-                  - Arn
+          StreamArn: !GetAtt kinesisStream.Arn
       StreamSpecification:
         StreamEnabled: true
         StreamViewType: NEW_IMAGE
@@ -259,7 +257,7 @@ Resources:
       VersioningConfiguration: 
           Status: "Enabled"
   
-  KinesisStream:
+  kinesisStream:
     Type: "AWS::Kinesis::Stream"
     Properties:
       Name: "awsconcepts"
