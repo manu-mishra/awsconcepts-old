@@ -86,6 +86,14 @@ Resources:
         - EndpointType: REGIONAL
           CertificateArn: !Ref certificateArnName
 
+  ApiGatewayV2ApiMapping:
+    Type: "AWS::ApiGatewayV2::ApiMapping"
+    Properties:
+      ApiId: !Sub ${apiGateway}
+      DomainName: "api.awsconcepts.com"
+      Stage: "$default"
+      ApiMappingKey: "api"
+
   route53RecordSet:
     Type: "AWS::Route53::RecordSet"
     Properties:
