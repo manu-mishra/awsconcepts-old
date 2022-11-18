@@ -264,9 +264,7 @@ Resources:
     Properties:
       Name: "awsconcepts"
       RetentionPeriodHours: 24
-      StreamEncryption: 
-        EncryptionType: "NONE"
-      ShardCount: 4
+      ShardCount: 1
 
 Outputs:
   apiGatewayInvokeURL:
