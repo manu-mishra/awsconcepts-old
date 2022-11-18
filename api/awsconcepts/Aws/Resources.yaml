@@ -173,6 +173,7 @@ Resources:
                   - dynamodb:PutItem
                   - dynamodb:BatchGet*
                   - dynamodb:DescribeStream
+                  - dynamodb:ListStreams
                   - dynamodb:DescribeTable
                   - dynamodb:Get*
                   - dynamodb:Query
@@ -182,6 +183,7 @@ Resources:
                   - dynamodb:Delete*
                   - dynamodb:Update*
                   - dynamodb:PutItem
+                  - dynamodb:GetShardIterator
                 Resource: !GetAtt
                   - dynamoDBTable
                   - Arn
@@ -242,6 +244,13 @@ Resources:
           ProvisionedThroughput: 
               ReadCapacityUnits: 0
               WriteCapacityUnits: 0
+      KinesisStreamSpecification:
+          StreamArn: !GetAtt
+                  - KinesisStream
+                  - Arn
+      StreamSpecification:
+        StreamEnabled: true
+        StreamViewType: NEW_IMAGE
 
   s3Bucket:
     Type: "AWS::S3::Bucket"
@@ -249,6 +258,16 @@ Resources:
       BucketName: !Sub "awsconcepts"
       VersioningConfiguration: 
           Status: "Enabled"
+  
+  KinesisStream:
+    Type: "AWS::Kinesis::Stream"
+    Properties:
+      Name: "awsconcepts"
+      RetentionPeriodHours: 24
+      StreamEncryption: 
+        EncryptionType: "NONE"
+      ShardCount: 4
+
 Outputs:
   apiGatewayInvokeURL:
     Value: !Sub https://${apiGateway}.execute-api.${AWS::Region}.amazonaws.com/api
