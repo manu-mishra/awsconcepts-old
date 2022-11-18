@@ -43,9 +43,6 @@ jobs:
         dotnet build --configuration Release 
         dotnet publish -c Release -o ./datastreamprocessor -r linux-x64 --no-self-contained
         ls
-    - name: Create Zip File
-      run: |
-        ls
         cd datastreamprocessor
         ls
         zip -r ../../output/datastreamprocessor.zip .  
