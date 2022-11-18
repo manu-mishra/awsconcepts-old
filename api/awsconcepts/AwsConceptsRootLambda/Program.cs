@@ -33,7 +33,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name:MyAllowSpecificOrigins,
         policy =>
         {
-            policy.WithOrigins("http://localhost:3000", "https://www.awsconcepts.com","https://awsconcepts.com").AllowAnyHeader()
+            policy.WithOrigins("http://localhost:3000", "https://www.awsconcepts.com","https://awsconcepts.com","https://api.awsconcepts.com").AllowAnyHeader()
                                                   .AllowAnyMethod();
         });
 });
