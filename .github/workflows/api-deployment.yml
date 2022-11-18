@@ -30,9 +30,10 @@ jobs:
     - name: Create Zip File
       run: |
         mkdir ../output
+        mkdir ../output/${{ github.run_id }}${{ github.run_attempt }}
         cd rootlambdapackage
         ls
-        zip -r ../../output/rootlambdapackage.zip .  
+        zip -r ../../output/${{ github.run_id }}${{ github.run_attempt }}/rootlambdapackage.zip .  
         cd ..
     - name: Build and package Lambda
       run: |
@@ -45,7 +46,7 @@ jobs:
         ls
         cd datastreamprocessor
         ls
-        zip -r ../../output/datastreamprocessor.zip .  
+        zip -r ../../output/${{ github.run_id }}${{ github.run_attempt }}/datastreamprocessor.zip .  
         cd ..
         ls
     - name: Configure AWS Credentials
