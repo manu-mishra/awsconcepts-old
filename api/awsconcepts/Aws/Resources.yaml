@@ -95,7 +95,7 @@ Resources:
     Type: "AWS::ApiGatewayV2::ApiMapping"
     Properties:
       ApiId: !Ref apiGateway
-      DomainName: "api.awsconcepts.com"
+      DomainName: !Ref apiDomainName3
       Stage: "$default"
       ApiMappingKey: "api"
 
