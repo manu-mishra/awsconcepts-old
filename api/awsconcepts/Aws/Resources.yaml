@@ -96,7 +96,7 @@ Resources:
     Properties:
       ApiId: !Ref apiGateway
       DomainName: !Ref apiDomainName3
-      Stage: "$default"
+      Stage: !Ref apiGatewayStage
       ApiMappingKey: "api"
 
   route53RecordSet:
