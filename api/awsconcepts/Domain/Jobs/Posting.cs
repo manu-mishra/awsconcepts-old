@@ -1,6 +1,6 @@
 ﻿namespace Domain.Jobs
 {
-    public class Posting
+    public class Posting : IDomainEntity
     {
         public Posting(string id, string title, string description, Owner owner, string[]? categories = default, string[]? skills = default)
         {
@@ -17,5 +17,7 @@
         public Owner Owner { get; set; }
         public string[]? Categories { get; set; }
         public string[]? Skills { get; set; }
+        public string ek => Id;
+        public string sk => Owner.Id;
     }
 }

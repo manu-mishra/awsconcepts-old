@@ -258,7 +258,7 @@ Resources:
     Properties:
       AttributeDefinitions: 
         - 
-          AttributeName: "pk"
+          AttributeName: "ek"
           AttributeType: "S"
         - 
           AttributeName: "sk"
@@ -267,7 +267,7 @@ Resources:
       TableName: "awsconcepts"
       KeySchema: 
         - 
-          AttributeName: "pk"
+          AttributeName: "ek"
           KeyType: "HASH"
         - 
           AttributeName: "sk"
@@ -280,7 +280,7 @@ Resources:
               AttributeName: "sk"
               KeyType: "HASH"
             - 
-              AttributeName: "pk"
+              AttributeName: "ek"
               KeyType: "RANGE"
           Projection: 
               ProjectionType: "ALL"

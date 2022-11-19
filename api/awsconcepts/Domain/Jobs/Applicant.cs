@@ -2,9 +2,10 @@
 {
     public class Applicant
     {
-        public Applicant(string id)
+        public Applicant(string Id, string Name)
         {
-            Id = id;
+            this.Id = Id;
+            this.Name = Name;
         }
         public string Id { get; set; }
         public string Name { get; set; }
