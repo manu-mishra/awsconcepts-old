@@ -22,7 +22,7 @@ namespace Infrastructure.StorageModel
         public T Entity { get; set; }
         [JsonPropertyName("entityType")]
         public string EntityType { get; set; }
-        
+
         [JsonPropertyName("timeStamp")]
         public long Timestamp { get; set; }
 

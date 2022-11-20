@@ -2,7 +2,7 @@
 {
     public interface ICurrentUser
     {
-        string Id { get;  }
+        string Id { get; }
         Task<string> GetUserNickName();
         Task<string> GetUseremail();
     }

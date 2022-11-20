@@ -1,5 +1,5 @@
-﻿global using MediatR;
-global using FluentValidation;
+﻿global using FluentValidation;
+global using MediatR;
 using Application.Common.Behaviours;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;

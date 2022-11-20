@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Amazon.DynamoDBv2;
+using Application.Common.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure.Repository
 {
@@ -6,7 +8,8 @@ namespace Infrastructure.Repository
     {
         internal static IServiceCollection WithDynamoDbEntityStorageDependencies(this IServiceCollection services)
         {
-            //services.WithRepositoryStorageMappings();
+            services.AddSingleton<IAmazonDynamoDB>(_ => new AmazonDynamoDBClient());
+            services.AddScoped(typeof(IEntityRepository<>), typeof(EntityRepository<>));
             return services;
         }
     }

@@ -1,6 +1,6 @@
 ﻿namespace Domain.Organizations
 {
-    public class Requisition 
+    public class Requisition
     {
     }
 }

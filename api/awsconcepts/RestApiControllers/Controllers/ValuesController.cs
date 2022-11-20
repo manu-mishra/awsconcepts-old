@@ -2,7 +2,7 @@
 
 namespace RestApiControllers.Controllers;
 
-public class ValuesController: ApiControllerBase
+public class ValuesController : ApiControllerBase
 {
     [HttpGet]
     public async Task<IEnumerable<string>> Get()

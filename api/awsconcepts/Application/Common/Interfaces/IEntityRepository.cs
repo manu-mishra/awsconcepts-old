@@ -3,8 +3,8 @@
     public interface IEntityRepository<DomainEntity>
     {
         Task<List<DomainEntity>> GetAll(string ScopeId);
-        Task<DomainEntity> Get(string ScopeId, string Id);
-        Task<DomainEntity> Put(DomainEntity DomainEntity);
-        Task Delete(DomainEntity DomainEntity);
+        Task<DomainEntity?> Get(string ScopeId, string Id);
+        Task<bool> Put(DomainEntity DomainEntity);
+        Task<bool> Delete(DomainEntity DomainEntity);
     }
 }

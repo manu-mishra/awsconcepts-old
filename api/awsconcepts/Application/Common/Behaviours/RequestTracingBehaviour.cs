@@ -1,5 +1,4 @@
 ﻿using Application.Common.Interfaces;
-using MediatR;
 using System.Diagnostics;
 
 namespace Application.Common.Behaviours
@@ -15,7 +14,7 @@ namespace Application.Common.Behaviours
         }
         public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
-            if(Activity.Current is not null && Activity.Current.IsAllDataRequested)
+            if (Activity.Current is not null && Activity.Current.IsAllDataRequested)
             {
                 Activity.Current?.SetTag("user", user.Id);
                 Activity.Current?.SetTag("app-request", System.Text.Json.JsonSerializer.Serialize(request));

@@ -1,7 +1,6 @@
-﻿global using Microsoft.AspNetCore.Mvc;
+﻿global using MediatR;
+global using Microsoft.AspNetCore.Mvc;
 global using RestApiControllers.Controllers;
-global using System.Diagnostics;
-global using MediatR;
 
 namespace RestApiControllers.Controllers
 {

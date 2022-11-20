@@ -1,6 +1,4 @@
-﻿using MediatR;
-
-namespace Application.Values.Queries
+﻿namespace Application.Values.Queries
 {
     public class GetValuesQuery : IRequest<IEnumerable<string>>
     {
@@ -10,7 +8,7 @@ namespace Application.Values.Queries
 
         public Task<IEnumerable<string>> Handle(GetValuesQuery request, CancellationToken cancellationToken)
         {
-            return Task.FromResult< IEnumerable<string>>(new List<string> {"hello","world" });
+            return Task.FromResult<IEnumerable<string>>(new List<string> { "hello", "world" });
         }
     }
 }

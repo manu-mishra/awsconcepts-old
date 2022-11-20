@@ -1,5 +1,4 @@
 ﻿using Application.Common.Interfaces;
-using System.Security.Claims;
 
 namespace RestApiControllers.Services
 {
