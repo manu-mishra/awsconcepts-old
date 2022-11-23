@@ -1,11 +1,10 @@
-import { AmplifyUser } from "@aws-amplify/ui"
 
 import { useNavigate } from 'react-router-dom';
 import { ContextualMenu, IContextualMenuItem, Persona, PersonaSize, Stack } from "@fluentui/react"
-import { ActionButton, IconButton, PrimaryButton } from '@fluentui/react/lib/Button';
-import { useAuthenticator, Button, Heading, View } from '@aws-amplify/ui-react';
+import { ActionButton } from '@fluentui/react/lib/Button';
+import { useAuthenticator, View } from '@aws-amplify/ui-react';
 
-import React, { useState, useEffect } from "react"
+import React, {  } from "react"
 import { IIconProps } from '@fluentui/react';
 
 export const UserPersona = () => {
@@ -51,7 +50,7 @@ export const UserPersona = () => {
               onDismiss={onHideContextualMenu}
             />
           </div>
-          : <ActionButton allowDisabledFocus
+          : <ActionButton allowDisabledFocus iconProps={signinIcon}
             onClick={invokeSignIn}>Sign-In</ActionButton>}
       </View>
     </Stack>

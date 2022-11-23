@@ -1,5 +1,4 @@
-import { ActionButton, AnimationClassNames, getTheme, IStackStyles, IStackTokens, Layer, mergeStyles, Stack } from '@fluentui/react'
-import React from 'react'
+import { ActionButton, AnimationClassNames, getTheme, IStackStyles, IStackTokens, Stack } from '@fluentui/react'
 import { useNavigate } from 'react-router-dom';
 import { AppLogo } from './AppLogo';
 import { UserPersona } from './UserPersona';

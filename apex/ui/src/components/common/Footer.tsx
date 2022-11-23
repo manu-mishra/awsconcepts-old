@@ -1,8 +1,7 @@
-import { Stack, AnimationClassNames } from '@fluentui/react';
-import { AppLogo } from './AppLogo';
+import { AnimationClassNames } from '@fluentui/react';
 
 export function Footer() {
   return (
-    <p>Copyright © {new Date().getFullYear()} awsconcepts.com</p>
+    <p className={AnimationClassNames.fadeIn500}>Copyright © {new Date().getFullYear()} awsconcepts.com</p>
   )
 }
