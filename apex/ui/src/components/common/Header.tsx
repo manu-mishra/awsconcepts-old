@@ -1,5 +1,6 @@
 import React from 'react'
 import { API } from 'aws-amplify';
+import {AppCommandBar} from './AppCommandBar';
 
 export function Header () {
   const [greeting, setGreeting] = React.useState('');
@@ -14,6 +15,6 @@ export function Header () {
     callApi().catch(console.error);
   }, []);
   return (
-    <div> {greeting} </div>
+    <AppCommandBar></AppCommandBar>
   )
 }
