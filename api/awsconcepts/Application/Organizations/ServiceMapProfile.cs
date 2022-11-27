@@ -6,10 +6,10 @@ namespace Application.Organizations
     {
         public ServiceMapProfile()
         {
-            CreateMap<Domain.Organizations.Organization, Dto.Organization>();
+            CreateMap<Domain.Organizations.Organization, Dto.Organization>().ForAllMembers(x=>x.AllowNull());
 
 
-            CreateMap<Dto.Organization, Domain.Organizations.Organization>();
+            CreateMap<Dto.Organization, Domain.Organizations.Organization>().ForAllMembers(x => x.AllowNull());
         }
     }
 }

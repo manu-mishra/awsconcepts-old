@@ -34,10 +34,8 @@ namespace Application.Organizations.Commands
             var org = mapper.Map<domain.Organization>(request.Organization);
             org.IdentityId = user.Id;
             org.Id ??= Guid.NewGuid().ToString();
-            await repository.Put(org
-                ,
-                cancellationToken);
-            return request.Organization;
+            await repository.Put(org,cancellationToken);
+            return mapper.Map<Organization>(org);
         }
     }
 }
