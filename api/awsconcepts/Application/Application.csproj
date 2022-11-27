@@ -13,12 +13,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Applicant\Queries\" />
-    <Folder Include="Calculator\Queries\" />
     <Folder Include="Common\Constants\" />
     <Folder Include="Jobs\Commands\" />
     <Folder Include="Jobs\Queries\" />
-    <Folder Include="Values\Commands\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,5 +1,5 @@
 ﻿using Application;
-using Application.Common.Interfaces;
+using Application.Identity;
 using Infrastructure;
 using RestApiControllers.Services;
 using System.Reflection;
@@ -17,10 +17,12 @@ namespace RestApiControllers
 
         public static IServiceCollection WithApiControllerServiceDependencies(this IServiceCollection services)
         {
-            services.AddApplicationDependencies()
+            services
+                .AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies())
+                .AddApplicationDependencies()
                 .WithInfrastructureDependencies()
                 .AddHttpContextAccessor()
-                .AddScoped<ICurrentUser, CurrentUserService>();
+                .AddScoped<IIdentity, CurrentIdentityService>();
             return services;
         }
     }

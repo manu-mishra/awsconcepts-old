@@ -1,22 +1,26 @@
-﻿using Application.Common.Interfaces;
+﻿using Application.Applicant.Dto;
+using Application.Common.Interfaces;
+using Application.Identity;
 using Domain.Applicants;
 
 namespace Application.Applicant.Commands
 {
     public class CerateApplicantProfileCommand : IRequest<ApplicantProfile>
     {
-        public CerateApplicantProfileCommand(ApplicantProfile applicantProfile)
+        public CerateApplicantProfileCommand(ApplicantProfileDraft ProfileDraft)
         {
-            ApplicantProfile = applicantProfile;
+            this.ProfileDraft = ProfileDraft;
         }
-        public ApplicantProfile ApplicantProfile { get; set; }
+
+        public ApplicantProfileDraft ProfileDraft { get; }
     }
+
     public class CerateApplicantProfileCommandHandeller : IRequestHandler<CerateApplicantProfileCommand, ApplicantProfile>
     {
-        private readonly IEntityRepository<ApplicantProfile> repository;
-        private readonly ICurrentUser user;
+        private readonly IEntityRepository<Profile> repository;
+        private readonly IIdentity user;
 
-        public CerateApplicantProfileCommandHandeller(IEntityRepository<ApplicantProfile> Repository, ICurrentUser User)
+        public CerateApplicantProfileCommandHandeller(IEntityRepository<Profile> Repository, IIdentity User)
         {
             repository = Repository;
             this.user = User;
@@ -25,10 +29,7 @@ namespace Application.Applicant.Commands
 
         public async Task<ApplicantProfile> Handle(CerateApplicantProfileCommand request, CancellationToken cancellationToken)
         {
-            request.ApplicantProfile.Id = Guid.NewGuid().ToString();
-            request.ApplicantProfile.UserId = user.Id;
-            await repository.Put(request.ApplicantProfile);
-            return request.ApplicantProfile;
+            throw new NotImplementedException("");
         }
     }
 }

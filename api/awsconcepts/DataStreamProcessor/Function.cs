@@ -12,7 +12,7 @@ public class Function
     {
         context.Logger.LogInformation($"Beginning to process {dynamoEvent.Records.Count} records...");
 
-        foreach (var record in dynamoEvent.Records)
+        foreach (DynamoDBEvent.DynamodbStreamRecord? record in dynamoEvent.Records)
         {
             context.Logger.LogInformation($"Event ID: {record.EventID}");
             context.Logger.LogInformation($"Event Name: {record.EventName}");

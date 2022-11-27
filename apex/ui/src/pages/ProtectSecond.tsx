@@ -11,7 +11,7 @@ export function ProtectedSecond() {
         responseType: 'json'
       });
       
-      setGreeting( resp[0] +' sdsd ' +resp[1]);
+      setGreeting( resp[0] +' ' +resp[1]);
     }
     callApi().catch(console.error);
   }, []);

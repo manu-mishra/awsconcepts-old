@@ -13,13 +13,13 @@ namespace Application.Common.Exceptions
         public ValidationException(IEnumerable<ValidationFailure> failures)
             : this()
         {
-            var failureGroups = failures
+            IEnumerable<IGrouping<string, string>> failureGroups = failures
                 .GroupBy(e => e.PropertyName, e => e.ErrorMessage);
 
-            foreach (var failureGroup in failureGroups)
+            foreach (IGrouping<string, string> failureGroup in failureGroups)
             {
-                var propertyName = failureGroup.Key;
-                var propertyFailures = failureGroup.ToArray();
+                string propertyName = failureGroup.Key;
+                string[] propertyFailures = failureGroup.ToArray();
 
                 Errors.Add(propertyName, propertyFailures);
             }

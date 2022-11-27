@@ -1,23 +1,21 @@
-﻿namespace Domain.Jobs
+﻿namespace Domain.Organizations
 {
-    public class Posting : IDomainEntity
+    public class Job
     {
-        public Posting(string id, string title, string description, Owner owner, string[]? categories = default, string[]? skills = default)
+        public Job(string id, string organizationId, string title, string description, string[]? categories = default, string[]? skills = default)
         {
             Title = title;
             Id = id;
+            OrganizationId = organizationId;
             Description = description;
             Categories = categories;
             Skills = skills;
-            Owner = owner;
         }
         public string Id { get; set; }
+        public string OrganizationId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public Owner Owner { get; set; }
         public string[]? Categories { get; set; }
         public string[]? Skills { get; set; }
-        public string ek => Id;
-        public string sk => Owner.Id;
     }
 }

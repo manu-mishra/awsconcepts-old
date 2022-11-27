@@ -1,10 +1,10 @@
-﻿using Application.Common.Interfaces;
+﻿using Application.Identity;
 
 namespace RestApiControllers.Services
 {
-    internal class CurrentUserService : ICurrentUser
+    internal class CurrentIdentityService : IIdentity
     {
-        public CurrentUserService(IHttpContextAccessor httpContextAccessor)
+        public CurrentIdentityService(IHttpContextAccessor httpContextAccessor)
         {
 #pragma warning disable CS8601 // Possible null reference assignment.
             Id = httpContextAccessor?.HttpContext?.User?.Claims?.FirstOrDefault(predicate: x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
@@ -15,15 +15,5 @@ namespace RestApiControllers.Services
             }
         }
         public string Id { get; private set; }
-
-        public Task<string> GetUseremail()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<string> GetUserNickName()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

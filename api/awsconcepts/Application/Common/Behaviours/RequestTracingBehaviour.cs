@@ -1,4 +1,4 @@
-﻿using Application.Common.Interfaces;
+﻿using Application.Identity;
 using System.Diagnostics;
 
 namespace Application.Common.Behaviours
@@ -6,9 +6,9 @@ namespace Application.Common.Behaviours
     public class RequestTracingBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
         where TRequest : IRequest<TResponse>
     {
-        private readonly ICurrentUser user;
+        private readonly IIdentity user;
 
-        public RequestTracingBehaviour(ICurrentUser user)
+        public RequestTracingBehaviour(IIdentity user)
         {
             this.user = user;
         }
