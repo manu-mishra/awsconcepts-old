@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import AnyJobsRoutes from "../../Concepts/AnyJobs/AnyJobsRoutes";
 import { Home } from "../../pages/Home";
 import { Protected } from "../../pages/Protected";
 import { ProtectedSecond } from "../../pages/ProtectSecond";
@@ -12,6 +13,7 @@ export function ApplicationRoutes() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
+            <Route path='/anyjobs/*' element={<RequireAuth><AnyJobsRoutes/></RequireAuth>} ></Route>
             <Route
               path="/protected"
               element={

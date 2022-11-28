@@ -2,6 +2,9 @@ import ReactDOM from 'react-dom';
 import { App } from './App';
 import { mergeStyles } from '@fluentui/react';
 import reportWebVitals from './reportWebVitals';
+import { applicationConfig } from './configuration/AmplifyConfig'
+import { Amplify } from 'aws-amplify';
+Amplify.configure(applicationConfig);
 mergeStyles({
   ':global(body,html,#root)': {
     margin: 0,
