@@ -1,40 +1,54 @@
 using Application.Applicant.Commands;
 using Application.Applicant.Dto;
+using Application.Applicant.Queries;
 
 namespace RestApiControllers.Controllers;
 
 public class ApplicantsController : ApiControllerBase
 {
     [HttpGet("ProfileDrafts")]
-    public  string GetAllProfileDrafts(QueryParameters parameters, CancellationToken cancellationToken)
+    public async Task<List<ApplicantProfileSummary>> GetAllProfileDrafts([FromQuery] QueryParameters parameters, CancellationToken cancellationToken)
     {
-        return "Hi";
+        var response = await Mediator.Send(new ListUserProfileDraftsQuery(parameters?.CT), cancellationToken);
+
+        if (!string.IsNullOrEmpty(response.Item2))
+            HttpContext.Response.Headers.Add("x-continuationToken", response.Item2);
+        return response.Item1;
     }
     [HttpGet("Profiles")]
-    public async Task<ApplicantProfile> GetAllProfiles(QueryParameters parameters, CancellationToken cancellationToken)
+    public async Task<List<ApplicantProfileSummary>> GetAllProfiles([FromQuery]QueryParameters parameters, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var response = await Mediator.Send(new ListUserProfilesQuery(parameters?.CT), cancellationToken);
+
+        if (!string.IsNullOrEmpty(response.Item2))
+            HttpContext.Response.Headers.Add("x-continuationToken", response.Item2);
+        return response.Item1;
     }
     
     [HttpGet("Profiles/{Id}")]
-    public async Task<ApplicantProfileDraft> GetProfile(string Id)
+    public async Task<ApplicantProfile> GetProfile(string Id)
     {
-        return await Mediator.Send(new CerateApplicantProfileDraftCommand(new ApplicantProfileDraft(Id, "","","")));
+        return await Mediator.Send(new GetUserProfileQuery(Id));
         
     }
 
     [HttpGet("ProfileDrafts/{Id}")]
-    public string GetProfileDraft(string Id)
+    public async Task<ApplicantProfileDraft> GetProfileDraft(string Id)
     {
-        return $"Hi{Id}";
+        return await Mediator.Send(new GetUserProfileDraftQuery(Id));
     }
 
+    [HttpPut("Profiles")]
+    public async Task<ApplicantProfile> PutProfileDraft(ApplicantProfile profile, CancellationToken cancellationToken)
+    {
+        return await Mediator.Send(new PutApplicantProfileCommand(profile));
+    }
+    
     [HttpPut("ProfileDrafts")]
-    public async Task<ApplicantProfile> Put(ApplicantProfile profile, CancellationToken cancellationToken)
+    public async Task<ApplicantProfileDraft> PutProfile(ApplicantProfileDraft profile, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        return await Mediator.Send(new PutApplicantProfileDraftCommand(profile));
     }
-
     [HttpDelete("ProfileDrafts/{Id}")]
     public async Task Delete(string Id, CancellationToken cancellationToken)
     {

@@ -28,9 +28,9 @@
             RepoConfig.Add(typeof(Domain.Organizations.Organization),
                 new RepositoryConfig("Id", "IdentityId", pkPrefix: "O_O#", skPrefix: "O_O-U#"));
             RepoConfig.Add(typeof(Domain.Organizations.Job),
-                new RepositoryConfig("Id", "IdentityId", pkPrefix: "O_J#", skPrefix: "O_J-O_O#"));
+                new RepositoryConfig("Id", "OrganizationId", pkPrefix: "O_J#", skPrefix: "O_J-O_O#"));
             RepoConfig.Add(typeof(Domain.Organizations.Application), 
-                new RepositoryConfig("Id", "IdentityId", pkPrefix: "O_A#", skPrefix: "O_A-O_J#"));
+                new RepositoryConfig("Id", "JobId", pkPrefix: "O_A#", skPrefix: "O_A-O_J#"));
         }
     }
 

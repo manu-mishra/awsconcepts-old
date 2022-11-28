@@ -14,8 +14,6 @@
 
   <ItemGroup>
     <Folder Include="Common\Constants\" />
-    <Folder Include="Jobs\Commands\" />
-    <Folder Include="Jobs\Queries\" />
   </ItemGroup>
 
   <ItemGroup>

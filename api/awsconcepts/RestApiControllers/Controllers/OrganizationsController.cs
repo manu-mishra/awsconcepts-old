@@ -25,7 +25,7 @@ public class OrganizationsController : ApiControllerBase
     [HttpPut()]
     public async Task<Organization> Put(Organization organization, CancellationToken cancellationToken)
     {
-        return await Mediator.Send(new CreateUserOrganizationCommand(organization));
+        return await Mediator.Send(new PutUserOrganizationCommand(organization));
     }
 
     [HttpDelete()]

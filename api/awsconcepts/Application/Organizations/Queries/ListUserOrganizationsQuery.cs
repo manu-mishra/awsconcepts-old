@@ -6,9 +6,9 @@ using domain = Domain.Organizations;
 
 namespace Application.Applicant.Queries
 {
-    public class ListUserOrganizationsQuery : IRequest<(List<Organization>, string)>
+    public class ListUserOrganizationsQuery : IRequest<(List<Organization>, string?)>
     {
-        
+
         public ListUserOrganizationsQuery(string? ContinuationToken = default(string))
         {
             this.ContinuationToken = ContinuationToken;
@@ -16,7 +16,7 @@ namespace Application.Applicant.Queries
 
         public string? ContinuationToken { get; }
     }
-    public class ListUserOrganizationsQueryHandler : IRequestHandler<ListUserOrganizationsQuery, (List<Organization>,string?)>
+    public class ListUserOrganizationsQueryHandler : IRequestHandler<ListUserOrganizationsQuery, (List<Organization>, string?)>
     {
         private readonly IEntityRepository<domain.Organization> repository;
         private readonly IIdentity user;
