@@ -6,11 +6,9 @@ const CommandBar = () => {
     let theme = getTheme();
     const stackStyles: IStackStyles = {
         root: {
-            
-            borderWidth: '10px',
-            borderBottomColor: theme.palette.themeDark,
-            marginBottom: '10px'
-            
+            boxShadow: theme.effects.elevation4,
+            backgroundColor: 'white'
+
         },
     };
     const smallSpacingToken: IStackTokens = {
@@ -18,13 +16,12 @@ const CommandBar = () => {
     };
     return (
         <>
-        {/* <Stack enableScopedSelectors horizontal horizontalAlign="space-between" verticalAlign="start" styles={stackStyles} className={AnimationClassNames.slideRightIn400}> */}
-            <Stack horizontal tokens={smallSpacingToken} styles={stackStyles} className={AnimationClassNames.slideRightIn400}>
+            <Stack horizontal horizontalAlign='start' tokens={smallSpacingToken} styles={stackStyles} className={AnimationClassNames.slideRightIn400}>
                 <ActionButton allowDisabledFocus onClick={() => navigate('/anyjobs/home')}>Home</ActionButton>
                 <ActionButton allowDisabledFocus onClick={() => navigate('/anyjobs/Organizations')}>My Organizations</ActionButton>
                 <ActionButton allowDisabledFocus onClick={() => navigate('/anyjobs/Profiles')}>My Profiles</ActionButton>
+                <ActionButton allowDisabledFocus onClick={() => navigate('/anyjobs/Profiles/Drafts')}>Draft Profiles</ActionButton>
             </Stack>
-        {/* </Stack> */}
         </>
     )
 }

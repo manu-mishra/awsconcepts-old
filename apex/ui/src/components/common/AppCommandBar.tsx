@@ -8,7 +8,9 @@ export const AppCommandBar = () => {
     let theme = getTheme();
     const stackStyles: IStackStyles = {
         root: {
-            boxShadow: theme.effects.elevation8,
+            boxShadow: theme.effects.elevation4,
+            background: theme.palette.white,
+            marginBottom: '1px'
         },
     };
     const smallSpacingToken: IStackTokens = {
@@ -18,7 +20,7 @@ export const AppCommandBar = () => {
 
     //AnimationClassNames.fadeIn500
     return (
-            <Stack enableScopedSelectors horizontal horizontalAlign="space-between" verticalAlign="center" tokens={smallSpacingToken} verticalFill styles={stackStyles} className={AnimationClassNames.slideRightIn400}>
+            <Stack enableScopedSelectors horizontal horizontalAlign="space-between" verticalAlign="center" tokens={smallSpacingToken} styles={stackStyles} className={AnimationClassNames.slideRightIn400}>
                 <AppLogo></AppLogo>
                 <Stack horizontal tokens={smallSpacingToken}>
                     <ActionButton allowDisabledFocus onClick={() => navigate('/')}>Home</ActionButton>
