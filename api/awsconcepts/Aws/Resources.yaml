@@ -136,7 +136,7 @@ Resources:
       Handler: AwsConceptsRootLambda
       Architectures:
         - x86_64
-      MemorySize: 256
+      MemorySize: 1024
       Role: !GetAtt lambdaIAMRole.Arn
       Runtime: dotnet6
       Timeout: 30
