@@ -24,7 +24,7 @@ public class ApplicantsController : ApiControllerBase
         {
             await file.CopyToAsync(memoryStream);
             memoryStream.Position = 0;
-            return await Mediator.Send(new PutApplicantProfileDocumentCommand(memoryStream, FileTextContent, file.FileName, file.ContentType), cancellationToken);
+            return await Mediator.Send(new PutProfileDocumentCommand(memoryStream, FileTextContent, file.FileName, file.ContentType), cancellationToken);
         }
     }
 
@@ -64,13 +64,13 @@ public class ApplicantsController : ApiControllerBase
     [HttpPut("Profiles")]
     public async Task<ApplicantProfile> PutProfileDraft(ApplicantProfile profile, CancellationToken cancellationToken)
     {
-        return await Mediator.Send(new PutApplicantProfileCommand(profile));
+        return await Mediator.Send(new PublishProfileDraftCommand(profile));
     }
 
     [HttpPut("ProfileDrafts")]
     public async Task<ApplicantProfileDraft> PutProfile(ApplicantProfileDraft profile, CancellationToken cancellationToken)
     {
-        return await Mediator.Send(new PutApplicantProfileDraftCommand(profile));
+        return await Mediator.Send(new PutProfileDraftCommand(profile));
     }
     [HttpDelete("ProfileDrafts/{Id}")]
     public async Task Delete(string Id, CancellationToken cancellationToken)

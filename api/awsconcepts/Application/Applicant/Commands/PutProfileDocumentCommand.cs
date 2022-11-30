@@ -7,9 +7,9 @@ using domain = Domain.Applicants;
 
 namespace Application.Applicant.Commands
 {
-    public class PutApplicantProfileDocumentCommand : IRequest<ApplicantProfileDocumentDetail>
+    public class PutProfileDocumentCommand : IRequest<ApplicantProfileDocumentDetail>
     {
-        public PutApplicantProfileDocumentCommand(
+        public PutProfileDocumentCommand(
             Stream document, 
             string DocumentText, 
             string DocumentName,
@@ -27,7 +27,7 @@ namespace Application.Applicant.Commands
         public string ContentType { get; }
     }
 
-    public class PutApplicantProfileDocumentCommandHandeller : IRequestHandler<PutApplicantProfileDocumentCommand, ApplicantProfileDocumentDetail>
+    public class PutProfileDocumentCommandHandeller : IRequestHandler<PutProfileDocumentCommand, ApplicantProfileDocumentDetail>
     {
         private readonly IEntityRepository<domain.ProfileDocument> profileDocumentRepo;
         private readonly IEntityRepository<domain.ProfileDocumentDetail> profileDocumentDetailsRepo;
@@ -36,7 +36,7 @@ namespace Application.Applicant.Commands
         private readonly IIdentity user;
         private readonly IMapper mapper;
 
-        public PutApplicantProfileDocumentCommandHandeller(
+        public PutProfileDocumentCommandHandeller(
             IEntityRepository<domain.ProfileDocument> ProfileDocumenRepository,
             IEntityRepository<domain.ProfileDocumentDetail> ProfileDocumenDetailsRepository,
             IFileStorageRepository StorageRepository,
@@ -52,7 +52,7 @@ namespace Application.Applicant.Commands
         }
 
 
-        public async Task<ApplicantProfileDocumentDetail> Handle(PutApplicantProfileDocumentCommand request, CancellationToken cancellationToken)
+        public async Task<ApplicantProfileDocumentDetail> Handle(PutProfileDocumentCommand request, CancellationToken cancellationToken)
         {
             var id = Guid.NewGuid().ToString();
             var fileSize = request.Document.Length.ToString();

@@ -23,20 +23,14 @@ export const ProfileDraftsList = () => {
         { key: 'column3', name: 'Highlights', fieldName: 'profileHighlights', minWidth: 100, maxWidth: 200, isResizable: true },
     ];
     function _onItemSelected(item: any): void {
-        alert(`Item invoked: ${item.name}`);
+        console.log(item);
     };
     let theme = getTheme();
-    const addIcon: IIconProps = { iconName: 'Add' };
-    const editIcon: IIconProps = { iconName: 'EditNote' };
-    const makePrimaryIcon: IIconProps = { iconName: 'PartyLeader' };
     const deleteIcon: IIconProps = { iconName: 'Delete' };
     const stackStyles: Partial<IStackStyles> = { root: { height: 44, backgroundColor:theme.palette.white } };
     return (
         <>
             <Stack horizontal horizontalAlign='center' styles={stackStyles}>
-                <CommandBarButton iconProps={addIcon} text="New Profile" />
-                <CommandBarButton iconProps={editIcon} text="Edit Profile" />
-                <CommandBarButton iconProps={makePrimaryIcon} text="Make Default Profile" />
                 <CommandBarButton iconProps={deleteIcon} text="Delete Profile" />
             </Stack>
             <ShimmeredDetailsList

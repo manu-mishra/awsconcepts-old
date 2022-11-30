@@ -6,9 +6,9 @@ using domain = Domain.Applicants;
 
 namespace Application.Applicant.Commands
 {
-    public class PutApplicantProfileDraftCommand : IRequest<ApplicantProfileDraft>
+    public class PutProfileDraftCommand : IRequest<ApplicantProfileDraft>
     {
-        public PutApplicantProfileDraftCommand(ApplicantProfileDraft ProfileDraft)
+        public PutProfileDraftCommand(ApplicantProfileDraft ProfileDraft)
         {
             this.ProfileDraft = ProfileDraft;
         }
@@ -16,13 +16,13 @@ namespace Application.Applicant.Commands
         public ApplicantProfileDraft ProfileDraft { get; }
     }
 
-    public class CerateApplicantProfileDraftCommandHandeller : IRequestHandler<PutApplicantProfileDraftCommand, ApplicantProfileDraft>
+    public class PutProfileDraftCommandHandeller : IRequestHandler<PutProfileDraftCommand, ApplicantProfileDraft>
     {
         private readonly IEntityRepository<domain.ProfileDraft> repository;
         private readonly IIdentity user;
         private readonly IMapper mapper;
 
-        public CerateApplicantProfileDraftCommandHandeller(IEntityRepository<domain.ProfileDraft> Repository, IIdentity User, IMapper mapper)
+        public PutProfileDraftCommandHandeller(IEntityRepository<domain.ProfileDraft> Repository, IIdentity User, IMapper mapper)
         {
             repository = Repository;
             this.user = User;
@@ -30,7 +30,7 @@ namespace Application.Applicant.Commands
         }
 
 
-        public async Task<ApplicantProfileDraft> Handle(PutApplicantProfileDraftCommand request, CancellationToken cancellationToken)
+        public async Task<ApplicantProfileDraft> Handle(PutProfileDraftCommand request, CancellationToken cancellationToken)
         {
             domain.ProfileDraft profile = mapper.Map<domain.ProfileDraft>(request.ProfileDraft);
             profile.IdentityId = user.Id;
