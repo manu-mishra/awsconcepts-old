@@ -1,6 +1,7 @@
 import { Stack, PrimaryButton, TextField } from '@fluentui/react';
 import React, { useState } from 'react'
 import { ProfileDraft } from "../../Model/ApplicantsModel"
+import { PdfViewer } from '../PdfViewer';
 import { SkillPicker } from '../SkillPicker';
 
 export const NewProfileDrafts = () => {
@@ -24,6 +25,7 @@ export const NewProfileDrafts = () => {
                 <TextField id={'name'} label="Profile Name" value={profileDraft?.name} onChange={_handleNameChange} />
                 <TextField label="Profile Highlights" value={profileDraft?.profileHighlights} onChange={_handleHighLightsChange} />
                 <SkillPicker></SkillPicker>
+                <PdfViewer></PdfViewer>
                 <PrimaryButton className="ms-welcome__action" iconProps={{ iconName: "ChevronRight" }}>
                     Sign In
                 </PrimaryButton>
