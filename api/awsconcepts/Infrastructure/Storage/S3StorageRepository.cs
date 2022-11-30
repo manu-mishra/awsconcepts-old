@@ -12,14 +12,15 @@ namespace Infrastructure.Storage
         {
             s3Client = S3Client;
         }
-        public async Task<Tuple<Stream, string>> GetFile(string FileKey)
+        public async Task<Tuple<Stream, string>> GetFile(string FileKey, CancellationToken cancellationToken)
         {
-            var s3Object =await s3Client.GetObjectAsync(bucketname, FileKey);
+            var s3Object =await s3Client.GetObjectAsync(bucketname, FileKey, cancellationToken);
             return new Tuple<Stream, string>(s3Object.ResponseStream, s3Object.Headers.ContentType);
         }
 
-        public async Task PutFile(Stream File, string FileKey, string ContentType)
+        public async Task PutFile(Stream File, string FileKey, string ContentType, CancellationToken cancellationToken)
         {
+
             var request = new PutObjectRequest()
             {
                 BucketName = bucketname,
@@ -27,7 +28,7 @@ namespace Infrastructure.Storage
                 InputStream = File
             };
             request.Metadata.Add("Content-Type", ContentType);
-            await s3Client.PutObjectAsync(request);
+            await s3Client.PutObjectAsync(request, cancellationToken);
         }
     }
 }

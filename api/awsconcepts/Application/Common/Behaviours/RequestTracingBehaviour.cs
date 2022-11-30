@@ -14,14 +14,22 @@ namespace Application.Common.Behaviours
         }
         public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
-            if (Activity.Current is not null && Activity.Current.IsAllDataRequested)
+            try
             {
-                Activity.Current?.SetTag("user", user.Id);
-                Activity.Current?.SetTag("app-request", System.Text.Json.JsonSerializer.Serialize(request));
-            }
+                if (Activity.Current is not null && Activity.Current.IsAllDataRequested)
+                {
+                    Activity.Current?.SetTag("user", user.Id);
+                    Activity.Current?.SetTag("app-request", System.Text.Json.JsonSerializer.Serialize(request));
+                }
 #if DEBUG
-            Trace.TraceInformation("Application Request {0}", System.Text.Json.JsonSerializer.Serialize(request));
+                Trace.TraceInformation("Application Request {0}", System.Text.Json.JsonSerializer.Serialize(request));
+
+            }
 #endif
+            catch (Exception)
+            {
+                Trace.TraceInformation("Application Request {0}", request.GetType().ToString());
+            }
             return await next();
         }
     }

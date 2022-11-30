@@ -23,6 +23,10 @@
                 new RepositoryConfig("Id", "IdentityId", pkPrefix: "A_P#", skPrefix: "A_P-U#"));
             RepoConfig.Add(typeof(Domain.Applicants.Application), 
                 new RepositoryConfig("Id", "IdentityId", pkPrefix: "A_A#", skPrefix: "A_A-A_P#"));
+            RepoConfig.Add(typeof(Domain.Applicants.ProfileDocument),
+                new RepositoryConfig("Id", "IdentityId", pkPrefix: "A_PDF#", skPrefix: "A_A-U#"));
+            RepoConfig.Add(typeof(Domain.Applicants.ProfileDocumentDetail),
+                new RepositoryConfig("Id", "Id", pkPrefix: "A_PDFD#", skPrefix: "A_PDFD#"));
 
             // Company Domain
             RepoConfig.Add(typeof(Domain.Organizations.Organization),
