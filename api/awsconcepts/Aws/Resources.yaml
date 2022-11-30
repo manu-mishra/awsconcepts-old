@@ -250,9 +250,7 @@ Resources:
                   - s3:GetObject
                   - s3:GetObjectAcl
                   - s3:AbortMultipartUpload
-                Resource: !GetAtt
-                  - s3Bucket
-                  - Arn
+                Resource: "*"
                 Effect: Allow
           PolicyName: lambdaIAM
 
