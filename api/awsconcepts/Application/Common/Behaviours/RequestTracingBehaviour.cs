@@ -24,8 +24,8 @@ namespace Application.Common.Behaviours
 #if DEBUG
                 Trace.TraceInformation("Application Request {0}", System.Text.Json.JsonSerializer.Serialize(request));
 
-            }
 #endif
+            }
             catch (Exception)
             {
                 Trace.TraceInformation("Application Request {0}", request.GetType().ToString());

@@ -232,6 +232,14 @@ Resources:
                 Resource: "*"
                 Effect: Allow
               - Action:
+                  - comprehend:DetectEntities
+                  - comprehend:DetectKeyPhrases
+                  - comprehend:DetectDominantLanguage
+                  - comprehend:DetectSentiment
+                  - comprehend:DetectSyntax
+                Resource: "*"
+                Effect: Allow
+              - Action:
                   - s3:PutObject
                   - s3:PutObjectAcl
                   - s3:GetObject
