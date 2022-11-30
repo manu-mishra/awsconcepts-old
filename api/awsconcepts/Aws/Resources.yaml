@@ -237,6 +237,7 @@ Resources:
                   - comprehend:DetectDominantLanguage
                   - comprehend:DetectSentiment
                   - comprehend:DetectSyntax
+                  - comprehend:DetectPiiEntities
                 Resource: "*"
                 Effect: Allow
               - Action:
