@@ -1,3 +1,4 @@
+using Amazon.DynamoDBv2;
 using Amazon.Lambda.Core;
 using Amazon.Lambda.DynamoDBEvents;
 using System.Text.Json;
@@ -9,11 +10,11 @@ namespace DataStreamProcessor;
 
 public class Function
 {
-    public void FunctionHandler(DynamoDBEvent dynamoEvent, ILambdaContext context)
+    public async Task FunctionHandler(DynamoDBEvent dynamoEvent, ILambdaContext context)
     {
         foreach (DynamoDBEvent.DynamodbStreamRecord? record in dynamoEvent.Records)
         {
-            context.Logger.LogInformation($"record: {JsonSerializer.Serialize(record)}");
+            await record.GetDomainEvent().ProcessEvent();
         }
     }
 }
