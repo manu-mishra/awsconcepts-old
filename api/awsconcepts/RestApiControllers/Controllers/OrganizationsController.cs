@@ -1,5 +1,6 @@
 using Application.Organizations.Commands;
 using Application.Organizations.Dto;
+using Application.Organizations.Queries;
 using Domain.Applicants;
 
 namespace RestApiControllers.Controllers;
