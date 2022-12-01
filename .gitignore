@@ -386,3 +386,4 @@ terraform.rc
 apex/infrastructure/.terraform.lock.hcl
 
 /.vscode/
+api/awsconcepts/AwsConceptsRootLambda/appsettings.Development.json

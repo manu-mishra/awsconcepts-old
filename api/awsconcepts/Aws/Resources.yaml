@@ -148,6 +148,10 @@ Resources:
       Timeout: 30
       TracingConfig:
         Mode: "Active"
+      Environment:
+        Variables:
+          elasticUserName: !Ref elasticUserName
+          elasticPassword: !Ref elasticUserPassword
 
   lambdaApiGatewayInvoke:
     Type: AWS::Lambda::Permission
