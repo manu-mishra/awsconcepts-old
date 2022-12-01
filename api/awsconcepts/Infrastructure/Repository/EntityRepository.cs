@@ -19,7 +19,7 @@ namespace Infrastructure.Repository
         public EntityRepository(IAmazonDynamoDB dynamoDB, RepositoryConfigLookUp repositoryConfigLookUp)
         {
             this.dynamoDB = dynamoDB;
-            var config = repositoryConfigLookUp.RepoConfig[typeof(DomainEntity)]; ;
+            RepositoryConfig config = repositoryConfigLookUp.RepoConfig[typeof(DomainEntity)]; ;
             pkPropertyName = config.PkPropertyName;
             pkPrefix = config.PkPrefix;
             skPropertyName = config.SkPropertyName;
@@ -53,7 +53,7 @@ namespace Infrastructure.Repository
                 {
                     { "ek", new AttributeValue { S = pkPrefix + EntityId} },
                     { "sk", new AttributeValue { S = skPrefix + ScopeId} }
-                }, 
+                },
                 ReturnConsumedCapacity = ReturnConsumedCapacity.TOTAL
             };
 
@@ -68,7 +68,7 @@ namespace Infrastructure.Repository
             return JsonSerializer.Deserialize<DomainEntity>(itemAsDocument.ToJson());
         }
 
-        public async Task<(List<DomainEntity>,string?)> GetAll(string ScopeId, string? ContinuationToken, CancellationToken CancellationToken)
+        public async Task<(List<DomainEntity>, string?)> GetAll(string ScopeId, string? ContinuationToken, CancellationToken CancellationToken)
         {
             List<DomainEntity> result = new List<DomainEntity>();
             string? continuationToken = default(string);
@@ -84,9 +84,9 @@ namespace Infrastructure.Repository
                     //{":v_sk", new AttributeValue{S = ScopeId} }
                      {":v_sk", new AttributeValue{S = skPrefix + ScopeId} }
                 },
-                
+
             };
-            if(!string.IsNullOrEmpty(ContinuationToken))
+            if (!string.IsNullOrEmpty(ContinuationToken))
             {
                 //query.ExclusiveStartKey = Convert.FromBase64CharArray(ContinuationToken)
             }
@@ -103,7 +103,7 @@ namespace Infrastructure.Repository
             //dbresponse.las
             //continuationToken = string.IsNullOrWhiteSpace(dbresponse.LastEvaluatedKey) ??
             //    Convert.ToBase64String(Encoding.UTF8.GetBytes(dbresponse.LastEvaluatedKey));
-            
+
             return (result, continuationToken);
         }
 

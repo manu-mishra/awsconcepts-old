@@ -8,23 +8,23 @@ namespace playground
     {
         public static void TryIndex()
         {
-            var uris = new Uri[]
+            Uri[] uris = new Uri[]
                         {
                 new Uri("https://search-awsconcepts-f6zgsd3tkq5fi6hododigdm7vm.us-east-1.es.amazonaws.com/")
                         };
 
 
-            var connectionPool = new SniffingConnectionPool(uris);
-            var settings = new ConnectionSettings(connectionPool)
+            SniffingConnectionPool connectionPool = new SniffingConnectionPool(uris);
+            ConnectionSettings settings = new ConnectionSettings(connectionPool)
                 .BasicAuthentication("", "")
                 .DefaultMappingFor<Testing>(i => i.IndexName("testing"));
 
-            var client = new ElasticClient(settings);
+            ElasticClient client = new ElasticClient(settings);
 
 
-            var document = new Testing("this is a test", DateTime.Now);
+            Testing document = new Testing("this is a test", DateTime.Now);
 
-            var indexResponse = client.Index(new IndexRequest<Testing>(document, IndexName.From<Testing>(), 1));
+            IndexResponse indexResponse = client.Index(new IndexRequest<Testing>(document, IndexName.From<Testing>(), 1));
             if (!indexResponse.IsValid)
             {
                 Console.Write("Failed to index document. ");
@@ -47,7 +47,7 @@ namespace playground
             }
 
 
-            var getResponse = client.Get<Testing>(new GetRequest<Testing>(1));
+            GetResponse<Testing> getResponse = client.Get<Testing>(new GetRequest<Testing>(1));
             if (getResponse.OriginalException != null)
             {
                 throw getResponse.OriginalException;

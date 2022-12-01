@@ -8,7 +8,7 @@ namespace Application.Applicant.Queries
 {
     public class GetUserProfileDraftQuery : IRequest<ApplicantProfileDraft>
     {
-        
+
         public GetUserProfileDraftQuery(string ProfileId)
         {
             this.ProfileId = ProfileId;
@@ -30,7 +30,7 @@ namespace Application.Applicant.Queries
 
         public async Task<ApplicantProfileDraft> Handle(GetUserProfileDraftQuery request, CancellationToken cancellationToken)
         {
-            var result = await repository.Get(request.ProfileId,user.Id, cancellationToken);
+            domain.ProfileDraft? result = await repository.Get(request.ProfileId, user.Id, cancellationToken);
             return mapper.Map<ApplicantProfileDraft>(result);
         }
     }

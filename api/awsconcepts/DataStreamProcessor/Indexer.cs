@@ -12,15 +12,15 @@ namespace DataStreamProcessor
         static Indexer()
         {
             domainAssembly = Assembly.GetAssembly(typeof(Domain.ValueTypes.Address));
-            var uris = new Uri[]
+            Uri[] uris = new Uri[]
             {
                 new Uri("https://search-awsconcepts-f6zgsd3tkq5fi6hododigdm7vm.us-east-1.es.amazonaws.com/")
             };
-            var userName = Environment.GetEnvironmentVariable("elasticUserName");
-            var password = Environment.GetEnvironmentVariable("elasticPassword");
+            string? userName = Environment.GetEnvironmentVariable("elasticUserName");
+            string? password = Environment.GetEnvironmentVariable("elasticPassword");
 
-            var connectionPool = new SniffingConnectionPool(uris);
-            var settings = new ConnectionSettings(connectionPool)
+            SniffingConnectionPool connectionPool = new SniffingConnectionPool(uris);
+            ConnectionSettings settings = new ConnectionSettings(connectionPool)
                 .BasicAuthentication(userName, password);
             elasticClient = new ElasticClient(settings);
         }
@@ -28,10 +28,10 @@ namespace DataStreamProcessor
         {
             if (domainEvent != null && domainEvent.ShouldProcess)
             {
-                var type= domainAssembly.GetType(domainEvent.RecordType);
-                var document = JsonSerializer.Deserialize(domainEvent.RecordJson, type);
-                var indexRequest = new IndexRequest<object>(document, domainEvent.RecordType.ToLower());
-                var indexResponse = await elasticClient.IndexAsync(indexRequest);
+                Type? type = domainAssembly.GetType(domainEvent.RecordType);
+                object? document = JsonSerializer.Deserialize(domainEvent.RecordJson, type);
+                IndexRequest<object> indexRequest = new IndexRequest<object>(document, domainEvent.RecordType.ToLower());
+                IndexResponse indexResponse = await elasticClient.IndexAsync(indexRequest);
             }
         }
     }

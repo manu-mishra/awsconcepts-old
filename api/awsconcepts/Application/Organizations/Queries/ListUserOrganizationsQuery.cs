@@ -4,12 +4,12 @@ using Application.Organizations.Dto;
 using AutoMapper;
 using domain = Domain.Organizations;
 
-namespace Application.Applicant.Queries
+namespace Application.Organizations.Queries
 {
     public class ListUserOrganizationsQuery : IRequest<(List<Organization>, string?)>
     {
 
-        public ListUserOrganizationsQuery(string? ContinuationToken = default(string))
+        public ListUserOrganizationsQuery(string? ContinuationToken = default)
         {
             this.ContinuationToken = ContinuationToken;
         }
@@ -30,7 +30,7 @@ namespace Application.Applicant.Queries
         }
         public async Task<(List<Organization>, string?)> Handle(ListUserOrganizationsQuery request, CancellationToken cancellationToken)
         {
-            var result = await repository.GetAll(user.Id, request.ContinuationToken, cancellationToken);
+            (List<domain.Organization>, string?) result = await repository.GetAll(user.Id, request.ContinuationToken, cancellationToken);
             return (mapper.Map<List<Organization>>(result.Item1), result.Item2);
         }
     }

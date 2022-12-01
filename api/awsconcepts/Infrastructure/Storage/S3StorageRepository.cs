@@ -14,14 +14,14 @@ namespace Infrastructure.Storage
         }
         public async Task<Tuple<Stream, string>> GetFile(string FileKey, CancellationToken cancellationToken)
         {
-            var s3Object =await s3Client.GetObjectAsync(bucketname, FileKey, cancellationToken);
+            GetObjectResponse s3Object = await s3Client.GetObjectAsync(bucketname, FileKey, cancellationToken);
             return new Tuple<Stream, string>(s3Object.ResponseStream, s3Object.Headers.ContentType);
         }
 
         public async Task PutFile(Stream File, string FileKey, string ContentType, CancellationToken cancellationToken)
         {
 
-            var request = new PutObjectRequest()
+            PutObjectRequest request = new PutObjectRequest()
             {
                 BucketName = bucketname,
                 Key = FileKey,

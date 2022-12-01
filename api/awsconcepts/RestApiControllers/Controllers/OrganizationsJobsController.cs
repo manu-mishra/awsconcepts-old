@@ -6,7 +6,7 @@ namespace RestApiControllers.Controllers;
 
 [ApiController]
 [Route("api/Organizations/{OrgId}/Jobs")]
-public class OrganizationsJobsController :  ControllerBase
+public class OrganizationsJobsController : ControllerBase
 {
     private readonly IMediator mediator;
 
@@ -15,15 +15,15 @@ public class OrganizationsJobsController :  ControllerBase
         this.mediator = mediator;
     }
     [HttpGet()]
-    public async Task<List<Job>> GetAll(string OrgId, [FromQuery]QueryParameters parameters, CancellationToken cancellationToken)
+    public async Task<List<Job>> GetAll(string OrgId, [FromQuery] QueryParameters parameters, CancellationToken cancellationToken)
     {
-        var response =  await mediator.Send(new ListUserOrganizationJobsQuery(OrgId,parameters?.CT), cancellationToken);
-        
-        if(!string.IsNullOrEmpty(response.Item2))
-            HttpContext.Response.Headers.Add("x-continuationToken",response.Item2);
+        (List<Job>, string) response = await mediator.Send(new ListUserOrganizationJobsQuery(OrgId, parameters?.CT), cancellationToken);
+
+        if (!string.IsNullOrEmpty(response.Item2))
+            HttpContext.Response.Headers.Add("x-continuationToken", response.Item2);
         return response.Item1;
     }
-  
+
     [HttpGet("Id")]
     public async Task<Job> Get(string Id, string OrgId)
     {

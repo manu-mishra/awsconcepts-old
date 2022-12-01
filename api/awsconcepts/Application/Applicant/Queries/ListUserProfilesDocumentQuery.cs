@@ -8,7 +8,7 @@ namespace Application.Applicant.Queries
 {
     public class ListUserProfileDocumentQuery : IRequest<(List<ApplicantProfileDocument>, string?)>
     {
-        
+
         public ListUserProfileDocumentQuery(string? ContinuationToken = default(string))
         {
             this.ContinuationToken = ContinuationToken;
@@ -30,8 +30,8 @@ namespace Application.Applicant.Queries
 
         public async Task<(List<ApplicantProfileDocument>, string?)> Handle(ListUserProfileDocumentQuery request, CancellationToken cancellationToken)
         {
-            var response = await repository.GetAll(user.Id, request.ContinuationToken, cancellationToken);
-            return (mapper.Map<List<ApplicantProfileDocument>>(response.Item1),response.Item2);
+            (List<domain.ProfileDocument>, string?) response = await repository.GetAll(user.Id, request.ContinuationToken, cancellationToken);
+            return (mapper.Map<List<ApplicantProfileDocument>>(response.Item1), response.Item2);
         }
     }
 }

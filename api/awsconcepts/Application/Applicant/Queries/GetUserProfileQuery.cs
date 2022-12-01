@@ -29,7 +29,7 @@ namespace Application.Applicant.Queries
 
         public async Task<ApplicantProfile> Handle(GetUserProfileQuery request, CancellationToken cancellationToken)
         {
-            var result = await repository.Get(request.ProfileId, user.Id, cancellationToken);
+            domain.Profile? result = await repository.Get(request.ProfileId, user.Id, cancellationToken);
             return mapper.Map<ApplicantProfile>(result);
         }
     }

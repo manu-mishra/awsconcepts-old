@@ -1,5 +1,4 @@
 ﻿using Application.Common.Interfaces;
-using Application.Identity;
 using Application.Jobs.Dto;
 using AutoMapper;
 using domain = Domain.Organizations;
@@ -29,7 +28,7 @@ namespace Application.Jobs.Queries
         }
         public async Task<(List<Job>, string?)> Handle(ListUserOrganizationJobsQuery request, CancellationToken cancellationToken)
         {
-            var result = await repository.GetAll(request.OrganizationId, request.ContinuationToken, cancellationToken);
+            (List<domain.Job>, string?) result = await repository.GetAll(request.OrganizationId, request.ContinuationToken, cancellationToken);
             return (mapper.Map<List<Job>>(result.Item1), result.Item2);
         }
     }

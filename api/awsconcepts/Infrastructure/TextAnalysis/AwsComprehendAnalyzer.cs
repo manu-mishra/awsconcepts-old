@@ -1,7 +1,6 @@
 ﻿using Amazon.Comprehend;
 using Amazon.Comprehend.Model;
 using Application.Common.Interfaces;
-using Domain.ValueTypes;
 
 namespace Infrastructure.TextAnalysis
 {
@@ -15,14 +14,14 @@ namespace Infrastructure.TextAnalysis
         }
         public async Task<List<Domain.ValueTypes.TextAnalysis>> AnalyseText(string Text, CancellationToken cancellationToken)
         {
-            var response = new List<Domain.ValueTypes.TextAnalysis>();
-            var detectEntitiesRequest = new DetectEntitiesRequest()
+            List<Domain.ValueTypes.TextAnalysis> response = new List<Domain.ValueTypes.TextAnalysis>();
+            DetectEntitiesRequest detectEntitiesRequest = new DetectEntitiesRequest()
             {
                 Text = Text,
                 LanguageCode = "en",
             };
-            var detectEntitiesResponse = await comprehendClient.DetectEntitiesAsync(detectEntitiesRequest);
-            foreach (var e in detectEntitiesResponse.Entities)
+            DetectEntitiesResponse detectEntitiesResponse = await comprehendClient.DetectEntitiesAsync(detectEntitiesRequest);
+            foreach (Entity? e in detectEntitiesResponse.Entities)
             {
                 response.Add(new Domain.ValueTypes.TextAnalysis { Type = e.Type, Text = e.Text, Score = e.Score, BeginOffset = e.BeginOffset, EndOffset = e.EndOffset });
             }
@@ -30,21 +29,22 @@ namespace Infrastructure.TextAnalysis
         }
         public async Task<List<Domain.ValueTypes.TextAnalysis>> AnalysePii(string Text, CancellationToken cancellationToken)
         {
-            var response = new List<Domain.ValueTypes.TextAnalysis>();
+            List<Domain.ValueTypes.TextAnalysis> response = new List<Domain.ValueTypes.TextAnalysis>();
 
-            var detectPiiEntitiesRequest = new DetectPiiEntitiesRequest()
+            DetectPiiEntitiesRequest detectPiiEntitiesRequest = new DetectPiiEntitiesRequest()
             {
                 Text = Text,
                 LanguageCode = "en",
             };
-            var detectPiiResponse = await comprehendClient.DetectPiiEntitiesAsync(detectPiiEntitiesRequest);
+            DetectPiiEntitiesResponse detectPiiResponse = await comprehendClient.DetectPiiEntitiesAsync(detectPiiEntitiesRequest);
 
-            foreach (var e in detectPiiResponse.Entities)
+            foreach (PiiEntity? e in detectPiiResponse.Entities)
             {
-                response.Add(new Domain.ValueTypes.TextAnalysis { 
-                    Type = e.Type, 
-                    Score = e.Score, 
-                    BeginOffset = e.BeginOffset, 
+                response.Add(new Domain.ValueTypes.TextAnalysis
+                {
+                    Type = e.Type,
+                    Score = e.Score,
+                    BeginOffset = e.BeginOffset,
                     EndOffset = e.EndOffset,
                     Text = Text.Substring(e.BeginOffset, e.EndOffset - e.BeginOffset)
                 });

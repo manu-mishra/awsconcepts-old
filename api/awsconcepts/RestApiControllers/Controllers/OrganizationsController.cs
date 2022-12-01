@@ -1,4 +1,3 @@
-using Application.Applicant.Queries;
 using Application.Organizations.Commands;
 using Application.Organizations.Dto;
 using Domain.Applicants;
@@ -8,12 +7,12 @@ namespace RestApiControllers.Controllers;
 public class OrganizationsController : ApiControllerBase
 {
     [HttpGet()]
-    public async Task<List<Organization>> GetAll([FromQuery]QueryParameters parameters, CancellationToken cancellationToken)
+    public async Task<List<Organization>> GetAll([FromQuery] QueryParameters parameters, CancellationToken cancellationToken)
     {
-        var response =  await Mediator.Send(new ListUserOrganizationsQuery(parameters?.CT));
-        
-        if(!string.IsNullOrEmpty(response.Item2))
-            HttpContext.Response.Headers.Add("x-continuationToken",response.Item2);
+        var response = await Mediator.Send(new ListUserOrganizationsQuery(parameters?.CT));
+
+        if (!string.IsNullOrEmpty(response.Item2))
+            HttpContext.Response.Headers.Add("x-continuationToken", response.Item2);
         return response.Item1;
     }
     [HttpGet("Id")]

@@ -10,8 +10,8 @@ namespace Application.Applicant.Commands
     public class PutProfileDocumentCommand : IRequest<ApplicantProfileDocumentDetail>
     {
         public PutProfileDocumentCommand(
-            Stream document, 
-            string DocumentText, 
+            Stream document,
+            string DocumentText,
             string DocumentName,
             string ContentType)
         {
@@ -54,13 +54,13 @@ namespace Application.Applicant.Commands
 
         public async Task<ApplicantProfileDocumentDetail> Handle(PutProfileDocumentCommand request, CancellationToken cancellationToken)
         {
-            var id = Guid.NewGuid().ToString();
-            var fileSize = request.Document.Length.ToString();
-            var analysis = await textAnalysisProvider.AnalyseText(request.DocumentText, cancellationToken);
-            var piiAnalysis = await textAnalysisProvider.AnalysePii(request.DocumentText, cancellationToken);
+            string id = Guid.NewGuid().ToString();
+            string fileSize = request.Document.Length.ToString();
+            List<Domain.ValueTypes.TextAnalysis> analysis = await textAnalysisProvider.AnalyseText(request.DocumentText, cancellationToken);
+            List<Domain.ValueTypes.TextAnalysis> piiAnalysis = await textAnalysisProvider.AnalysePii(request.DocumentText, cancellationToken);
             analysis.AddRange(piiAnalysis);
-            var document = new ProfileDocument { Id = id, IdentityId =user.Id, Name = request.DocumentName, ContentType = request.ContentType };
-            var documentDetail = new ProfileDocumentDetail { Id = id, Analysis= analysis,Name= request.DocumentName, DocumentText = request.DocumentText, Size = fileSize };
+            ProfileDocument document = new ProfileDocument { Id = id, IdentityId = user.Id, Name = request.DocumentName, ContentType = request.ContentType };
+            ProfileDocumentDetail documentDetail = new ProfileDocumentDetail { Id = id, Analysis = analysis, Name = request.DocumentName, DocumentText = request.DocumentText, Size = fileSize };
             await storageRepository.PutFile(request.Document, id, request.ContentType, cancellationToken);
             await profileDocumentRepo.Put(document, cancellationToken);
             await profileDocumentDetailsRepo.Put(documentDetail, cancellationToken);

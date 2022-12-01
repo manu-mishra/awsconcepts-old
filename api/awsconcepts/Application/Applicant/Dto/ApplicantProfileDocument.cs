@@ -1,6 +1,4 @@
-﻿using Domain.ValueTypes;
-
-namespace Application.Applicant.Dto
+﻿namespace Application.Applicant.Dto
 {
     public class ApplicantProfileDocument
     {

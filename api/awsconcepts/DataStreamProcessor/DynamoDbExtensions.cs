@@ -8,11 +8,11 @@ namespace DataStreamProcessor
     {
         public static DomainEvent GetDomainEvent(this DynamoDBEvent.DynamodbStreamRecord record)
         {
-            var recordType = record.Dynamodb.NewImage["etype"].S;
+            string? recordType = record.Dynamodb.NewImage["etype"].S;
             if (recordType != null && record.EventName == OperationType.INSERT || record.EventName == OperationType.MODIFY)
             {
                 Document itemAsDocument = Document.FromAttributeMap(record.Dynamodb.NewImage);
-                var recordJson = itemAsDocument.ToJson();
+                string recordJson = itemAsDocument.ToJson();
                 return new DomainEvent() { ShouldProcess = true, RecordType = recordType, RecordJson = recordJson };
             }
             else
