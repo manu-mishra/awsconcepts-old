@@ -62,5 +62,5 @@ jobs:
       with:
         name: AwsConceptsBackEndStack
         template: ./api/awsconcepts/Aws/Resources.yaml
-        parameter-overrides: "environmentName=Prod,lambdaCodeUriBucket=awsconcepts-terraform-deployments,lambdaCodeUriKey=awsconcepts/lambdapackages/${{ github.run_id }}${{ github.run_attempt }}"
+        parameter-overrides: "environmentName=Prod,lambdaCodeUriBucket=awsconcepts-terraform-deployments,lambdaCodeUriKey=awsconcepts/lambdapackages/${{ github.run_id }}${{ github.run_attempt }}, elasticUserName=${{ secrets.AWS_OPENSEARCH_USERNAME }}, elasticUserPassword=${{ secrets.AWS_OPENSEARCH_PASSWORD }}"
         capabilities: "CAPABILITY_IAM,CAPABILITY_AUTO_EXPAND"

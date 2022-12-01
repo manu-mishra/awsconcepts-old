@@ -13,6 +13,12 @@ Parameters:
     Type: String
   lambdaCodeUriBucket:
     Type: String
+  elasticUserName:
+    Type: String
+    NoEcho: true
+  elasticUserPassword:
+    Type: String
+    NoEcho: true
 Resources:
   
   apiGateway:
@@ -168,6 +174,10 @@ Resources:
       Timeout: 30
       TracingConfig:
         Mode: "Active"
+      Environment:
+        Variables:
+          elasticUserName: !Ref elasticUserName
+          elasticPassword: !Ref elasticUserPassword
 
   lambdaEventSourceMapping:
     Type: "AWS::Lambda::EventSourceMapping"
