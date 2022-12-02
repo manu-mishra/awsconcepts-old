@@ -2,7 +2,7 @@
 using Amazon.DynamoDBv2.DocumentModel;
 using Amazon.DynamoDBv2.Model;
 using Application.Common.Interfaces;
-using Infrastructure.Repository.Config;
+using Infrastructure.Config;
 using System.Text.Json;
 
 namespace Infrastructure.Repository

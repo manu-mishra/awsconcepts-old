@@ -1,6 +1,7 @@
 ﻿using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DocumentModel;
 using Amazon.Lambda.DynamoDBEvents;
+using System.Text.Json;
 
 namespace DataStreamProcessor
 {
@@ -8,15 +9,20 @@ namespace DataStreamProcessor
     {
         public static DomainEvent GetDomainEvent(this DynamoDBEvent.DynamodbStreamRecord record)
         {
-            string? recordType = record.Dynamodb.NewImage["etype"].S;
-            if (recordType != null && record.EventName == OperationType.INSERT || record.EventName == OperationType.MODIFY)
+            if (record.EventName == OperationType.INSERT || record.EventName == OperationType.MODIFY)
             {
-                Document itemAsDocument = Document.FromAttributeMap(record.Dynamodb.NewImage);
-                string recordJson = itemAsDocument.ToJson();
-                return new DomainEvent() { ShouldProcess = true, RecordType = recordType, RecordJson = recordJson };
+                string? recordType = record.Dynamodb.NewImage["etype"].S;
+                if (recordType != null)
+                {
+                    Document itemAsDocument = Document.FromAttributeMap(record.Dynamodb.NewImage);
+                    string recordJson = itemAsDocument.ToJson();
+                    return new DomainEvent() { ShouldProcess = true, RecordType = recordType, RecordJson = recordJson };
+                }
+                else
+                    return new DomainEvent() { ShouldProcess = false, RecordType = "Ignored", RecordJson = "Ignored" };
             }
-            else
-                return new DomainEvent() { ShouldProcess = false, RecordType = "Ignored", RecordJson = "Ignored" };
+            Console.WriteLine(JsonSerializer.Serialize(record));
+            return new DomainEvent() { ShouldProcess = false, RecordType = "Ignored", RecordJson = "Ignored" };
         }
     }
 }

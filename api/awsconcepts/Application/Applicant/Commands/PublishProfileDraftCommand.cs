@@ -2,38 +2,43 @@
 using Application.Common.Interfaces;
 using Application.Identity;
 using AutoMapper;
+using Domain.Applicants;
 using domain = Domain.Applicants;
 
 namespace Application.Applicant.Commands
 {
     public class PublishProfileDraftCommand : IRequest<ApplicantProfile>
     {
-        public PublishProfileDraftCommand(ApplicantProfile Profile)
+        public PublishProfileDraftCommand(string ProfileDraftId)
         {
-            this.Profile = Profile;
+            this.ProfileDraftId = ProfileDraftId;
         }
-        public ApplicantProfile Profile { get; }
+        public string ProfileDraftId { get; }
     }
 
     public class PublishProfileDraftCommandHandeller : IRequestHandler<PublishProfileDraftCommand, ApplicantProfile>
     {
-        private readonly IEntityRepository<domain.Profile> repository;
+        private readonly IEntityRepository<domain.Profile> profileRepository;
+        private readonly IEntityRepository<ProfileDraft> profileDraftRepository;
         private readonly IIdentity user;
         private readonly IMapper mapper;
 
-        public PublishProfileDraftCommandHandeller(IEntityRepository<domain.Profile> Repository, IIdentity User, IMapper mapper)
+        public PublishProfileDraftCommandHandeller(IEntityRepository<domain.Profile> ProfileRepository,
+            IEntityRepository<domain.ProfileDraft> ProfileDraftRepository,
+            IIdentity User, IMapper mapper)
         {
-            repository = Repository;
+            profileRepository = ProfileRepository;
+            profileDraftRepository = ProfileDraftRepository;
             this.user = User;
             this.mapper = mapper;
         }
         public async Task<ApplicantProfile> Handle(PublishProfileDraftCommand request, CancellationToken cancellationToken)
         {
-            domain.Profile profile = mapper.Map<domain.Profile>(request.Profile);
-            profile.IdentityId = user.Id;
-            profile.Id ??= Guid.NewGuid().ToString();
-            await repository.Put(profile, cancellationToken);
-            return mapper.Map<ApplicantProfile>(profile);
+            ProfileDraft? draftProfile = await profileDraftRepository.Get(request.ProfileDraftId, user.Id, cancellationToken);
+            domain.Profile newProfile = mapper.Map<domain.Profile>(draftProfile);
+            await profileRepository.Put(newProfile, cancellationToken);
+            await profileDraftRepository.Delete(draftProfile.Id, draftProfile.IdentityId, cancellationToken);
+            return mapper.Map<ApplicantProfile>(newProfile);
         }
     }
 }

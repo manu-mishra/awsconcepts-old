@@ -28,7 +28,7 @@ namespace Application.Applicant.Queries
 
         public async Task<List<ApplicantProfile>> Handle(SearchUserProfilesQuery request, CancellationToken cancellationToken)
         {
-            var result = await entitySearchProvider.SearchInScopeDomainEntity<domain.Profile>(request.SearchTerm, user.Id);
+            List<domain.Profile> result = await entitySearchProvider.SearchInScopeDomainEntity<domain.Profile>(request.SearchTerm, user.Id);
             return mapper.Map<List<ApplicantProfile>>(result);
         }
     }

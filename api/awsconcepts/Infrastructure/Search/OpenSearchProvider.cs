@@ -1,8 +1,6 @@
 ﻿using Application.Common.Interfaces;
-using Domain.Applicants;
-using Infrastructure.Repository.Config;
+using Infrastructure.Config;
 using OpenSearch.Client;
-using OpenSearch.Net;
 
 namespace Infrastructure.Search
 {
@@ -17,10 +15,10 @@ namespace Infrastructure.Search
             this.searchClient = SearchClient;
         }
 
-        public async Task<List<T>> SearchInScopeDomainEntity<T>(string SearchString, string scope) where T: class
+        public async Task<List<T>> SearchInScopeDomainEntity<T>(string SearchString, string scope) where T : class
         {
             EntityConfig config = repositoryConfigLookUp.RepoConfig[typeof(T)];
-            var searchQuery =@" {
+            string searchQuery = @" {
             ""query"":
                 {
                     ""match"":
@@ -34,14 +32,14 @@ namespace Infrastructure.Search
             }";
             searchQuery = searchQuery.Replace("#fieldName#", config.SkPropertyName);
             searchQuery = searchQuery.Replace("#SearchTerm#", SearchString);
-            var searchResponse = await searchClient.LowLevel.SearchAsync<SearchResponse<T>>("domain.applicants.profiledocumentdetail", searchQuery);
+            SearchResponse<T> searchResponse = await searchClient.LowLevel.SearchAsync<SearchResponse<T>>("domain.applicants.profiledocumentdetail", searchQuery);
             return new List<T>(searchResponse.Documents);
         }
 
         public async Task<List<T>> SearchWithNoScopeDomainEntity<T>(string SearchString) where T : class
         {
             EntityConfig config = repositoryConfigLookUp.RepoConfig[typeof(T)];
-            var searchQuery = @" {
+            string searchQuery = @" {
             ""query"":
                 {
                     ""match"":
@@ -55,7 +53,7 @@ namespace Infrastructure.Search
             }";
             searchQuery = searchQuery.Replace("#fieldName#", config.SkPropertyName);
             searchQuery = searchQuery.Replace("#SearchTerm#", SearchString);
-            var searchResponse = await searchClient.LowLevel.SearchAsync<SearchResponse<T>>("domain.applicants.profiledocumentdetail", searchQuery);
+            SearchResponse<T> searchResponse = await searchClient.LowLevel.SearchAsync<SearchResponse<T>>("domain.applicants.profiledocumentdetail", searchQuery);
             return new List<T>(searchResponse.Documents);
         }
     }

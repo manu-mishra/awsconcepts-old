@@ -9,5 +9,6 @@
         public string ProfileText { get; set; }
         public string[]? Skills { get; set; }
         public string? ProfileDocumentId { get; set; }
+        public string? ProfileName { get; set; }
     }
 }

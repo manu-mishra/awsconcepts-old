@@ -1,5 +1,4 @@
-﻿using Infrastructure.Repository.Config;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure.Config
 {

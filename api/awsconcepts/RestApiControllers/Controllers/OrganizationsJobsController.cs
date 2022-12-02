@@ -24,10 +24,10 @@ public class OrganizationsJobsController : ControllerBase
         return response.Item1;
     }
 
-    [HttpGet("Id")]
-    public async Task<Job> Get(string Id, string OrgId)
+    [HttpGet("{Id}")]
+    public async Task<Job> Get(string OrgId, string Id, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        return await mediator.Send(new GetUserOrganizationJobQuery(OrgId, Id), cancellationToken);
     }
 
     [HttpPut()]
@@ -36,10 +36,10 @@ public class OrganizationsJobsController : ControllerBase
         return await mediator.Send(new PutOrganizationJobCommand(OrgId, job), cancellationToken);
     }
 
-    [HttpDelete()]
-    public async Task Delete(Job profile, CancellationToken cancellationToken)
+    [HttpDelete("{Id}")]
+    public async Task Delete(string OrgId, string Id, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        await mediator.Send(new DeleteUserOrganizationJobCommand(OrgId, Id), cancellationToken);
     }
 
     public class QueryParameters

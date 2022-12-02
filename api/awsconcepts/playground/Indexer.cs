@@ -1,7 +1,6 @@
 ﻿using Domain.Applicants;
 using OpenSearch.Client;
 using OpenSearch.Net;
-using System.Text.Json;
 
 namespace playground
 {
@@ -10,7 +9,7 @@ namespace playground
     {
         public static void TryIndex()
         {
-            Uri[] uris = new Uri[]{new Uri("https://search-awsconcepts-f6zgsd3tkq5fi6hododigdm7vm.us-east-1.es.amazonaws.com/")};
+            Uri[] uris = new Uri[] { new Uri("https://search-awsconcepts-f6zgsd3tkq5fi6hododigdm7vm.us-east-1.es.amazonaws.com/") };
 
 
             StaticConnectionPool connectionPool = new StaticConnectionPool(uris);
@@ -18,7 +17,7 @@ namespace playground
                 .BasicAuthentication(Environment.GetEnvironmentVariable("elasticUserName"), Environment.GetEnvironmentVariable("elasticPassword"));
 
             OpenSearchClient client = new OpenSearchClient(settings);
-            var searchResponse = client.LowLevel.Search<SearchResponse<ProfileDocument>>("domain.applicants.profiledocumentdetail",
+            SearchResponse<ProfileDocument> searchResponse = client.LowLevel.Search<SearchResponse<ProfileDocument>>("domain.applicants.profiledocumentdetail",
             @" {
             ""query"":
                 {
@@ -31,7 +30,7 @@ namespace playground
                     }
                 }
             }");
-            
+
             Console.ReadLine();
 
 

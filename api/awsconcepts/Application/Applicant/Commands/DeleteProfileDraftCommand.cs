@@ -28,7 +28,7 @@ namespace Application.Applicant.Commands
 
         public async Task<bool> Handle(DeleteProfileDraftCommand request, CancellationToken cancellationToken)
         {
-            await repository.Delete(request.ProfileDraftId,user.Id, cancellationToken);
+            await repository.Delete(request.ProfileDraftId, user.Id, cancellationToken);
             return true;
         }
     }

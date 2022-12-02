@@ -1,8 +1,6 @@
-﻿using Application.Applicant.Dto;
-using Application.Common.Interfaces;
+﻿using Application.Common.Interfaces;
 using Application.Identity;
 using AutoMapper;
-using Domain.Applicants;
 using domain = Domain.Applicants;
 
 namespace Application.Applicant.Commands

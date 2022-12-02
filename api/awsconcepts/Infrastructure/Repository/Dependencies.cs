@@ -1,6 +1,6 @@
 ﻿using Amazon.DynamoDBv2;
 using Application.Common.Interfaces;
-using Infrastructure.Repository.Config;
+using Infrastructure.Config;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure.Repository

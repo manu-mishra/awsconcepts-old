@@ -59,8 +59,8 @@ namespace Application.Applicant.Commands
             List<Domain.ValueTypes.TextAnalysis> analysis = await textAnalysisProvider.AnalyseText(request.DocumentText, cancellationToken);
             List<Domain.ValueTypes.TextAnalysis> piiAnalysis = await textAnalysisProvider.AnalysePii(request.DocumentText, cancellationToken);
             analysis.AddRange(piiAnalysis);
-            ProfileDocument document = new ProfileDocument { Id = id, IdentityId = user.Id, Name = request.DocumentName, ContentType = request.ContentType };
-            ProfileDocumentDetail documentDetail = new ProfileDocumentDetail { Id = id, IdentityId=user.Id, Analysis = analysis, Name = request.DocumentName, DocumentText = request.DocumentText, Size = fileSize };
+            ProfileDocument document = new ProfileDocument { Id = id, IdentityId = user.Id, Name = request.DocumentName };
+            ProfileDocumentDetail documentDetail = new ProfileDocumentDetail { Id = id, IdentityId = user.Id, Analysis = analysis, Name = request.DocumentName, DocumentText = request.DocumentText, Size = fileSize, ContentType = request.ContentType };
             await storageRepository.PutFile(request.Document, id, request.ContentType, cancellationToken);
             await profileDocumentRepo.Put(document, cancellationToken);
             await profileDocumentDetailsRepo.Put(documentDetail, cancellationToken);

@@ -17,6 +17,10 @@ namespace Application.Applicant
             // Request to domain 
             CreateMap<Dto.ApplicantProfile, Domain.Applicants.Profile>();
             CreateMap<Dto.ApplicantProfileDraft, Domain.Applicants.ProfileDraft>();
+
+            //Interdomain
+            CreateMap<Domain.Applicants.ProfileDraft, Domain.Applicants.ProfileDocument>();
+            CreateMap<Domain.Applicants.ProfileDocument, Domain.Applicants.ProfileDraft>();
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using playground;
-using System.Text.Json;
 
 Environment.SetEnvironmentVariable("elasticUserName", "manu");
 Environment.SetEnvironmentVariable("elasticPassword", "Jasmine-01");

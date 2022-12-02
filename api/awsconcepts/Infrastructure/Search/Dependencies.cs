@@ -1,8 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Application.Common.Interfaces;
-using OpenSearch.Net;
+﻿using Application.Common.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 using OpenSearch.Client;
-using System;
+using OpenSearch.Net;
 
 namespace Infrastructure.Search
 {

@@ -266,6 +266,19 @@ Resources:
                   - s3:AbortMultipartUpload
                 Resource: "*"
                 Effect: Allow
+              - Action:
+                  - kinesis:DescribeStream
+                  - kinesis:DescribeStreamSummary
+                  - kinesis:DescribeStreamConsumer
+                  - kinesis:SubscribeToShard
+                  - kinesis:RegisterStreamConsumer
+                  - kinesis:PutRecord
+                  - kinesis:PutRecords
+                  - kinesis:DescribeStream
+                  - kinesis:GetRecords
+                  - kinesis:GetShardIterator
+                Resource: "*"
+                Effect: Allow
           PolicyName: lambdaIAM
 
   lambdaLogGroup:
@@ -308,8 +321,6 @@ Resources:
           ProvisionedThroughput: 
               ReadCapacityUnits: 0
               WriteCapacityUnits: 0
-      KinesisStreamSpecification:
-          StreamArn: !GetAtt kinesisStream.Arn
       StreamSpecification:
         StreamViewType: NEW_IMAGE
 
