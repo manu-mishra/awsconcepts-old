@@ -16,17 +16,17 @@ namespace Infrastructure.Repository
         private readonly string skPrefix;
         private readonly bool useSecondaryIndex;
 
-        public EntityRepository(IAmazonDynamoDB dynamoDB, RepositoryConfigLookUp repositoryConfigLookUp)
+        public EntityRepository(IAmazonDynamoDB dynamoDB, EntityConfigLookUp repositoryConfigLookUp)
         {
             this.dynamoDB = dynamoDB;
-            RepositoryConfig config = repositoryConfigLookUp.RepoConfig[typeof(DomainEntity)]; ;
+            EntityConfig config = repositoryConfigLookUp.RepoConfig[typeof(DomainEntity)]; ;
             pkPropertyName = config.PkPropertyName;
             pkPrefix = config.PkPrefix;
             skPropertyName = config.SkPropertyName;
             skPrefix = config.SkPrefix;
             useSecondaryIndex = config.UseSecondaryIndex;
         }
-        public async Task<DomainEntity> Delete(DomainEntity DomainEntity, CancellationToken CancellationToken)
+        public async Task Delete(string EntityId, string ScopeId, CancellationToken CancellationToken)
         {
             if (useSecondaryIndex)
                 throw new InvalidOperationException($"could not perform {nameof(Delete)} on {typeof(DomainEntity)} using secondary index");
@@ -35,13 +35,12 @@ namespace Infrastructure.Repository
                 TableName = "awsconcepts",
                 Key = new Dictionary<string, AttributeValue>
                 {
-                    { "ek", new AttributeValue { S = pkPrefix + DomainEntity?.GetType()?.GetProperty(pkPropertyName)?.GetValue(DomainEntity, null)} },
-                    { "sk", new AttributeValue { S = skPrefix + DomainEntity?.GetType()?.GetProperty(skPropertyName)?.GetValue(DomainEntity, null)} }
+                    { "ek", new AttributeValue { S = pkPrefix + EntityId} },
+                    { "sk", new AttributeValue { S = skPrefix + ScopeId} }
                 },
                 ReturnConsumedCapacity = ReturnConsumedCapacity.TOTAL
             };
             DeleteItemResponse response = await dynamoDB.DeleteItemAsync(request, CancellationToken);
-            return DomainEntity;
         }
 
         public async Task<DomainEntity?> Get(string EntityId, string ScopeId, CancellationToken CancellationToken)

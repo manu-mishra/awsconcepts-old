@@ -5,7 +5,7 @@
         Task<(List<DomainEntity>, string?)> GetAll(string ScopeId, string? ContinuationToken, CancellationToken CancellationToken);
         Task<DomainEntity?> Get(string EntityId, string ScopeId, CancellationToken CancellationToken);
         Task<bool> Put(DomainEntity DomainEntity, CancellationToken CancellationToken);
-        Task<DomainEntity> Delete(DomainEntity DomainEntity, CancellationToken CancellationToken);
+        Task Delete(string EntityId, string ScopeId, CancellationToken CancellationToken);
 
 
         /*  |Entity                         |       pk                     |        sk                      |     

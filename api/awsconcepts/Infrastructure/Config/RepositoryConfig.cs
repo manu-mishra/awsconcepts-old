@@ -1,8 +1,8 @@
 ﻿namespace Infrastructure.Repository.Config
 {
-    internal class RepositoryConfig
+    internal class EntityConfig
     {
-        public RepositoryConfig(string pkPropertyName, string skPropertyName, bool useSecondaryIndex = false, string? pkPrefix = default(string), string? skPrefix = default(string))
+        public EntityConfig(string pkPropertyName, string skPropertyName, bool useSecondaryIndex = false, string? pkPrefix = default(string), string? skPrefix = default(string))
         {
             PkPropertyName = pkPropertyName;
             SkPropertyName = skPropertyName;

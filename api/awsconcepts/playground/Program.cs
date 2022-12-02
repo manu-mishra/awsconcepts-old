@@ -1,10 +1,13 @@
-﻿using System.Text.Json;
+﻿using playground;
+using System.Text.Json;
 
-Environment.SetEnvironmentVariable("elasticUserName", "");
-Environment.SetEnvironmentVariable("elasticPassword", "");
+Environment.SetEnvironmentVariable("elasticUserName", "manu");
+Environment.SetEnvironmentVariable("elasticPassword", "Jasmine-01");
 
-var document = new Domain.Applicants.ProfileDocumentDetail() { Id = "howdy", DocumentText = "Dowdy", Name = "Rowdy" };
-var serializedDoc = JsonSerializer.Serialize(document);
-await DataStreamProcessor.Indexer.Index(new DataStreamProcessor.DomainEvent() { RecordType = "Domain.Applicants.ProfileDocumentDetail", RecordJson = serializedDoc, ShouldProcess = true });
+Indexer.TryIndex();
+
+//var document = new Domain.Applicants.ProfileDocumentDetail() { Id = "howdy", DocumentText = "Dowdy", Name = "Rowdy" };
+//var serializedDoc = JsonSerializer.Serialize(document);
+//await DataStreamProcessor.Indexer.Index(new DataStreamProcessor.DomainEvent() { RecordType = "Domain.Applicants.ProfileDocumentDetail", RecordJson = serializedDoc, ShouldProcess = true });
 
 Console.ReadLine();

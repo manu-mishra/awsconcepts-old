@@ -2,7 +2,8 @@
 {
     public interface IEntitySearchProvider
     {
-        public List<T> SearchDomainEntity<T>(string SearchString, string scope);
-        
+        public Task<List<T>> SearchInScopeDomainEntity<T>(string SearchString, string scope) where T : class;
+        public Task<List<T>> SearchWithNoScopeDomainEntity<T>(string SearchString) where T : class;
+
     }
 }

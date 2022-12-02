@@ -9,7 +9,7 @@ namespace Infrastructure.Repository
     {
         internal static IServiceCollection WithDynamoDbEntityStorageDependencies(this IServiceCollection services)
         {
-            services.AddSingleton(RepositoryConfigLookUp.GetConfigMap());
+            services.AddSingleton(EntityConfigLookUp.GetConfigMap());
             services.AddSingleton<IAmazonDynamoDB>(_ => new AmazonDynamoDBClient());
             services.AddScoped(typeof(IEntityRepository<>), typeof(EntityRepository<>));
             return services;

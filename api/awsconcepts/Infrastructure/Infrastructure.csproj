@@ -10,14 +10,11 @@
     <PackageReference Include="AWSSDK.Comprehend" Version="3.7.100.25" />
     <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.100.21" />
     <PackageReference Include="AWSSDK.S3" Version="3.7.101.22" />
+    <PackageReference Include="OpenSearch.Client" Version="1.2.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Search\" />
   </ItemGroup>
 
 </Project>

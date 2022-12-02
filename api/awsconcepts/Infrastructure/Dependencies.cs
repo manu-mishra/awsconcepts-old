@@ -1,4 +1,6 @@
-﻿using Infrastructure.Repository;
+﻿using Infrastructure.Config;
+using Infrastructure.Repository;
+using Infrastructure.Search;
 using Infrastructure.Storage;
 using Infrastructure.TextAnalysis;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,9 +13,11 @@ namespace Infrastructure
         {
 
             services
+                .WithDomainEntityConfiguration()
                 .WithDynamoDbEntityStorageDependencies()
                 .WithS3DbEntityStorageDependencies()
-                .WithTextAnalysisDependencies();
+                .WithTextAnalysisDependencies()
+                .WithEntitySearchDependencies();
             return services;
         }
     }

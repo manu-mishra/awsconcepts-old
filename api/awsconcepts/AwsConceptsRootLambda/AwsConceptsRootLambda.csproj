@@ -10,6 +10,7 @@
     <!-- Generate ready to run images during publishing to improvement cold starts. -->
     <PublishReadyToRun>true</PublishReadyToRun>
 	  <ValidateExecutableReferencesMatchSelfContained>false</ValidateExecutableReferencesMatchSelfContained>
+	  <UserSecretsId>b258e992-bb4e-4a84-8063-3955d88d5caa</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Controllers\**" />
