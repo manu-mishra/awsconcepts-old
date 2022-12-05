@@ -1,10 +1,12 @@
-import { Auth } from 'aws-amplify';
+import { API, Auth } from 'aws-amplify';
 import { applicationConfig } from './../../../../configuration/AmplifyConfig'
 import axios from 'axios';
 import { useState } from 'react';
 import { getTheme, IStackStyles, IStackTokens, PrimaryButton, Stack, TextField } from '@fluentui/react';
 import { Worker, Viewer } from '@react-pdf-viewer/core';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ProfileDraft } from '../../Model/ApplicantsModel';
 
 
 export const UploadDocument = () => {
@@ -12,6 +14,7 @@ export const UploadDocument = () => {
     const [fileUrl, setFileUrl] = useState('');
     const viewerRef = React.createRef<HTMLDivElement>();
     const inputFileRef = React.createRef<HTMLInputElement>();
+    const navigate = useNavigate();
     const handleNameChange = (e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newvalue: string | undefined) => {
         if (newvalue)
             setProfileName(newvalue);
@@ -27,9 +30,26 @@ export const UploadDocument = () => {
         }
     };
     function btnCLicked() {
+        profileDraftCreate();
         if (inputFileRef.current && inputFileRef.current.files ) 
         {
-        fileUpload(inputFileRef.current.files[0]);
+        fileUpload(inputFileRef.current.files[0])
+        .then(async (response:any) => {
+            let newDraftProfile: ProfileDraft =  {profileDocumentId:response.data.id}
+            await API.post('api', '/Applicants/ProfileDrafts',{body:{...newDraftProfile}})
+            .then((response) => {
+                // Add your code here
+                navigate('/anyjobs/profiles/drafts/'+response.id);
+              })
+              .catch((error) => {
+                console.log(error.response);
+              });;
+            
+            
+          })
+          .catch((error: any) => {
+           console.log(error);
+          });;
         }
     }
     const fileUpload = async (file: any) => {
@@ -49,6 +69,19 @@ export const UploadDocument = () => {
             });
         }
 
+    };
+    const profileDraftCreate = async () => {
+        
+            let payload : ProfileDraft= {name:"sdsdsd", profileText:"sdsdsd"};
+            const session = await Auth.currentSession();
+            const token = session.getIdToken().getJwtToken();
+            console.log(applicationConfig.API.endpoints[0].endpoint);
+            const url = applicationConfig.API.endpoints[0].endpoint + '/Applicants/ProfileDrafts';
+            return await axios.post(url, payload, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
     };
     let theme = getTheme();
 

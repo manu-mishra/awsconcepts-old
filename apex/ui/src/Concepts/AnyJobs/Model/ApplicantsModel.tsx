@@ -13,3 +13,18 @@ export interface ProfileDraft {
   skills?:string[],
   profileDocumentId?:string;
 }
+export interface ProfileDocument {
+  id?: string;
+  name?: string;
+  text?: string;
+  size?: number;
+  analysis?: ProfileDocumentAnalysis[];
+}
+export interface ProfileDocumentAnalysis {
+  beginOffset?: number;
+  endOffset?: number;
+  score?: number;
+  text?: string;
+  type?: string;
+
+}
