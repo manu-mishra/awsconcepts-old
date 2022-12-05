@@ -82,7 +82,7 @@ public class ApplicantsController : ApiControllerBase
         return await Mediator.Send(new PublishProfileDraftCommand(Id), cancellationToken);
     }
 
-    [HttpPut("ProfileDrafts")]
+    [HttpPost("ProfileDrafts")]
     public async Task<ApplicantProfileDraft> PutProfile(ApplicantProfileDraft profile, CancellationToken cancellationToken)
     {
         return await Mediator.Send(new PutProfileDraftCommand(profile), cancellationToken);
