@@ -1,7 +1,7 @@
 ﻿using playground;
 
-Environment.SetEnvironmentVariable("elasticUserName", "manu");
-Environment.SetEnvironmentVariable("elasticPassword", "Jasmine-01");
+Environment.SetEnvironmentVariable("elasticUserName", "");
+Environment.SetEnvironmentVariable("elasticPassword", "");
 
 Indexer.TryIndex();
 

@@ -24,8 +24,7 @@ export const AppCommandBar = () => {
                 <AppLogo></AppLogo>
                 <Stack horizontal tokens={smallSpacingToken}>
                     <ActionButton allowDisabledFocus onClick={() => navigate('/')}>Home</ActionButton>
-                    <ActionButton allowDisabledFocus onClick={() => navigate('/anyjobs')}>Any Jobs</ActionButton>
-                    <ActionButton allowDisabledFocus onClick={() => navigate('/protected2')}>My Jobs</ActionButton>
+                    <ActionButton allowDisabledFocus onClick={() => navigate('/anyjobs')}>Any Jobs Concept</ActionButton>
                 </Stack>
                 <UserPersona></UserPersona>
             </Stack>

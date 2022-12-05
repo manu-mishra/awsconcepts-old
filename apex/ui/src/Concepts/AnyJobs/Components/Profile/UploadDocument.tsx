@@ -30,7 +30,6 @@ export const UploadDocument = () => {
         }
     };
     function btnCLicked() {
-        profileDraftCreate();
         if (inputFileRef.current && inputFileRef.current.files ) 
         {
         fileUpload(inputFileRef.current.files[0])
@@ -70,19 +69,7 @@ export const UploadDocument = () => {
         }
 
     };
-    const profileDraftCreate = async () => {
-        
-            let payload : ProfileDraft= {name:"sdsdsd", profileText:"sdsdsd"};
-            const session = await Auth.currentSession();
-            const token = session.getIdToken().getJwtToken();
-            console.log(applicationConfig.API.endpoints[0].endpoint);
-            const url = applicationConfig.API.endpoints[0].endpoint + '/Applicants/ProfileDrafts';
-            return await axios.post(url, payload, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-    };
+    
     let theme = getTheme();
 
     const smallSpacingToken: IStackTokens = {
