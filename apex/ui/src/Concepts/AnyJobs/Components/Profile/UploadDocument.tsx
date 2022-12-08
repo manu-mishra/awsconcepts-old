@@ -11,6 +11,7 @@ import { ProfileDraft } from '../../Model/ApplicantsModel';
 
 export const UploadDocument = () => {
     const [profileName, setProfileName] = useState<string>('');
+    const [profileText, setProfileText] = useState<string>('');
     const [fileUrl, setFileUrl] = useState('');
     const viewerRef = React.createRef<HTMLDivElement>();
     const inputFileRef = React.createRef<HTMLInputElement>();
@@ -29,12 +30,12 @@ export const UploadDocument = () => {
             console.log(fileUrl);
         }
     };
-    function btnCLicked() {
+    function btnClicked() {
         if (inputFileRef.current && inputFileRef.current.files ) 
         {
         fileUpload(inputFileRef.current.files[0])
         .then(async (response:any) => {
-            let newDraftProfile: ProfileDraft =  {profileDocumentId:response.data.id}
+            let newDraftProfile: ProfileDraft =  {profileDocumentId:response.data.id, name:response.data.name}
             await API.post('api', '/Applicants/ProfileDrafts',{body:{...newDraftProfile}})
             .then((response) => {
                 // Add your code here
@@ -51,14 +52,17 @@ export const UploadDocument = () => {
           });;
         }
     }
+    function btnLoadlicked() {
+        if (viewerRef.current && viewerRef.current?.textContent)
+        setProfileText(viewerRef.current?.innerText);
+    }
     const fileUpload = async (file: any) => {
         if (viewerRef.current && viewerRef.current?.textContent) {
             const formData = new FormData();
             formData.append('file', file);
-            formData.append('FileTextContent', viewerRef.current?.textContent);
+            formData.append('FileTextContent', viewerRef.current?.innerText);
             const session = await Auth.currentSession();
             const token = session.getIdToken().getJwtToken();
-            console.log(applicationConfig.API.endpoints[0].endpoint);
             const url = applicationConfig.API.endpoints[0].endpoint + '/Applicants/ProfileDocuments';
             return await axios.post(url, formData, {
                 headers: {
@@ -96,7 +100,8 @@ export const UploadDocument = () => {
                 <Stack verticalAlign='start' horizontalAlign='space-evenly' tokens={smallSpacingToken} styles={childStackStyles}>
                     <TextField id={'name'} label="Profile Name" value={profileName} onChange={handleNameChange} />
                     <input ref={inputFileRef} type="file" accept=".pdf" onChange={onFileSelected} />
-                    <PrimaryButton text="Upload" onClick={btnCLicked} />
+                    <PrimaryButton text="Upload" onClick={btnClicked} />
+                    <PrimaryButton text="load" onClick={btnLoadlicked} />
                 </Stack>
                 <Stack horizontalAlign='space-evenly' styles={childStackStyles}>
                     <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.0.279/build/pdf.worker.min.js"></Worker>
@@ -113,6 +118,7 @@ export const UploadDocument = () => {
                             </div>
                         )}
                     </div>
+                    <div>{profileText}</div>
                 </Stack>
 
             </Stack>

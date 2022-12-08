@@ -44,7 +44,7 @@ export const ProfilesList = () => {
                 items={allProfiles || []}
                 columns={_columns}
                 setKey="set"
-                selectionMode={SelectionMode.single}
+                selectionMode={SelectionMode.multiple}
                 layoutMode={DetailsListLayoutMode.justified}
                 selectionPreservedOnEmptyClick={true}
                 enableShimmer={!allProfiles}

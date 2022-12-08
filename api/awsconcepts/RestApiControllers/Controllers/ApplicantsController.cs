@@ -27,9 +27,9 @@ public class ApplicantsController : ApiControllerBase
     }
 
     [HttpGet("ProfileDocuments/{Id}")]
-    public async Task<ApplicantProfile> GetProfileDocuments(string Id)
+    public async Task<ApplicantProfileDocumentDetail> GetProfileDocument(string Id, CancellationToken cancellationToken)
     {
-        return await Mediator.Send(new GetUserProfileQuery(Id));
+        return await Mediator.Send(new GetUserProfileDocumentQuery(Id), cancellationToken);
     }
 
     [HttpDelete("ProfileDocuments/{Id}")]

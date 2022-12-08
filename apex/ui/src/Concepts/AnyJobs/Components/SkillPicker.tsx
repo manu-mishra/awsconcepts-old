@@ -61,6 +61,7 @@ export const SkillPicker = () => {
       <TagPicker
         removeButtonAriaLabel="Remove"
         selectionAriaLabel="Selected colors"
+        
         onResolveSuggestions={filterSuggestedTags}
         getTextFromItem={getTextFromItem}
         pickerSuggestionsProps={pickerSuggestionsProps}
@@ -74,7 +75,7 @@ export const SkillPicker = () => {
       <div
         // since this example is an inline picker, it needs some forced space below
         // so when embedded in the docssite, the dropdown shows up
-        style={{ height: '10em' }}
+        //  style={{ height: '10em' }}
       />
     </div>
     </>

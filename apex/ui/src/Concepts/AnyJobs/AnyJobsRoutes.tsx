@@ -19,10 +19,10 @@ const AnyJobsRoutes = () => (
                 <Route path="/profiles" element={<ProfilesList />} />
                 <Route path="/profiles/drafts/" element={<ProfileDraftsList />} />
                 <Route path="/profiles/drafts/new" element={<UploadDocument />} />
-                <Route path="/profiles/drafts/*" element={<DraftDetail />} />
+                <Route path="/profiles/drafts/:id" element={<DraftDetail />} />
                 <Route path="/organizations" element={<OrganizationList />} />
                 <Route path="/organizations/new" element={<NewOrganization />} />
-                <Route path="/organizations/*" element={<OrganizationDetail />} />
+                <Route path="/organizations/:id" element={<OrganizationDetail />} />
             </Route>
         </Routes>
     </>

@@ -18,9 +18,9 @@ const CommandBar = () => {
         <>
             <Stack horizontal horizontalAlign='start' tokens={smallSpacingToken} styles={stackStyles} className={AnimationClassNames.slideRightIn400}>
                 <ActionButton allowDisabledFocus onClick={() => navigate('/anyjobs/home')}>Home</ActionButton>
-                <ActionButton allowDisabledFocus onClick={() => navigate('/anyjobs/Organizations')}>My Organizations</ActionButton>
-                <ActionButton allowDisabledFocus onClick={() => navigate('/anyjobs/Profiles')}>My Profiles</ActionButton>
-                <ActionButton allowDisabledFocus onClick={() => navigate('/anyjobs/Profiles/Drafts')}>Draft Profiles</ActionButton>
+                <ActionButton allowDisabledFocus onClick={() => navigate('/anyjobs/organizations')}>My Organizations</ActionButton>
+                <ActionButton allowDisabledFocus onClick={() => navigate('/anyjobs/profiles')}>My Profiles</ActionButton>
+                <ActionButton allowDisabledFocus onClick={() => navigate('/anyjobs/profiles/drafts')}>Draft Profiles</ActionButton>
             </Stack>
         </>
     )

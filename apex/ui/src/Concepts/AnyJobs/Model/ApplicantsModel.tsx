@@ -21,10 +21,10 @@ export interface ProfileDocument {
   analysis?: ProfileDocumentAnalysis[];
 }
 export interface ProfileDocumentAnalysis {
-  beginOffset?: number;
-  endOffset?: number;
-  score?: number;
-  text?: string;
-  type?: string;
+  beginOffset: number;
+  endOffset: number;
+  score: number;
+  text: string;
+  type: string;
 
 }
