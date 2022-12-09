@@ -15,7 +15,7 @@ public class OrganizationsController : ApiControllerBase
             HttpContext.Response.Headers.Add("x-continuationToken", response.Item2);
         return response.Item1;
     }
-    [HttpGet("Id")]
+    [HttpGet("{Id}")]
     public async Task<Organization> Get(string Id, CancellationToken cancellationToken)
     {
         return await Mediator.Send(new GetUserOrganizationQuery(Id), cancellationToken);

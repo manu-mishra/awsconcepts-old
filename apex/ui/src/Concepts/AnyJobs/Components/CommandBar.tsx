@@ -20,6 +20,7 @@ const CommandBar = () => {
                 <ActionButton allowDisabledFocus onClick={() => navigate('/anyjobs/home')}>Home</ActionButton>
                 <ActionButton allowDisabledFocus onClick={() => navigate('/anyjobs/organizations')}>My Organizations</ActionButton>
                 <ActionButton allowDisabledFocus onClick={() => navigate('/anyjobs/profiles')}>My Profiles</ActionButton>
+                <ActionButton allowDisabledFocus onClick={() => navigate('/anyjobs/profiles/documents')}>My Documents</ActionButton>
                 <ActionButton allowDisabledFocus onClick={() => navigate('/anyjobs/profiles/drafts')}>Draft Profiles</ActionButton>
             </Stack>
         </>

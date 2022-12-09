@@ -1,17 +1,21 @@
 import { IBasePickerSuggestionsProps, ITag, mergeStyles, TagPicker } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
-import { ProfileDocument } from '../../Model/ApplicantsModel';
+import { ProfilePickerArguments } from '../../Model/ApplicantsModel';
 const rootClass = mergeStyles({
   maxWidth: 500,
 });
 
 const pickerSuggestionsProps: IBasePickerSuggestionsProps = {
   suggestionsHeaderText: 'Suggested Name',
-  noResultsFoundText: 'Not fount',
+  noResultsFoundText: 'Not found',
 };
 
-export const NamePicker = ({ analysis }: ProfileDocument) => {
+export const NamePicker = ({ analysis, profileDraft, handleChange }: ProfilePickerArguments) => {
   const pickerId = useId('inline-picker');
+  let selectedTags: ITag[] = [];
+  if (profileDraft && profileDraft.name)
+    selectedTags.push({ key: profileDraft.name, name: profileDraft.name });
+
   let nameTags: ITag[] = [];
   if (analysis !== undefined) {
     var namesCollection = uniqByMap(analysis.filter(function (el) {
@@ -43,13 +47,18 @@ export const NamePicker = ({ analysis }: ProfileDocument) => {
         tag => tag.name.toLowerCase().indexOf(filterText.toLowerCase()) === 0 && !listContainsTagList(tag, tagList),
       )
       : [];
-      console.log(nameTags);
-    console.log(result);
     if (result.length === 0)
       return defaultTags;
     return result;
   };
+  function onChange(items?: any[]): void {
+    if (items) {
+      let selectedItems: string[] = [];
+      items.forEach((item) => { selectedItems.push(item.name) })
+      handleChange(selectedItems);
+    }
 
+  }
   const getTextFromItem = (item: ITag) => item.name;
   return (
 
@@ -57,9 +66,10 @@ export const NamePicker = ({ analysis }: ProfileDocument) => {
       <div className={rootClass}>
         <label htmlFor={pickerId}>Name</label>
         <TagPicker
+        onChange={onChange}
           removeButtonAriaLabel="Remove"
-          selectionAriaLabel="Selected colors"
-
+          selectionAriaLabel="Selected name"
+          defaultSelectedItems={ selectedTags}
           onResolveSuggestions={filterSuggestedTags}
           getTextFromItem={getTextFromItem}
           pickerSuggestionsProps={pickerSuggestionsProps}

@@ -16,9 +16,13 @@ export interface ProfileDraft {
 export interface ProfileDocument {
   id?: string;
   name?: string;
-  text?: string;
+  documentText?: string;
   size?: number;
   analysis?: ProfileDocumentAnalysis[];
+}
+export interface ProfileDocumentSummary {
+  id?: string;
+  name?: string;
 }
 export interface ProfileDocumentAnalysis {
   beginOffset: number;
@@ -27,4 +31,10 @@ export interface ProfileDocumentAnalysis {
   text: string;
   type: string;
 
+}
+
+export interface ProfilePickerArguments {
+  analysis: ProfileDocumentAnalysis[]| undefined;
+  profileDraft: ProfileDraft| undefined
+  handleChange(selectedItems: string[]| undefined): void;
 }

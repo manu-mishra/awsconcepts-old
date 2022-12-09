@@ -6,7 +6,7 @@ import { Organization } from '../../Model/OrganizationsModel';
 
 import { useBoolean } from '@fluentui/react-hooks';
 let theme = getTheme();
-export const OrganizationList = () => {
+export const JobList = () => {
     const navigate = useNavigate();
     const [selection] = useState<Selection>(new Selection());
     const _columns = [
@@ -43,7 +43,7 @@ export const OrganizationList = () => {
             case 'jobs':
                 return <CommandBarButton iconProps={showJobsIcon} text="Jobs" onClick={() => navigate('/anyjobs/Organizations/' + item.id + '/jobs')} />
             case 'newjobs':
-                return <CommandBarButton iconProps={newJobIcon} text="New Job" onClick={() => navigate('/anyjobs/Organizations/' + item.id + '/jobs/new')} />
+                return <CommandBarButton iconProps={newJobIcon} text="new Job" onClick={() => navigate('/anyjobs/Organizations/' + item.id + '/jobs/new')} />
             default:
                 return <span>{fieldContent}</span>;
         }
@@ -68,9 +68,9 @@ export const OrganizationList = () => {
     }
     const addIcon: IIconProps = { iconName: 'Add' };
     const deleteIcon: IIconProps = { iconName: 'Delete' };
-    const showDetailsIcon: IIconProps = { iconName: 'PageArrowRight' };
-    const showJobsIcon: IIconProps = { iconName: 'ReportLibrary' };
-    const newJobIcon: IIconProps = { iconName: 'Add' };
+    const showDetailsIcon: IIconProps = { iconName: 'Articles' };
+    const showJobsIcon: IIconProps = { iconName: 'Delete' };
+    const newJobIcon: IIconProps = { iconName: 'Delete' };
 
     const stackStyles: Partial<IStackStyles> = { root: { height: 44, backgroundColor: theme.palette.white } };
 

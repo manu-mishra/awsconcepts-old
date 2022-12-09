@@ -1,23 +1,26 @@
 import { IBasePickerSuggestionsProps, ITag, mergeStyles, TagPicker } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
-import { ProfileDocument } from '../../Model/ApplicantsModel';
+import { ProfilePickerArguments } from '../../Model/ApplicantsModel';
 const rootClass = mergeStyles({
   maxWidth: 500,
 });
 
 const pickerSuggestionsProps: IBasePickerSuggestionsProps = {
-  suggestionsHeaderText: 'Suggested Email',
+  suggestionsHeaderText: 'Suggested Skill',
   noResultsFoundText: 'Not found',
 };
 
-export const EmailPicker = ({ analysis }: ProfileDocument) => {
+export const SkillPicker = ({ analysis, profileDraft, handleChange }: ProfilePickerArguments) => {
   const pickerId = useId('inline-picker');
-  let nameTags: ITag[] = [];
+  let selectedTags: ITag[] = [];
+  if (profileDraft && profileDraft.skills)
+    selectedTags = profileDraft.skills.map(item => ({ key: item, name: item }));
+  let skillTags: ITag[] = [];
   if (analysis !== undefined) {
     var namesCollection = uniqByMap(analysis.filter(function (el) {
-      return el.type === 'EMAIL';
+      return el.type === 'TITLE';
     }));
-    nameTags = namesCollection.map(item => ({ key: item.text, name: item.text}));
+    skillTags = namesCollection.map(item => ({ key: item.text, name: item.text }));
 
   }
   function uniqByMap<T>(array: T[]): T[] {
@@ -27,7 +30,14 @@ export const EmailPicker = ({ analysis }: ProfileDocument) => {
     }
     return Array.from(map.values());
   }
+  function onChange(items?: any[]): void {
+    if (items) {
+      let selectedItems: string[] = [];
+      items.forEach((item) => { selectedItems.push(item.name) })
+      handleChange(selectedItems);
+    }
 
+  }
   const listContainsTagList = (tag: ITag, tagList?: ITag[]) => {
     if (!tagList || !tagList.length || tagList.length === 0) {
       return false;
@@ -39,7 +49,7 @@ export const EmailPicker = ({ analysis }: ProfileDocument) => {
     const defaultTags: ITag[] = [];
     defaultTags.push({ key: filterText, name: filterText });
     const result = filterText
-      ? nameTags.filter(
+      ? skillTags.filter(
         tag => tag.name.toLowerCase().indexOf(filterText.toLowerCase()) === 0 && !listContainsTagList(tag, tagList),
       )
       : [];
@@ -53,15 +63,16 @@ export const EmailPicker = ({ analysis }: ProfileDocument) => {
 
     <>
       <div className={rootClass}>
-        <label htmlFor={pickerId}>Email</label>
+        <label htmlFor={pickerId}>Skills</label>
         <TagPicker
+          onChange={onChange}
           removeButtonAriaLabel="Remove"
-          selectionAriaLabel="Selected Email"
-
+          selectionAriaLabel="Selected colors"
           onResolveSuggestions={filterSuggestedTags}
           getTextFromItem={getTextFromItem}
           pickerSuggestionsProps={pickerSuggestionsProps}
-          itemLimit={1}
+          itemLimit={10}
+          defaultSelectedItems={ selectedTags}
           // this option tells the picker's callout to render inline instead of in a new layer
           pickerCalloutProps={{ doNotLayer: true }}
           inputProps={{

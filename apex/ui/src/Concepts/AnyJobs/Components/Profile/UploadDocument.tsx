@@ -11,7 +11,6 @@ import { ProfileDraft } from '../../Model/ApplicantsModel';
 
 export const UploadDocument = () => {
     const [profileName, setProfileName] = useState<string>('');
-    const [profileText, setProfileText] = useState<string>('');
     const [fileUrl, setFileUrl] = useState('');
     const viewerRef = React.createRef<HTMLDivElement>();
     const inputFileRef = React.createRef<HTMLInputElement>();
@@ -51,10 +50,6 @@ export const UploadDocument = () => {
            console.log(error);
           });;
         }
-    }
-    function btnLoadlicked() {
-        if (viewerRef.current && viewerRef.current?.textContent)
-        setProfileText(viewerRef.current?.innerText);
     }
     const fileUpload = async (file: any) => {
         if (viewerRef.current && viewerRef.current?.textContent) {
@@ -101,7 +96,6 @@ export const UploadDocument = () => {
                     <TextField id={'name'} label="Profile Name" value={profileName} onChange={handleNameChange} />
                     <input ref={inputFileRef} type="file" accept=".pdf" onChange={onFileSelected} />
                     <PrimaryButton text="Upload" onClick={btnClicked} />
-                    <PrimaryButton text="load" onClick={btnLoadlicked} />
                 </Stack>
                 <Stack horizontalAlign='space-evenly' styles={childStackStyles}>
                     <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.0.279/build/pdf.worker.min.js"></Worker>
@@ -118,7 +112,6 @@ export const UploadDocument = () => {
                             </div>
                         )}
                     </div>
-                    <div>{profileText}</div>
                 </Stack>
 
             </Stack>
