@@ -9,17 +9,29 @@ namespace DataStreamProcessor
     {
         public static DomainEvent GetDomainEvent(this DynamoDBEvent.DynamodbStreamRecord record)
         {
-            if (record.EventName == OperationType.INSERT || record.EventName == OperationType.MODIFY)
+            if (record.EventName == OperationType.INSERT || record.EventName == OperationType.MODIFY || record.EventName == OperationType.REMOVE)
             {
                 string? recordType = record.Dynamodb.NewImage["etype"].S;
                 if (recordType != null)
                 {
-                    Document itemAsDocument = Document.FromAttributeMap(record.Dynamodb.NewImage);
+                    Document itemAsDocument = (record.EventName == OperationType.REMOVE) ?
+                        Document.FromAttributeMap(record.Dynamodb.OldImage)
+                        : Document.FromAttributeMap(record.Dynamodb.NewImage);
+                    itemAsDocument.Add("EventTime", new Primitive(){Value = record.Dynamodb.ApproximateCreationDateTime.ToUniversalTime()});
+                    itemAsDocument.Add("EventType", new Primitive { Value = record.EventName });
+                    itemAsDocument.Add("SequenceNumber", new Primitive { Value = record.Dynamodb.SequenceNumber });
+
                     string recordJson = itemAsDocument.ToJson();
-                    return new DomainEvent() { ShouldProcess = true, RecordType = recordType, RecordJson = recordJson };
+                    return new DomainEvent()
+                    {
+                        ShouldProcess = true,
+                        RecordType = recordType.ToLower(),
+                        RecordJson = recordJson,
+                        EventTime = record.Dynamodb.ApproximateCreationDateTime.ToUniversalTime(),
+                        EventType = record.EventName,
+                        SequenceNumber = record.Dynamodb.SequenceNumber
+                    };
                 }
-                else
-                    return new DomainEvent() { ShouldProcess = false, RecordType = "Ignored", RecordJson = "Ignored" };
             }
             Console.WriteLine(JsonSerializer.Serialize(record));
             return new DomainEvent() { ShouldProcess = false, RecordType = "Ignored", RecordJson = "Ignored" };

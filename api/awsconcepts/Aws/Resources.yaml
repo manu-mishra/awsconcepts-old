@@ -322,7 +322,7 @@ Resources:
               ReadCapacityUnits: 0
               WriteCapacityUnits: 0
       StreamSpecification:
-        StreamViewType: NEW_IMAGE
+        StreamViewType: NEW_AND_OLD_IMAGES
 
   s3Bucket:
     Type: "AWS::S3::Bucket"

@@ -30,8 +30,17 @@ namespace DataStreamProcessor
             {
                 Type? type = domainAssembly.GetType(domainEvent.RecordType);
                 object? document = JsonSerializer.Deserialize(domainEvent.RecordJson, type);
-                IndexRequest<object> indexRequest = new IndexRequest<object>(document, domainEvent.RecordType.ToLower());
-                IndexResponse indexResponse = await elasticClient.IndexAsync(indexRequest);
+                if (document != null)
+                {
+                    if (domainEvent.EventType == "Remove")
+                    {
+                        DeleteRequest<object> deleteRequest = new DeleteRequest<object>(document, domainEvent.RecordType);
+                        await elasticClient.DeleteAsync(deleteRequest);
+                        return;
+                    }
+                    IndexRequest<object> indexRequest = new IndexRequest<object>(document, domainEvent.RecordType);
+                    await elasticClient.IndexAsync(indexRequest);
+                }
             }
         }
     }
