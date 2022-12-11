@@ -12,7 +12,8 @@ namespace DataStreamProcessor
             Console.WriteLine(JsonSerializer.Serialize(record));   
             if (record.EventName == OperationType.INSERT || record.EventName == OperationType.MODIFY || record.EventName == OperationType.REMOVE)
             {
-                string? recordType = record.Dynamodb.NewImage["etype"].S;
+                string? recordType = (record.EventName == OperationType.INSERT || record.EventName == OperationType.MODIFY)
+                    ?record.Dynamodb.NewImage["etype"].S: record.Dynamodb.OldImage["etype"].S;
                 if (recordType != null)
                 {
                     Document itemAsDocument = (record.EventName == OperationType.REMOVE) ?
