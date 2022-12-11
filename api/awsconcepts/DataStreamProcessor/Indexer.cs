@@ -26,21 +26,29 @@ namespace DataStreamProcessor
         }
         public static async Task Index(DomainEvent domainEvent)
         {
-            if (domainEvent != null && domainEvent.ShouldProcess)
+            try
             {
-                Type? type = domainAssembly.GetType(domainEvent.RecordType);
-                object? document = JsonSerializer.Deserialize(domainEvent.RecordJson, type);
-                if (document != null)
+                if (domainEvent != null && domainEvent.ShouldProcess)
                 {
-                    if (domainEvent.EventType == "Remove")
+                    Type? type = domainAssembly.GetType(domainEvent.RecordType);
+                    object? document = JsonSerializer.Deserialize(domainEvent.RecordJson, type);
+                    if (document != null)
                     {
-                        DeleteRequest<object> deleteRequest = new DeleteRequest<object>(document, domainEvent.RecordType);
-                        await elasticClient.DeleteAsync(deleteRequest);
-                        return;
+                        if (domainEvent.EventType == "Remove")
+                        {
+                            DeleteRequest<object> deleteRequest = new DeleteRequest<object>(document, domainEvent.RecordType);
+                            await elasticClient.DeleteAsync(deleteRequest);
+                            return;
+                        }
+                        IndexRequest<object> indexRequest = new IndexRequest<object>(document, domainEvent.RecordType);
+                        await elasticClient.IndexAsync(indexRequest);
                     }
-                    IndexRequest<object> indexRequest = new IndexRequest<object>(document, domainEvent.RecordType);
-                    await elasticClient.IndexAsync(indexRequest);
                 }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("unabletoindex");
+                Console.WriteLine(e);
             }
         }
     }

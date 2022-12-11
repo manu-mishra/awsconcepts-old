@@ -22,6 +22,7 @@ namespace DataStreamProcessor
                     itemAsDocument.Add("SequenceNumber", new Primitive { Value = record.Dynamodb.SequenceNumber });
 
                     string recordJson = itemAsDocument.ToJson();
+                    Console.WriteLine(recordJson);
                     return new DomainEvent()
                     {
                         ShouldProcess = true,

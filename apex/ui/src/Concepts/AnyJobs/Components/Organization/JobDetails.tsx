@@ -1,34 +1,49 @@
-import { Stack, PrimaryButton, getTheme, IStackTokens, IStackStyles, TextField} from '@fluentui/react'
+import { Stack, PrimaryButton, getTheme, IStackTokens, IStackStyles, TextField, MessageBar, MessageBarType } from '@fluentui/react'
 import { useState } from 'react';
-import { Organization } from '../../Model/OrganizationsModel';
+import { useParams } from "react-router";
+import { OrganizationJob } from '../../Model/OrganizationsModel';
 import RichTextEditor, { EditorValue } from 'react-rte';
 import { API } from 'aws-amplify';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
 
 export const JobDetails = () => {
+    const { orgId, jobId } = useParams();
     let theme = getTheme();
-    const navigate = useNavigate();
-    const [organization, setOrganization] = useState<Organization | null>();
+    const [organizationJob, setOrganizationJob] = useState<OrganizationJob | null>();
     const [richText, setRichText] = useState<EditorValue>(RichTextEditor.createEmptyValue());
-    const onNameChange = (e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newvalue: string | undefined) => {
-        let orgState = { ...organization };
-        orgState.name = newvalue;
-        setOrganization(orgState as Organization);
+    const [IsSuccess, setIsSuccess] = React.useState<boolean | undefined>(undefined);
+    React.useEffect(() => {
+        if (orgId !== undefined && jobId !== undefined) {
+            const callApi = async () => {
+                let resp = await API.get('api', '/Organizations/' + orgId + '/jobs/' + jobId, {
+                    responseType: 'json'
+                }) as OrganizationJob;
+                setOrganizationJob(resp);
+                if (resp.description)
+                    setRichText(RichTextEditor.createValueFromString(resp.description, 'html'))
+            }
+            callApi().catch(console.error);
+        }
+    }, [orgId, jobId]);
+
+    const onTitleChange = (e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newvalue: string | undefined) => {
+        let objState = { ...organizationJob };
+        objState.title = newvalue;
+        setOrganizationJob(objState as OrganizationJob);
     }
 
     const onDetailChange = (value: EditorValue) => {
         setRichText(value);
-        let orgState = { ...organization };
-        orgState.details = richText?.toString('html');
-        setOrganization(orgState as Organization);
+        let objState = { ...organizationJob };
+        objState.description = richText?.toString('html');
+        setOrganizationJob(objState as OrganizationJob);
     };
 
     async function btnCLicked() {
-        console.log(organization);
-        if (organization) {
-            await API.put('api', '/Organizations', { body: { ...organization } })
+        if (organizationJob) {
+            await API.put('api', '/Organizations/' + orgId + '/jobs/', { body: { ...organizationJob } })
                 .then((response) => {
-                    navigate('/anyjobs/organizations/'+response.id);
+                    setIsSuccess(true) ;
                 })
                 .catch((error) => {
                     console.log(error.response);
@@ -50,8 +65,17 @@ export const JobDetails = () => {
     return (
         <>
             <Stack verticalAlign='stretch' horizontalAlign='space-evenly' tokens={smallSpacingToken} styles={childStackStyles}>
-                <h3>Create New Organization</h3>
-                <TextField label="Name" value={organization?.name} onChange={onNameChange} />
+                {IsSuccess && <MessageBar
+                    messageBarType={MessageBarType.success}
+                    isMultiline={false}
+                    onDismiss={() => { setIsSuccess(undefined) }}
+                    dismissButtonAriaLabel="Close"
+                    truncated={true}
+                    overflowButtonAriaLabel="See more"
+                >
+                    <b>Record updated succesfully</b>
+                </MessageBar>}
+                <TextField label="Title" value={organizationJob?.title} onChange={onTitleChange} />
                 <div style={{ minHeight: '200px' }}>
                     <RichTextEditor editorStyle={{ minHeight: '200px' }} value={richText} onChange={onDetailChange} />
                 </div>

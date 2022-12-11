@@ -3,3 +3,10 @@ export interface Organization {
   name: string;
   details: string;
 }
+export interface OrganizationJob {
+  id: string;
+  title: string;
+  description: string;
+  categories: string[];
+  skills: string[];
+}

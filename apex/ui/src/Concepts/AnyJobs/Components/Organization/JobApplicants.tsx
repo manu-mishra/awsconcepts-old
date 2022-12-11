@@ -104,6 +104,5 @@ export const JobApplicants = () => {
                 }
             </Panel>
         </>
-
     )
 }
