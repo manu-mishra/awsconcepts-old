@@ -10,10 +10,14 @@
 
   <ItemGroup>
     <None Remove="Data\ArmenianJobPosts.csv" />
+    <None Remove="Data\sampleDynamoDbPacket.json" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Data\ArmenianJobPosts.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\sampleDynamoDbPacket.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

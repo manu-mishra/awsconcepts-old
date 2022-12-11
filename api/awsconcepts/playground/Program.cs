@@ -1,6 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
+using System.Text.Json;
 using playground.Jobs;
 using playground.UserSetup;
+using Amazon.Lambda.DynamoDBEvents;
+using DataStreamProcessor;
 
 var configuration = new ConfigurationBuilder()
   .AddUserSecrets<Program>()
@@ -15,6 +18,14 @@ var configuration = new ConfigurationBuilder()
 
 //await UserCreator.createUsers(configuration);
 
-await JobsDataImport.PostJobsFromArmenia(configuration);
+//await JobsDataImport.PostJobsFromArmenia(configuration);
+
+
+
+using FileStream stream = File.OpenRead("data/sampleDynamoDbPacket.json");
+
+var evt = JsonSerializer.Deserialize<DynamoDBEvent.DynamodbStreamRecord>(stream);
+
+var domainEvent = evt.GetDomainEvent();
 
 Console.ReadLine();

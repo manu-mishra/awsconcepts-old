@@ -9,7 +9,6 @@ namespace DataStreamProcessor
     {
         public static DomainEvent GetDomainEvent(this DynamoDBEvent.DynamodbStreamRecord record)
         {
-            Console.WriteLine(JsonSerializer.Serialize(record));   
             if (record.EventName == OperationType.INSERT || record.EventName == OperationType.MODIFY || record.EventName == OperationType.REMOVE)
             {
                 string? recordType = (record.EventName == OperationType.INSERT || record.EventName == OperationType.MODIFY)
@@ -24,11 +23,10 @@ namespace DataStreamProcessor
                     itemAsDocument.Add("SequenceNumber", new Primitive { Value = record.Dynamodb.SequenceNumber });
 
                     string recordJson = itemAsDocument.ToJson();
-                    Console.WriteLine(recordJson);
                     return new DomainEvent()
                     {
                         ShouldProcess = true,
-                        RecordType = recordType.ToLower(),
+                        RecordType = recordType,
                         RecordJson = recordJson,
                         EventTime = record.Dynamodb.ApproximateCreationDateTime.ToUniversalTime(),
                         EventType = record.EventName,
@@ -36,7 +34,6 @@ namespace DataStreamProcessor
                     };
                 }
             }
-            Console.WriteLine(JsonSerializer.Serialize(record));
             return new DomainEvent() { ShouldProcess = false, RecordType = "Ignored", RecordJson = "Ignored" };
         }
     }
