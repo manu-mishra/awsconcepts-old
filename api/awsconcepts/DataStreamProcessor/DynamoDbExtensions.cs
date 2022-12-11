@@ -9,6 +9,7 @@ namespace DataStreamProcessor
     {
         public static DomainEvent GetDomainEvent(this DynamoDBEvent.DynamodbStreamRecord record)
         {
+            Console.WriteLine(JsonSerializer.Serialize(record));   
             if (record.EventName == OperationType.INSERT || record.EventName == OperationType.MODIFY || record.EventName == OperationType.REMOVE)
             {
                 string? recordType = record.Dynamodb.NewImage["etype"].S;
@@ -17,8 +18,8 @@ namespace DataStreamProcessor
                     Document itemAsDocument = (record.EventName == OperationType.REMOVE) ?
                         Document.FromAttributeMap(record.Dynamodb.OldImage)
                         : Document.FromAttributeMap(record.Dynamodb.NewImage);
-                    itemAsDocument.Add("EventTime", new Primitive(){Value = record.Dynamodb.ApproximateCreationDateTime.ToUniversalTime()});
-                    itemAsDocument.Add("EventType", new Primitive { Value = record.EventName });
+                    itemAsDocument.Add("EventTime", new Primitive(){Value = record.Dynamodb.ApproximateCreationDateTime});
+                    itemAsDocument.Add("EventType", new Primitive { Value = record.EventName.Value });
                     itemAsDocument.Add("SequenceNumber", new Primitive { Value = record.Dynamodb.SequenceNumber });
 
                     string recordJson = itemAsDocument.ToJson();
