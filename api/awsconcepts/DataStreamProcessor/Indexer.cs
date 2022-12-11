@@ -37,11 +37,13 @@ namespace DataStreamProcessor
                         if (domainEvent.EventType == "Remove")
                         {
                             DeleteRequest<object> deleteRequest = new DeleteRequest<object>(document, domainEvent.RecordType);
-                            await elasticClient.DeleteAsync(deleteRequest);
+                            var dresponse =await elasticClient.DeleteAsync(deleteRequest);
+                            Console.WriteLine(dresponse.DebugInformation); 
                             return;
                         }
                         IndexRequest<object> indexRequest = new IndexRequest<object>(document, domainEvent.RecordType);
-                        await elasticClient.IndexAsync(indexRequest);
+                        var response = await elasticClient.IndexAsync(indexRequest);
+                        Console.WriteLine(response.DebugInformation);
                     }
                 }
             }

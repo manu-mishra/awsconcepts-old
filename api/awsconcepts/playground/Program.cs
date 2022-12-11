@@ -27,5 +27,6 @@ using FileStream stream = File.OpenRead("data/sampleDynamoDbPacket.json");
 var evt = JsonSerializer.Deserialize<DynamoDBEvent.DynamodbStreamRecord>(stream);
 
 var domainEvent = evt.GetDomainEvent();
+await Indexer.Index(domainEvent);
 
 Console.ReadLine();
