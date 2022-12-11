@@ -18,15 +18,16 @@ var configuration = new ConfigurationBuilder()
 
 //await UserCreator.createUsers(configuration);
 
-//await JobsDataImport.PostJobsFromArmenia(configuration);
+//await JobsDataImport.PostJobsFromNaukri(configuration);
+await JobsDataImport.PostJobsFromAmazon(configuration);
 
 
 
-using FileStream stream = File.OpenRead("data/sampleDynamoDbPacket.json");
+//using FileStream stream = File.OpenRead("data/sampleDynamoDbPacket.json");
 
-var evt = JsonSerializer.Deserialize<DynamoDBEvent.DynamodbStreamRecord>(stream);
+//var evt = JsonSerializer.Deserialize<DynamoDBEvent.DynamodbStreamRecord>(stream);
 
-var domainEvent = evt.GetDomainEvent();
-await Indexer.Index(domainEvent);
+//var domainEvent = evt.GetDomainEvent();
+//await Indexer.Index(domainEvent);
 
 Console.ReadLine();

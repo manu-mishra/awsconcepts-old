@@ -7,6 +7,8 @@ namespace playground.Jobs
 {
     internal static class JobsDataImport
     {
+        private static int totalJobsCreated;
+        private static int totalOrgsCreated;
         public static async Task PostJobsFromArmenia(IConfigurationRoot configuration)
         {
             var password = configuration["DefaultUserPassword"];
@@ -15,7 +17,7 @@ namespace playground.Jobs
             var splitList = results.Split(40);
             for (int i = 1; i <= splitList.Count(); i++)
             {
-                var processList = splitList[i-1];
+                var processList = splitList[i - 1];
                 //await ImportJobs(i, processList, password);
                 tasks.Add(ImportJobs(i, processList, password));
 
@@ -23,27 +25,74 @@ namespace playground.Jobs
             await Task.WhenAll(tasks);
         }
 
+        public static async Task PostJobsFromNaukri(IConfigurationRoot configuration)
+        {
+            var password = configuration["DefaultUserPassword"];
+            var tasks = new List<Task>();
+            var results = NaukriJobsReader.ReadCsv();
+            var splitList = results.Split(40);
+            for (int i = 1; i <= splitList.Count(); i++)
+            {
+                var processList = splitList[i - 1];
+                //await ImportJobs(i, processList, password);
+                tasks.Add(ImportJobs(i, processList, password));
+
+            }
+            await Task.WhenAll(tasks);
+        }
+        public static async Task PostJobsFromAmazon(IConfigurationRoot configuration)
+        {
+            var password = configuration["DefaultUserPassword"];
+            var results = AmazonJobsReader.ReadCsv();
+            await ImportJobsAmazon(1, results, password);
+        }
         static async Task ImportJobs(int userNumber, IEnumerable<(Organization, List<Application.Jobs.Dto.Job>)> jobs, string password)
         {
             try
             {
-                Console.WriteLine("processing for " + userNumber);
+                Console.WriteLine("processing for " + userNumber + $" : {jobs.Count()} orgs will be created");
                 var token = await GetUserIdToken(userNumber, password);
                 foreach (var item in jobs)
                 {
-                    Console.WriteLine("processing Org for " + userNumber);
-                    await "https://www.awsconcepts.com/api/Organizations".WithOAuthBearerToken(token).PutJsonAsync(item.Item1);
-
+                    Console.WriteLine("processing Org for " + userNumber + $" : {item.Item2.Count()} jobs will be created");
+                    var response =  await "https://www.awsconcepts.com/api/Organizations".WithOAuthBearerToken(token).PutJsonAsync(item.Item1);
+                    totalOrgsCreated++;
                     foreach (var job in item.Item2)
                     {
-                        Console.WriteLine("processing job for " + userNumber);
-                        await ("https://www.awsconcepts.com/api/Organizations/" + item.Item1.Id + "/jobs").WithOAuthBearerToken(token).PutJsonAsync(job);
+                        response = await("https://www.awsconcepts.com/api/Organizations/" + item.Item1.Id + "/jobs").WithOAuthBearerToken(token).PutJsonAsync(job);
+                        totalJobsCreated++;
                     }
+                    Console.Write($"Total Orgs : {totalOrgsCreated} and Jobs {totalJobsCreated}");
                 }
             }
             catch (Exception e)
             {
+                Console.WriteLine(e);
+            }
 
+        }
+
+        static async Task ImportJobsAmazon(int userNumber, IEnumerable<(Organization, List<Application.Jobs.Dto.Job>)> jobs, string password)
+        {
+            try
+            {
+                Console.WriteLine("processing for " + userNumber + $" : {jobs.Count()} orgs will be created");
+                var token = await GetMainUserToken(password);
+                foreach (var item in jobs)
+                {
+                    Console.WriteLine("processing Org for " + userNumber + $" : {item.Item2.Count()} jobs will be created");
+                    var response = await "https://www.awsconcepts.com/api/Organizations".WithOAuthBearerToken(token).PutJsonAsync(item.Item1);
+                    totalOrgsCreated++;
+                    foreach (var job in item.Item2)
+                    {
+                        response = await ("https://www.awsconcepts.com/api/Organizations/" + item.Item1.Id + "/jobs").WithOAuthBearerToken(token).PutJsonAsync(job);
+                        totalJobsCreated++;
+                    }
+                    Console.Write($"Total Orgs : {totalOrgsCreated} and Jobs {totalJobsCreated}");
+                }
+            }
+            catch (Exception e)
+            {
                 Console.WriteLine(e);
             }
 
@@ -55,6 +104,16 @@ namespace playground.Jobs
                 .WithHeader("X-Amz-Target", "AWSCognitoIdentityProviderService.InitiateAuth")
                 .WithHeader("Content-Type", "application/x-amz-json-1.1")
                 .PostJsonAsync(new { AuthParameters = new { USERNAME = $"heymanu+{userNumber}@amazon.com", PASSWORD = password }, AuthFlow = "USER_PASSWORD_AUTH", ClientId = "2h9kj09dl1cb9t0aqjtho3jddc" })
+                .ReceiveJson<CognitoResponse>();
+            return response.AuthenticationResult.IdToken;
+        }
+
+        static async Task<string> GetMainUserToken( string password)
+        {
+            var response = await "https://cognito-idp.us-east-1.amazonaws.com/"
+                .WithHeader("X-Amz-Target", "AWSCognitoIdentityProviderService.InitiateAuth")
+                .WithHeader("Content-Type", "application/x-amz-json-1.1")
+                .PostJsonAsync(new { AuthParameters = new { USERNAME = $"heymanu@amazon.com", PASSWORD = password }, AuthFlow = "USER_PASSWORD_AUTH", ClientId = "2h9kj09dl1cb9t0aqjtho3jddc" })
                 .ReceiveJson<CognitoResponse>();
             return response.AuthenticationResult.IdToken;
         }

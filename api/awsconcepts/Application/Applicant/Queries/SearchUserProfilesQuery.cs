@@ -28,8 +28,9 @@ namespace Application.Applicant.Queries
 
         public async Task<List<ApplicantProfile>> Handle(SearchUserProfilesQuery request, CancellationToken cancellationToken)
         {
-            List<domain.Profile> result = await entitySearchProvider.SearchInScopeDomainEntity<domain.Profile>(request.SearchTerm, user.Id);
-            return mapper.Map<List<ApplicantProfile>>(result);
+            throw new NotImplementedException();
+           // List<domain.Profile> result = await entitySearchProvider.SearchInScopeDomainEntity<domain.Profile>(request.SearchTerm, user.Id);
+            //return mapper.Map<List<ApplicantProfile>>(result);
         }
     }
 }

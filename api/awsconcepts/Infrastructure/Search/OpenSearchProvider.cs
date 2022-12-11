@@ -15,45 +15,47 @@ namespace Infrastructure.Search
             this.searchClient = SearchClient;
         }
 
-        public async Task<List<T>> SearchInScopeDomainEntity<T>(string SearchString, string scope) where T : class
+        public async Task<List<T>> SearchInScopeDomainEntity<T>(string SearchString, string scope, string scopeName) where T : class
         {
-            EntityConfig config = repositoryConfigLookUp.RepoConfig[typeof(T)];
+
             string searchQuery = @" {
             ""query"":
                 {
-                    ""match"":
+                    ""bool"":
                     {
-                        ""#fieldName#"":
-                        {
-                            ""query"": ""#SearchTerm#""
-                        }
+                       ""should"": 
+                        [
+                            {
+                                ""multi_match"":{""query"":""#SearchTerm#""}
+                                ""match"":{""#FieldName#"":""#FieldValue#""}
+                            }
+                        ]
                     }
                 }
             }";
-            searchQuery = searchQuery.Replace("#fieldName#", config.SkPropertyName);
+            searchQuery = searchQuery.Replace("#FieldName#", scopeName);
+            searchQuery = searchQuery.Replace("#FieldValue#", scope);
             searchQuery = searchQuery.Replace("#SearchTerm#", SearchString);
-            SearchResponse<T> searchResponse = await searchClient.LowLevel.SearchAsync<SearchResponse<T>>("domain.applicants.profiledocumentdetail", searchQuery);
+            string searchIndex = typeof(T).ToString().ToLower();
+            SearchResponse<T> searchResponse = await searchClient.LowLevel.SearchAsync<SearchResponse<T>>(searchIndex, searchQuery);
             return new List<T>(searchResponse.Documents);
         }
 
         public async Task<List<T>> SearchWithNoScopeDomainEntity<T>(string SearchString) where T : class
         {
-            EntityConfig config = repositoryConfigLookUp.RepoConfig[typeof(T)];
             string searchQuery = @" {
             ""query"":
                 {
-                    ""match"":
+                    ""multi_match"":
                     {
-                        ""#fieldName#"":
-                        {
-                            ""query"": ""#SearchTerm#""
-                        }
+                        ""query"": ""#SearchTerm#""
                     }
                 }
             }";
-            searchQuery = searchQuery.Replace("#fieldName#", config.SkPropertyName);
+            
             searchQuery = searchQuery.Replace("#SearchTerm#", SearchString);
-            SearchResponse<T> searchResponse = await searchClient.LowLevel.SearchAsync<SearchResponse<T>>("domain.applicants.profiledocumentdetail", searchQuery);
+            string searchIndex = typeof(T).ToString().ToLower();
+            SearchResponse<T> searchResponse = await searchClient.LowLevel.SearchAsync<SearchResponse<T>>(searchIndex, searchQuery);
             return new List<T>(searchResponse.Documents);
         }
     }

@@ -1,14 +1,6 @@
-﻿using Amazon.DynamoDBv2;
-using Application.Jobs.Dto;
-using Application.Organizations.Dto;
+﻿using Application.Organizations.Dto;
 using CsvHelper;
-using Nest;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace playground.Jobs
 {

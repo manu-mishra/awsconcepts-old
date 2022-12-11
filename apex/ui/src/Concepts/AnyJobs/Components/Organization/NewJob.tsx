@@ -57,6 +57,7 @@ export const NewJob = () => {
                 <div style={{ minHeight: '200px' }}>
                     <RichTextEditor editorStyle={{ minHeight: '200px' }} value={richText} onChange={onDetailChange} />
                 </div>
+                
                 <PrimaryButton text="Submit" onClick={btnCLicked} />
             </Stack>
         </>

@@ -9,12 +9,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Data\AmazonJobsDataset.csv" />
     <None Remove="Data\ArmenianJobPosts.csv" />
+    <None Remove="Data\NaukriJobs.csv" />
     <None Remove="Data\sampleDynamoDbPacket.json" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Data\AmazonJobsDataset.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Data\ArmenianJobPosts.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\NaukriJobs.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Data\sampleDynamoDbPacket.json">

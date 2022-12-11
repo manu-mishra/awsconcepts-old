@@ -15,12 +15,12 @@ namespace RestApiControllers
 #pragma warning restore CS8604 // Possible null reference argument.
         }
 
-        public static IServiceCollection WithApiControllerServiceDependencies(this IServiceCollection services)
+        public static IServiceCollection WithApiControllerServiceDependencies(this IServiceCollection services, ConfigurationManager configuration)
         {
             services
                 .AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies())
                 .AddApplicationDependencies()
-                .WithInfrastructureDependencies()
+                .WithInfrastructureDependencies(configuration)
                 .AddHttpContextAccessor()
                 .AddScoped<IIdentity, CurrentIdentityService>();
             return services;

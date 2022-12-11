@@ -3,6 +3,7 @@ using Amazon.DynamoDBv2.DocumentModel;
 using Amazon.DynamoDBv2.Model;
 using Application.Common.Interfaces;
 using Infrastructure.Config;
+using System.Text;
 using System.Text.Json;
 
 namespace Infrastructure.Repository
@@ -77,7 +78,7 @@ namespace Infrastructure.Repository
                 IndexName = "sk-pk-index",
                 KeyConditionExpression = "sk = :v_sk",
                 ReturnConsumedCapacity = ReturnConsumedCapacity.TOTAL,
-                Limit = 5,
+                //Limit = 5,
                 ExpressionAttributeValues = new Dictionary<string, AttributeValue>
                 {
                     //{":v_sk", new AttributeValue{S = ScopeId} }
@@ -87,7 +88,7 @@ namespace Infrastructure.Repository
             };
             if (!string.IsNullOrEmpty(ContinuationToken))
             {
-                //query.ExclusiveStartKey = Convert.FromBase64CharArray(ContinuationToken)
+                query.ExclusiveStartKey = JsonSerializer.Deserialize<Dictionary<string, AttributeValue>>(Encoding.UTF8.GetString(Convert.FromBase64String(ContinuationToken)));
             }
 
             QueryResponse response = await dynamoDB.QueryAsync(query, CancellationToken);
@@ -100,8 +101,11 @@ namespace Infrastructure.Repository
                     result.Add(entity);
             }
             //dbresponse.las
-            //continuationToken = string.IsNullOrWhiteSpace(dbresponse.LastEvaluatedKey) ??
-            //    Convert.ToBase64String(Encoding.UTF8.GetBytes(dbresponse.LastEvaluatedKey));
+            if(response.LastEvaluatedKey.Count() > 0)
+            {
+                continuationToken = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(response.LastEvaluatedKey)));
+            }
+            
 
             return (result, continuationToken);
         }
