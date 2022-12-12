@@ -8,27 +8,31 @@ import { CommandBarButton, DetailsListLayoutMode, getTheme, IColumn, IIconProps,
 import { useBoolean } from '@fluentui/react-hooks';
 import CSS from 'csstype';
 
-export const SearchJobs = () => {
+export const SearchPraphraseJobs = () => {
 
     const { searchText } = useParams();
-    const [searchTerm, setSearchTerm] = useState(searchText);
+    const[searchTerm, setSearchTerm]=useState(searchText);
     const [allJobs, setAllJobs] = useState<JobSummary[] | null>();
     const [selectedJob, setSelectedJob] = useState<JobSummary | null>();
     const [isOpen, { setTrue: openPanel, setFalse: dismissPanel }] = useBoolean(false);
     React.useEffect(() => {
-        if (searchText) {
-            const callApi = async () => {
-                let resp = await API.get('api', '/jobs/search/' + searchText, {
+
+        const callApi = async () => {
+            if(searchText)
+            {
+                let resp = await API.get('api', '/jobs/searchparaphrase/' + searchText, {
                     responseType: 'json'
                 });
-
+    
                 setAllJobs(resp as JobSummary[]);
             }
-            callApi().catch(console.error);
+            else
+                setAllJobs([]);
         }
+        callApi().catch(console.error);
     }, [searchText]);
 
-
+    
     const navigate = useNavigate();
     const _columns = [
         { key: 'title', name: 'Search Results', fieldName: 'title', minWidth: 100, maxWidth: 200, isResizable: true }
@@ -70,23 +74,23 @@ export const SearchJobs = () => {
         root: {
             boxShadow: theme.effects.elevation4,
             backgroundColor: 'white',
-
+            
         },
     };
     const stackRowStyles: IStackStyles = {
         root: {
             boxShadow: theme.effects.elevation4,
             backgroundColor: 'white',
-            padding: '10px',
-            marginRight: '10px'
+            padding:'10px',
+            marginRight:'10px'
         },
     };
     return (
         <>
-            <Stack styles={stackStyles}>
-                <SearchBox placeholder="Search Jobs" underlined={true} onChange={(e, value) => setSearchTerm(value)} value={searchTerm}
-                    onSearch={(newValue: any) => navigate('/anyjobs/jobs/search/' + newValue)}></SearchBox>
-            </Stack>
+        <Stack styles={stackStyles}>
+            <SearchBox placeholder="Search Jobs" underlined={true} onChange={(e,value)=> setSearchTerm(value)} value={searchTerm} 
+            onSearch={(newValue:any)=>navigate('/anyjobs/jobs/searchparaphrase/'+newValue )}></SearchBox>
+        </Stack>
             <ShimmeredDetailsList
                 items={allJobs || []}
                 columns={_columns}

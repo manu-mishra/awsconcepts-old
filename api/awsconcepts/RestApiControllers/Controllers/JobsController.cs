@@ -12,4 +12,12 @@ public class JobsController : ApiControllerBase
             return new List<Job>();
         return await Mediator.Send(new SearchJobsQuery(searchTerm));
     }
+
+    [HttpGet("searchparaphrase/{searchTerm}")]
+    public async Task<List<Job>> GetAllByParaphrase(string searchTerm, CancellationToken cancellationToken)
+    {
+        if (string.IsNullOrWhiteSpace(searchTerm) || searchTerm.Length < 4)
+            return new List<Job>();
+        return await Mediator.Send(new SearchJobsQuery(searchTerm, searchType:SearchJobsQuery.SearchType.paraphrase));
+    }
 }

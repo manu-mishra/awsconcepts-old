@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { SearchJobs } from "./Components/JobSearch/SearchJobs";
+import { SearchPraphraseJobs } from "./Components/JobSearch/SearchPraphraseJobs";
 import { JobApplicants } from "./Components/Organization/JobApplicants";
 import { JobDetails } from "./Components/Organization/JobDetails";
 import { JobList } from "./Components/Organization/JobList";
@@ -29,7 +30,10 @@ const AnyJobsRoutes = () => (
                 <Route path="/profiles/drafts/" element={<ProfileDraftsList />} />
                 <Route path="/profiles/drafts/new" element={<UploadDocument />} />
                 <Route path="/profiles/drafts/:id" element={<DraftDetail />} />
+                <Route path="/jobs/search" element={<SearchJobs />} />
                 <Route path="/jobs/search/:searchText" element={<SearchJobs />} />
+                <Route path="/jobs/searchparaphrase" element={<SearchPraphraseJobs />} />
+                <Route path="/jobs/searchparaphrase/:searchText" element={<SearchPraphraseJobs />} />
                 <Route path="/organizations" element={<OrganizationList />} />
                 <Route path='/organizations/new' element={<NewOrganization/>} ></Route>
                 <Route path='/organizations/:id' element={<OrganizationDetail/>} ></Route>

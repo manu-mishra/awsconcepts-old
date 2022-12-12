@@ -28,6 +28,9 @@ const Home = () => {
     <>
     <div className="search-component">
       <Stack verticalAlign='center' verticalFill horizontalAlign='center'>
+      {/* <SearchBox placeholder="Search Jobs" underlined={true} 
+          onClear={()=>setValue('')}
+            onSearch={(newValue:any)=>navigate('/anyjobs/jobs/search/'+newValue )} onChange={onChange} value={value}></SearchBox> */}
         <div>
           <div className="search-fields">
             <input autoFocus  type="text" value={value} onChange={onChange} onKeyUp={handleKeyDown} placeholder="What job are you looking for?"/>

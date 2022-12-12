@@ -7,13 +7,20 @@ namespace Application.Jobs.Queries
 {
     public class SearchJobsQuery : IRequest<List<Job>>
     {
-        public SearchJobsQuery(string jobSearchTerm, string organizationId = default(string))
+        public SearchJobsQuery(string jobSearchTerm, string organizationId = default(string), SearchType searchType = SearchType.keyword)
         {
             OrganizationId = organizationId;
-            this.JobSearchTerm = jobSearchTerm;
+            JobSearchTerm = jobSearchTerm;
+            SearchMatchingType = searchType;
         }
         public string? OrganizationId { get; }
         public string JobSearchTerm { get; }
+        public SearchType SearchMatchingType { get; }
+
+        public enum SearchType {
+        keyword=0,
+        paraphrase=1,
+        }
     }
     public class SearchJobsQueryHandler : IRequestHandler<SearchJobsQuery, List<Job>>
     {
@@ -29,14 +36,35 @@ namespace Application.Jobs.Queries
         {
             if(string.IsNullOrEmpty(request.OrganizationId))
             {
-                var result = await searchClient.SearchWithNoScopeDomainEntity<domain.Job>(request.JobSearchTerm);
-                return mapper.Map<List<Job>>(result);
+                return await SearchWithoutScope(request, cancellationToken);
             }
             else
             {
-                var result = await searchClient.SearchInScopeDomainEntity<domain.Job>(request.JobSearchTerm, request.OrganizationId, "organizationId");
-                return mapper.Map<List<Job>>(result);
+                return await SearchWithScope(request, cancellationToken);
             }
         }
+        async Task<List<Job>> SearchWithScope(SearchJobsQuery request, CancellationToken cancellationToken)
+        {
+            if (request.SearchMatchingType == SearchJobsQuery.SearchType.keyword)
+            {
+                return mapper.Map<List<Job>>(await searchClient.SearchInScopeDomainEntity<domain.Job>(request.JobSearchTerm, request.OrganizationId, "organizationId"));
+            }
+            else
+            {
+                return mapper.Map<List<Job>>(await searchClient.SearchParaphraseInScopeDomainEntity<domain.Job>(request.JobSearchTerm, request.OrganizationId, "organizationId", "description"));
+            }
+        }
+        async Task<List<Job>> SearchWithoutScope(SearchJobsQuery request, CancellationToken cancellationToken)
+        {
+            if (request.SearchMatchingType == SearchJobsQuery.SearchType.keyword)
+            {
+                return mapper.Map<List<Job>>(await searchClient.SearchWithNoScopeDomainEntity<domain.Job>(request.JobSearchTerm));
+            }
+            else
+            {
+                return mapper.Map<List<Job>>(await searchClient.SearchParaphraseWithNoScopeDomainEntity<domain.Job>(request.JobSearchTerm, "description"));
+            }
+        }
+
     }
 }

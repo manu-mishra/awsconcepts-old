@@ -7,8 +7,8 @@ const CommandBar = () => {
     const stackStyles: IStackStyles = {
         root: {
             boxShadow: theme.effects.elevation4,
-            backgroundColor: 'white'
-
+            backgroundColor: 'white',
+            
         },
     };
     const smallSpacingToken: IStackTokens = {
@@ -17,7 +17,7 @@ const CommandBar = () => {
     return (
         <>
             <Stack horizontal horizontalAlign='start' tokens={smallSpacingToken} styles={stackStyles} className={AnimationClassNames.slideRightIn400}>
-                <ActionButton allowDisabledFocus onClick={() => navigate('/anyjobs/home')}>Home</ActionButton>
+                <ActionButton allowDisabledFocus onClick={() => navigate('/anyjobs/home')}>Any Company Jobs</ActionButton>
                 <ActionButton allowDisabledFocus onClick={() => navigate('/anyjobs/organizations')}>My Organizations</ActionButton>
                 <ActionButton allowDisabledFocus onClick={() => navigate('/anyjobs/profiles')}>My Profiles</ActionButton>
                 <ActionButton allowDisabledFocus onClick={() => navigate('/anyjobs/profiles/documents')}>My Documents</ActionButton>
