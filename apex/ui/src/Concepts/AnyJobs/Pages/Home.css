@@ -1,58 +1,6 @@
 .search-component{
-  min-height: 600px;
-}
-
-.search-fields{
-  margin: 5px;
-  border-radius: 5px;
-  border-color: red;
-  border-width: 2px;
-  border: black;
-}
-
-.search-fields input[type="text"] {
-  height: 60px;
-  font-size: 55px;
-  display: inline-block;
-  font-family: "Lato";
-  font-weight: 100;
-  outline: none;
-  color: #555;
-  background: none;
-  cursor: pointer;
-  border-width: 0 0 2px;
-  border-color: #BBB;
-}
-.search-fields input[type="text"]:focus:hover {
-  border-bottom: 1px solid #BBB;
-}
-.search-fields input[type="text"]:focus {
-  border-bottom: 1px solid #BBB;
-  cursor: text;
-}
-.search-fieldsinput{
-  height: 60px;
-  font-size: 55px;
-  display: inline-block;
-  font-family: "Lato";
-  font-weight: 100;
-  outline: none;
-  color: #555;
-  background: none;
-  cursor: pointer;
-  border-width: 0 0 2px;
-  border-color: #BBB;
-}
-.dropdown-row{
-  padding-left: 10px;
-  display: block;
-  font-size: 20px;
-  background-color: white;
-  font-family: "Lato";
-  font-weight: 50;
-  color: #555;
-}
-.dropdown-row:hover{
-  font-size: 30px;
-  border-bottom: 1px solid #BBB;
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;	/* horizontal, when using flex-direction: row; */
+  align-items: baseline; 
 }

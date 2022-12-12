@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { API } from 'aws-amplify';
 import { useParams } from "react-router";
 import { JobSummary } from '../../Model/JobsModel';
-import { CommandBarButton, DetailsListLayoutMode, getTheme, IColumn, IIconProps, IStackStyles, Link, Panel, PanelType, SearchBox, SelectionMode, ShimmeredDetailsList, Stack } from '@fluentui/react';
+import { CommandBarButton, DetailsListLayoutMode, getTheme, IColumn, IIconProps, ISearchBoxStyles, IStackStyles, Link, Panel, PanelType, SearchBox, SelectionMode, ShimmeredDetailsList, Stack } from '@fluentui/react';
 import { useBoolean } from '@fluentui/react-hooks';
 import CSS from 'csstype';
 
@@ -81,11 +81,36 @@ export const SearchJobs = () => {
             marginRight: '10px'
         },
     };
+  const searchBoxStyles: ISearchBoxStyles = {
+    root: {
+        
+        fontSize: 'calc(20px + 2vw)',
+        minHeight: '4vw',
+        width:'95vw',
+        color:theme.palette.themePrimary,
+        
+    },
+    icon:
+    {
+      fontSize:'calc(20px + 2vw)', 
+    },
+    field:{
+      paddingLeft:'4vw',   
+      color:theme.palette.themePrimary,
+      selectors: {
+        ':placeholder-shown': {
+        },
+        ':focus': {
+          paddingLeft:'0'
+        }
+      } 
+    }
+};
     return (
         <>
             <Stack styles={stackStyles}>
                 <SearchBox placeholder="Search Jobs" underlined={true} onChange={(e, value) => setSearchTerm(value)} value={searchTerm}
-                    onSearch={(newValue: any) => navigate('/anyjobs/jobs/search/' + newValue)}></SearchBox>
+                    onSearch={(newValue: any) => navigate('/anyjobs/jobs/search/' + newValue)} styles={searchBoxStyles}></SearchBox>
             </Stack>
             <ShimmeredDetailsList
                 items={allJobs || []}

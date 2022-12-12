@@ -32,10 +32,10 @@ export function Home() {
   };
   let theme = getTheme();
   const cardStyles: IDocumentCardStyles = {
-    root: { 
-      display: 'inline-block', marginTop:10, marginRight: 20, marginBottom: 20, width: 320 ,
-      
-      boxShadow: theme.effects.elevation4,
+    root: {
+      display: 'inline-block', marginTop: 10, marginLeft: 20, marginBottom: 20, width: 400,
+      boxShadow: theme.effects.elevation8,
+      borderRadius: theme.effects.roundedCorner4
     },
   };
   const stackStyles: Partial<IStackStyles> = {
@@ -44,15 +44,30 @@ export function Home() {
     },
   };
   const maincomponent: CSS.Properties = {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
     minHeight: '85vh',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    alignItems: 'center'
+
+  }
+  const menucomponent: CSS.Properties = {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    maxWidth:'1100px',
+    minHeight: '85vh',
+    backgroundColor: 'white',
+    alignItems: 'center'
 
   }
   const [isPanel1Open, { setTrue: openPanel1, setFalse: dismissPanel1 }] = useBoolean(false);
   return (
     <>
       <div style={maincomponent}>
-        <Stack styles={stackStyles} horizontal horizontalAlign='center' verticalFill verticalAlign='center'>
+        <div style={menucomponent}>
+          {/* <Stack styles={stackStyles} horizontal horizontalAlign='center' verticalFill verticalAlign='center'> */}
           <DocumentCard
             aria-label={'App architecture'}
             styles={cardStyles}
@@ -100,9 +115,9 @@ export function Home() {
             </DocumentCardDetails>
             <DocumentCardActivity activity="Modified Dec 12, 2022" people={people.slice(0, 3)} />
           </DocumentCard>
-        </Stack>
+          {/* </Stack> */}
 
-        <Stack styles={stackStyles} horizontal horizontalAlign='center' verticalFill verticalAlign='center'>
+          {/* <Stack styles={stackStyles} horizontal horizontalAlign='center' verticalFill verticalAlign='center'> */}
 
           <DocumentCard styles={cardStyles} onClick={() => navigate('/login')} >
             <DocumentCardImage height={200} imageFit={ImageFit.center} iconProps={authenticationIconProps} />
@@ -132,7 +147,8 @@ export function Home() {
             </DocumentCardDetails>
             <DocumentCardActivity activity="Modified Dec 12, 2022" people={people.slice(0, 3)} />
           </DocumentCard>
-        </Stack>
+          {/* </Stack> */}
+        </div>
       </div>
       <Panel
         isLightDismiss
