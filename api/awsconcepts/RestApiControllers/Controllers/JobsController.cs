@@ -6,10 +6,10 @@ namespace RestApiControllers.Controllers;
 public class JobsController : ApiControllerBase
 {
     [HttpGet("search/{searchTerm}")]
-    public async Task<List<JobSummary>> GetAll(string searchTerm, CancellationToken cancellationToken)
+    public async Task<List<Job>> GetAll(string searchTerm, CancellationToken cancellationToken)
     {
         if (string.IsNullOrWhiteSpace(searchTerm) || searchTerm.Length < 4)
-            return new List<JobSummary>();
+            return new List<Job>();
         return await Mediator.Send(new SearchJobsQuery(searchTerm));
     }
 }

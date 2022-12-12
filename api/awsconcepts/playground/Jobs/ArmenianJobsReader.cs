@@ -32,6 +32,15 @@ namespace playground.Jobs
             }
             return response;
         }
+        public static List<string> GetTitles()
+        {
+            using (var reader = new StreamReader("Data/ArmenianJobPosts.csv"))
+            using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+            {
+                return csv.GetRecords<ArmenianJobPost>().Select(x => x.Title).ToList();
+
+            }
+        }
     }
     public class ArmenianJobPost
     {

@@ -2,6 +2,7 @@
 using Flurl.Http;
 using Microsoft.Extensions.Configuration;
 using Nest;
+using System.Text.Json;
 
 namespace playground.Jobs
 {
@@ -96,6 +97,17 @@ namespace playground.Jobs
                 Console.WriteLine(e);
             }
 
+        }
+
+        public static void GetUniqueJobTitles()
+        {
+            Dictionary<string, string> results = new Dictionary<string, string>();
+            var jobTitles= ArmenianJobsReader.GetTitles();
+            jobTitles.AddRange(AmazonJobsReader.GetTitles());
+            jobTitles.AddRange(NaukriJobsReader.GetTitles());
+
+            var distinctTitles = jobTitles.Distinct().Select(x=>new {Title=x });
+            var result =  JsonSerializer.Serialize(distinctTitles);
         }
 
         static async Task<string> GetUserIdToken(int userNumber, string password)

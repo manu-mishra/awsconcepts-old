@@ -5,7 +5,7 @@ using domain = Domain.Organizations;
 
 namespace Application.Jobs.Queries
 {
-    public class SearchJobsQuery : IRequest<List<JobSummary>>
+    public class SearchJobsQuery : IRequest<List<Job>>
     {
         public SearchJobsQuery(string jobSearchTerm, string organizationId = default(string))
         {
@@ -15,7 +15,7 @@ namespace Application.Jobs.Queries
         public string? OrganizationId { get; }
         public string JobSearchTerm { get; }
     }
-    public class SearchJobsQueryHandler : IRequestHandler<SearchJobsQuery, List<JobSummary>>
+    public class SearchJobsQueryHandler : IRequestHandler<SearchJobsQuery, List<Job>>
     {
         private readonly IEntitySearchProvider searchClient;
         private readonly IMapper mapper;
@@ -25,17 +25,17 @@ namespace Application.Jobs.Queries
             searchClient = SearchClient;
             mapper = Mapper;
         }
-        public async Task<List<JobSummary>> Handle(SearchJobsQuery request, CancellationToken cancellationToken)
+        public async Task<List<Job>> Handle(SearchJobsQuery request, CancellationToken cancellationToken)
         {
             if(string.IsNullOrEmpty(request.OrganizationId))
             {
                 var result = await searchClient.SearchWithNoScopeDomainEntity<domain.Job>(request.JobSearchTerm);
-                return mapper.Map<List<JobSummary>>(result);
+                return mapper.Map<List<Job>>(result);
             }
             else
             {
                 var result = await searchClient.SearchInScopeDomainEntity<domain.Job>(request.JobSearchTerm, request.OrganizationId, "organizationId");
-                return mapper.Map<List<JobSummary>>(result);
+                return mapper.Map<List<Job>>(result);
             }
         }
     }

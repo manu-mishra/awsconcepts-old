@@ -34,6 +34,15 @@ namespace playground.Jobs
             }
             return response;
         }
+        public static List<string> GetTitles()
+        {
+            using (var reader = new StreamReader("Data/NaukriJobs.csv"))
+            using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+            {
+                return csv.GetRecords<NaukriJobPost>().Select(x => x.jobtitle).ToList();
+
+            }
+        }
     }
     public class NaukriJobPost
     {

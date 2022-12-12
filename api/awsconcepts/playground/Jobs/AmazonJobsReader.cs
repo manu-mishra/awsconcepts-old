@@ -34,6 +34,15 @@ namespace playground.Jobs
             }
             return response;
         }
+        public static List<string> GetTitles()
+        {
+            using (var reader = new StreamReader("Data/AmazonJobsDataset.csv"))
+            using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+            {
+                return csv.GetRecords<AmazonJobPost>().Select(x=>x.Title).ToList();
+                
+            }
+        }
     }
     public class AmazonJobPost
     {

@@ -19,7 +19,8 @@ var configuration = new ConfigurationBuilder()
 //await UserCreator.createUsers(configuration);
 
 //await JobsDataImport.PostJobsFromNaukri(configuration);
-await JobsDataImport.PostJobsFromAmazon(configuration);
+//await JobsDataImport.PostJobsFromAmazon(configuration);
+ JobsDataImport.GetUniqueJobTitles();
 
 
 
