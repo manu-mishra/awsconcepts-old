@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { useParams } from "react-router";
 import { ProfileDocument } from '../../Model/ApplicantsModel';
 
-export const ProfileDocumentsDetail = () => {
+export default function ProfileDocumentsDetail () {
 
   const { id } = useParams();
   const [profileDocument, setProfileDocument] = useState<ProfileDocument>();

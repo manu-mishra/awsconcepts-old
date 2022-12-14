@@ -6,7 +6,7 @@ import RichTextEditor, { EditorValue } from 'react-rte';
 import { API } from 'aws-amplify';
 import React from 'react';
 
-export const JobDetails = () => {
+export default function JobDetails (){
     const { orgId, jobId } = useParams();
     let theme = getTheme();
     const [organizationJob, setOrganizationJob] = useState<OrganizationJob | null>();

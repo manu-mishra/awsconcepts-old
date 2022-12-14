@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { IStyleSet, Label, ILabelStyles, Pivot, PivotItem } from '@fluentui/react';
-import { ProfilesList } from '../Components/Profile/ProfilesList';
-import { ProfileDraftsList } from '../Components/Profile/ProfileDraftsList';
+import ProfilesList from "../Components/Profile/ProfilesList";
+import ProfileDraftsList  from '../Components/Profile/ProfileDraftsList';
 
 const labelStyles: Partial<IStyleSet<ILabelStyles>> = {
   root: { marginTop: 10 },

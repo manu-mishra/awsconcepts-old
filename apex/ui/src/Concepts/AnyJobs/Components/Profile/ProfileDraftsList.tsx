@@ -5,7 +5,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { ProfileSummary } from "../../Model/ApplicantsModel"
 
-export const ProfileDraftsList = () => {
+export default function ProfileDraftsList() {
 
     const [selection] = useState<Selection >(new Selection());
     const [allProfiles, setAllProfiles] = useState<ProfileSummary[] | null>();

@@ -7,7 +7,7 @@ import { OrganizationJob } from '../../Model/OrganizationsModel';
 
 import { useBoolean } from '@fluentui/react-hooks';
 let theme = getTheme();
-export const JobList = () => {
+export default function JobList(){
     const { orgId } = useParams();
     const navigate = useNavigate();
     const [selection] = useState<Selection>(new Selection());

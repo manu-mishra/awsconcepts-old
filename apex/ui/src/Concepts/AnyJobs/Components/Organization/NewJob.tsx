@@ -6,7 +6,7 @@ import RichTextEditor, { EditorValue } from 'react-rte';
 import { API } from 'aws-amplify';
 import { useNavigate } from 'react-router-dom';
 
-export const NewJob = () => {
+export default function  NewJob () {
     const { orgId } = useParams();
     let theme = getTheme();
     const navigate = useNavigate();

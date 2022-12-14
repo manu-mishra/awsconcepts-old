@@ -4,7 +4,7 @@ import { useParams } from "react-router";
 import { API } from 'aws-amplify';
 import { Organization } from '../../Model/OrganizationsModel';
 
-export const OrganizationDetail = () => {
+export default function OrganizationDetail () {
   const { id } = useParams();
   const [organization, setOrganization] = useState<Organization>();
   React.useEffect(() => {

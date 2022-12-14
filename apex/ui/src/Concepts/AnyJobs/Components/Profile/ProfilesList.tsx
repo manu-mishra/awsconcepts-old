@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { ProfileSummary } from "../../Model/ApplicantsModel"
 
 let theme = getTheme();
-export const ProfilesList = () => {
+export default  function ProfilesList (){
     const navigate = useNavigate();
     const _columns = [
         { key: 'column1', name: 'Name', fieldName: 'name', minWidth: 100, maxWidth: 200, isResizable: true },

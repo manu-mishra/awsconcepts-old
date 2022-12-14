@@ -8,7 +8,7 @@ import { CommandBarButton, DetailsListLayoutMode, getTheme, IColumn, IIconProps,
 import { useBoolean } from '@fluentui/react-hooks';
 import CSS from 'csstype';
 
-export const SearchJobs = () => {
+export default function SearchJobs(){
 
     const { searchText } = useParams();
     const [searchTerm, setSearchTerm] = useState(searchText);

@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { ProfileDraft } from '../../Model/ApplicantsModel';
 
 
-export const UploadDocument = () => {
+export default function UploadDocument () {
     const [profileName, setProfileName] = useState<string>('');
     const [fileUrl, setFileUrl] = useState('');
     const viewerRef = React.createRef<HTMLDivElement>();

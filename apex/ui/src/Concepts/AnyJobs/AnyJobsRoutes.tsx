@@ -1,22 +1,23 @@
+import React from "react";
 import { Routes, Route } from "react-router-dom";
-import { SearchJobs } from "./Components/JobSearch/SearchJobs";
-import { SearchPraphraseJobs } from "./Components/JobSearch/SearchPraphraseJobs";
-import { JobApplicants } from "./Components/Organization/JobApplicants";
-import { JobDetails } from "./Components/Organization/JobDetails";
-import { JobList } from "./Components/Organization/JobList";
-import { NewJob } from "./Components/Organization/NewJob";
-import { NewOrganization } from "./Components/Organization/NewOrganization";
-import { OrganizationDetail } from "./Components/Organization/OrganizationDetail";
-import { OrganizationList } from "./Components/Organization/OrganizationList";
-import { DraftDetail } from "./Components/Profile/DraftDetail";
-import { ProfileDocumentsDetail } from "./Components/Profile/ProfileDocumentsDetail";
-import { ProfileDocumentsList } from "./Components/Profile/ProfileDocumentsList";
-import { ProfileDraftsList } from "./Components/Profile/ProfileDraftsList";
-import { ProfilesList } from "./Components/Profile/ProfilesList";
-import { UploadDocument } from "./Components/Profile/UploadDocument";
-import Home from './Pages/Home';
-import RouterLayout from "./RouterLayout";
 
+const SearchJobs = React.lazy(()=> import('./Components/JobSearch/SearchJobs'));
+const SearchPraphraseJobs = React.lazy(()=> import('./Components/JobSearch/SearchPraphraseJobs'));
+const JobApplicants = React.lazy(()=> import('./Components/Organization/JobApplicants'));
+const JobDetails = React.lazy(()=> import('./Components/Organization/JobDetails'));
+const JobList = React.lazy(()=> import('./Components/Organization/JobList'));
+const NewJob = React.lazy(()=> import('./Components/Organization/NewJob'));
+const NewOrganization = React.lazy(()=> import('./Components/Organization/NewOrganization'));
+const OrganizationDetail = React.lazy(()=> import('./Components/Organization/OrganizationDetail'));
+const OrganizationList = React.lazy(()=> import('./Components/Organization/OrganizationList'));
+const DraftDetail = React.lazy(()=> import('./Components/Profile/DraftDetail'));
+const ProfileDocumentsDetail = React.lazy(()=> import('./Components/Profile/ProfileDocumentsDetail'));
+const ProfileDocumentsList = React.lazy(()=> import('./Components/Profile/ProfileDocumentsList'));
+const ProfileDraftsList = React.lazy(()=> import('./Components/Profile/ProfileDraftsList'));
+const ProfilesList = React.lazy(()=> import('./Components/Profile/ProfilesList'));
+const UploadDocument = React.lazy(()=> import('./Components/Profile/UploadDocument'));
+const Home = React.lazy(()=> import('./Pages/Home'));
+const RouterLayout = React.lazy(()=> import('./RouterLayout'));
 
 const AnyJobsRoutes = () => (
     <>

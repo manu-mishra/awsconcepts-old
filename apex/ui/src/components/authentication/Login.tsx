@@ -6,7 +6,7 @@ import '@aws-amplify/ui-react/styles.css';
 import { useNavigate, useLocation } from 'react-router';
 import { AnimationClassNames, getTheme, ILabelStyles, IStackStyles, Label, Stack } from "@fluentui/react";
 
-export function Login() {
+export default function Login() {
   const { route } = useAuthenticator((context) => [context.route]);
   const location = useLocation();
   const navigate = useNavigate();

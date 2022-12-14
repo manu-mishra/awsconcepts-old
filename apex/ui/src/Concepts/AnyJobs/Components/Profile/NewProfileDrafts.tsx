@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { ProfileDraft } from "../../Model/ApplicantsModel"
 import { PdfViewer } from '../PdfViewer';
 
-export const NewProfileDrafts = () => {
+export default function NewProfileDrafts () {
     const [profileDraft, setProfileDraft] = useState<ProfileDraft | undefined>(undefined)
 
     function handleNameChange(e:React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newvalue:string | undefined){

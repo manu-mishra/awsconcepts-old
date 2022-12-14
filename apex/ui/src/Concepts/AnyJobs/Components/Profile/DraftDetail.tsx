@@ -12,7 +12,7 @@ import { SkillPicker } from './SkillPicker';
 import { useNavigate } from 'react-router-dom';
 
 
-export const DraftDetail = () => {
+export default function  DraftDetail () {
   const navigate = useNavigate();
   const { id } = useParams();
   const [richText, setRichText] = useState<EditorValue>(RichTextEditor.createEmptyValue());

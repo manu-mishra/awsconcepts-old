@@ -5,7 +5,7 @@ import RichTextEditor, { EditorValue } from 'react-rte';
 import { API } from 'aws-amplify';
 import { useNavigate } from 'react-router-dom';
 
-export const NewOrganization = () => {
+export default function  NewOrganization () {
     let theme = getTheme();
     const navigate = useNavigate();
     const [organization, setOrganization] = useState<Organization | null>();

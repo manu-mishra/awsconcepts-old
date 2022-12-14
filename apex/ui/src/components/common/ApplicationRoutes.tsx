@@ -1,12 +1,16 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import AnyJobsRoutes from "../../Concepts/AnyJobs/AnyJobsRoutes";
 import { Home } from "../../pages/Home";
-import { Login } from "../authentication/Login";
-import { RequireAuth } from "../authentication/RequireAuth";
 import { Layout } from "./Layout";
+import React, { Suspense } from "react";
+
+const RequireAuth = React.lazy(()=> import('../authentication/RequireAuth'));
+const Login = React.lazy(()=> import('../authentication/Login'));
+const AnyJobsRoutes = React.lazy(()=> import('../../Concepts/AnyJobs/AnyJobsRoutes'));
+
 
 export function ApplicationRoutes() {
     return (
+      <Suspense fallback={<div>Loading...</div>}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
@@ -16,5 +20,6 @@ export function ApplicationRoutes() {
           </Route>
         </Routes>
       </BrowserRouter>
+      </Suspense>
     );
   }
