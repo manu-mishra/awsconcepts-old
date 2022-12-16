@@ -30,6 +30,10 @@ export function Home() {
     iconName: 'AnalyticsReport',
     styles: { root: { color: '#0078d4', fontSize: '120px', width: '120px', height: '120px' } },
   };
+  const costEstimateIconProps: IIconProps = {
+    iconName: 'Money',
+    styles: { root: { color: '#0078d4', fontSize: '120px', width: '120px', height: '120px' } },
+  };
   let theme = getTheme();
   const cardStyles: IDocumentCardStyles = {
     root: {
@@ -68,7 +72,6 @@ export function Home() {
     <>
       <div style={maincomponent}>
         <div style={menucomponent}>
-          {/* <Stack styles={stackStyles} horizontal horizontalAlign='center' verticalFill verticalAlign='center'> */}
           <DocumentCard
             aria-label={'App architecture (POC)'}
             styles={cardStyles}
@@ -116,10 +119,6 @@ export function Home() {
             </DocumentCardDetails>
             <DocumentCardActivity activity="Modified Dec 12, 2022" people={people.slice(0, 3)} />
           </DocumentCard>
-          {/* </Stack> */}
-
-          {/* <Stack styles={stackStyles} horizontal horizontalAlign='center' verticalFill verticalAlign='center'> */}
-
           <DocumentCard styles={cardStyles} onClick={() => navigate('/login')} >
             <DocumentCardImage height={200} imageFit={ImageFit.center} iconProps={authenticationIconProps} />
             <DocumentCardDetails>
@@ -165,7 +164,24 @@ export function Home() {
             </DocumentCardDetails>
             <DocumentCardActivity activity="Modified Dec 12, 2022" people={people.slice(0, 3)} />
           </DocumentCard>
-          {/* </Stack> */}
+
+          <DocumentCard
+            aria-label={'Cost Estimate'}
+            styles={cardStyles}
+            onClick={() => navigate('/costestimate')}
+          >
+            <DocumentCardImage height={200} imageFit={ImageFit.center} iconProps={costEstimateIconProps} />
+            <DocumentCardDetails>
+              <DocumentCardTitle title="Cost Estimate" shouldTruncate />
+              <DocumentCardTitle
+                title="Click to view"
+                shouldTruncate
+                showAsSecondaryTitle
+              />
+            </DocumentCardDetails>
+            <DocumentCardActivity activity="Modified Dec 12, 2022" people={people.slice(0, 3)} />
+          </DocumentCard>
+
         </div>
       </div>
       <Panel
