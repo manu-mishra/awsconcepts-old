@@ -63,13 +63,14 @@ export function Home() {
 
   }
   const [isPanel1Open, { setTrue: openPanel1, setFalse: dismissPanel1 }] = useBoolean(false);
+  const [isPanel2Open, { setTrue: openPanel2, setFalse: dismissPanel2 }] = useBoolean(false);
   return (
     <>
       <div style={maincomponent}>
         <div style={menucomponent}>
           {/* <Stack styles={stackStyles} horizontal horizontalAlign='center' verticalFill verticalAlign='center'> */}
           <DocumentCard
-            aria-label={'App architecture'}
+            aria-label={'App architecture (POC)'}
             styles={cardStyles}
             onClick={() => openPanel1()}
           >
@@ -147,18 +148,46 @@ export function Home() {
             </DocumentCardDetails>
             <DocumentCardActivity activity="Modified Dec 12, 2022" people={people.slice(0, 3)} />
           </DocumentCard>
+
+          <DocumentCard
+            aria-label={'App architecture'}
+            styles={cardStyles}
+            onClick={() => openPanel2()}
+          >
+            <DocumentCardImage height={200} imageFit={ImageFit.center} iconProps={architectureIconProps} />
+            <DocumentCardDetails>
+              <DocumentCardTitle title="Target Application Architecture" shouldTruncate />
+              <DocumentCardTitle
+                title="Click to view"
+                shouldTruncate
+                showAsSecondaryTitle
+              />
+            </DocumentCardDetails>
+            <DocumentCardActivity activity="Modified Dec 12, 2022" people={people.slice(0, 3)} />
+          </DocumentCard>
           {/* </Stack> */}
         </div>
       </div>
       <Panel
         isLightDismiss
         isOpen={isPanel1Open}
-        type={PanelType.large}
+        type={PanelType.extraLarge}
         closeButtonAriaLabel="Close"
-        headerText={'Application Architecture'}
+        headerText={'Initial Application Architecture'}
         onDismiss={dismissPanel1}>
         <Stack styles={stackStyles} verticalFill horizontalAlign='stretch' >
-          <img src='/AwsConceptsArchitectureDiagram.png' alt='aws concepts architecture' style={{ paddingBottom: '2vw', paddingTop: '2vw', paddingRight: '1vw', paddingLeft: '1vw' }} />
+          <img src='/InitialArchitecture.png' alt='aws concepts architecture' style={{ paddingBottom: '2vw', paddingTop: '2vw', paddingRight: '1vw', paddingLeft: '1vw' }} />
+        </Stack>
+      </Panel>
+      <Panel
+        isLightDismiss
+        isOpen={isPanel2Open}
+        type={PanelType.extraLarge}
+        closeButtonAriaLabel="Close"
+        headerText={'Target Application Architecture'}
+        onDismiss={dismissPanel2}>
+        <Stack styles={stackStyles} verticalFill horizontalAlign='stretch' >
+          <img src='/FullArchitecture.png' alt='aws concepts architecture' style={{ paddingBottom: '2vw', paddingTop: '2vw', paddingRight: '1vw', paddingLeft: '1vw' }} />
         </Stack>
       </Panel>
     </>
