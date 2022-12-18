@@ -72,11 +72,7 @@ export function Home() {
     <>
       <div style={maincomponent}>
         <div style={menucomponent}>
-          <DocumentCard
-            aria-label={'App architecture (POC)'}
-            styles={cardStyles}
-            onClick={() => openPanel1()}
-          >
+          <DocumentCard aria-label={'App architecture (POC)'} styles={cardStyles} onClick={() => openPanel1()}>
             <DocumentCardImage height={200} imageFit={ImageFit.center} iconProps={architectureIconProps} />
             <DocumentCardDetails>
               <DocumentCardTitle title="Application Architecture" shouldTruncate />
