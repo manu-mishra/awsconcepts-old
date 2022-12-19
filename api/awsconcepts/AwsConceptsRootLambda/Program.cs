@@ -1,12 +1,14 @@
+using Amazon.XRay.Recorder.Core;
 using Amazon.XRay.Recorder.Handlers.AwsSdk;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Configuration;
 using RestApiControllers;
 
+AWSSDKHandler.RegisterXRayForAllServices();
 var builder = WebApplication.CreateBuilder(args);
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 // Add services to the container.
 builder.Services.AddControllers().WithApplicationDomainControllers();
-AWSSDKHandler.RegisterXRayForAllServices();
 // Add AWS Lambda support. When application is run in Lambda Kestrel is swapped out as the web server with Amazon.Lambda.AspNetCoreServer. This
 // package will act as the webserver translating request and responses between the Lambda event source and ASP.NET Core.
 builder.Services.AddAWSLambdaHosting(LambdaEventSource.HttpApi)
@@ -40,7 +42,7 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-
+app.UseXRay("AWSConceptsLambdaApi");
 app.UseHttpsRedirection();
 app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthentication();
