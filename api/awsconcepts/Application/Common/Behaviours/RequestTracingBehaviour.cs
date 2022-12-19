@@ -21,10 +21,7 @@ namespace Application.Common.Behaviours
                     Activity.Current?.SetTag("user", user.Id);
                     Activity.Current?.SetTag("app-request", System.Text.Json.JsonSerializer.Serialize(request));
                 }
-#if DEBUG
                 Trace.TraceInformation("Application Request {0}", System.Text.Json.JsonSerializer.Serialize(request));
-
-#endif
             }
             catch (Exception)
             {
