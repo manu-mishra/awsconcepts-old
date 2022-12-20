@@ -6,7 +6,7 @@ using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using RestApiControllers;
 
-AWSSDKHandler.RegisterXRayForAllServices();
+//AWSSDKHandler.RegisterXRayForAllServices();
 var builder = WebApplication.CreateBuilder(args);
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 // Add services to the container.
@@ -45,18 +45,20 @@ builder.Services.AddCors(options =>
 builder.Services.AddOpenTelemetryTracing(tracerProviderBuilder =>
 {
     tracerProviderBuilder
-        .AddConsoleExporter()
+    .AddXRayTraceId()
         .AddSource("AWSConceptsLambdaApi")
         .SetResourceBuilder(
             ResourceBuilder.CreateDefault()
                 .AddService(serviceName: "AWSConceptsLambdaApi", serviceVersion: "1"))
         .AddHttpClientInstrumentation()
-        .AddAspNetCoreInstrumentation();
+        .AddAspNetCoreInstrumentation()
+    .AddAWSLambdaConfigurations()
+        ;
 });
 
 var app = builder.Build();
 
-app.UseXRay("AWSConceptsLambdaApi");
+//app.UseXRay("AWSConceptsLambdaApi");
 app.UseHttpsRedirection();
 app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthentication();
