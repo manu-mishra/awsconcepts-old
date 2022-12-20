@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Application.Identity;
+using System.Diagnostics;
 
 namespace Application.Common.Behaviours
 {
@@ -20,7 +21,8 @@ namespace Application.Common.Behaviours
             {
                 logger.AddAnnotation("user", user.Id);
                 logger.AddAnnotation("domainOperation", request.GetType().ToString());
-                logger.AddMetadata("requestProperties", request);
+                var requestDetails = System.Text.Json.JsonSerializer.Serialize(request);
+                logger.AddMetadata("requestProperties", requestDetails);
             }
             catch (Exception)
             {
