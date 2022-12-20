@@ -2,6 +2,8 @@ using Amazon.XRay.Recorder.Core;
 using Amazon.XRay.Recorder.Handlers.AwsSdk;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using RestApiControllers;
 
 AWSSDKHandler.RegisterXRayForAllServices();
@@ -38,6 +40,18 @@ builder.Services.AddCors(options =>
             policy.WithOrigins("http://localhost:3000", "https://www.awsconcepts.com", "https://awsconcepts.com", "https://api.awsconcepts.com").AllowAnyHeader()
                                                   .AllowAnyMethod();
         });
+});
+
+builder.Services.AddOpenTelemetryTracing(tracerProviderBuilder =>
+{
+    tracerProviderBuilder
+        .AddConsoleExporter()
+        .AddSource("AWSConceptsLambdaApi")
+        .SetResourceBuilder(
+            ResourceBuilder.CreateDefault()
+                .AddService(serviceName: "AWSConceptsLambdaApi", serviceVersion: "1"))
+        .AddHttpClientInstrumentation()
+        .AddAspNetCoreInstrumentation();
 });
 
 var app = builder.Build();
