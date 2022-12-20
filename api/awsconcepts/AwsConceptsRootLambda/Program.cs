@@ -8,7 +8,7 @@ using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using RestApiControllers;
 
-//AWSSDKHandler.RegisterXRayForAllServices();
+AWSSDKHandler.RegisterXRayForAllServices();
 Sdk.SetDefaultTextMapPropagator(new AWSXRayPropagator());
 var builder = WebApplication.CreateBuilder(args);
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -61,7 +61,7 @@ builder.Services.AddOpenTelemetryTracing(tracerProviderBuilder =>
 
 var app = builder.Build();
 
-//app.UseXRay("AWSConceptsLambdaApi");
+app.UseXRay("AWSConceptsLambdaApi");
 app.UseHttpsRedirection();
 app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthentication();
