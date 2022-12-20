@@ -7,6 +7,8 @@ using OpenTelemetry;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using RestApiControllers;
+using Application.Common.Interfaces;
+using AwsConceptsRootLambda;
 
 AWSSDKHandler.RegisterXRayForAllServices();
 Sdk.SetDefaultTextMapPropagator(new AWSXRayPropagator());
@@ -45,19 +47,20 @@ builder.Services.AddCors(options =>
         });
 });
 
-builder.Services.AddOpenTelemetryTracing(tracerProviderBuilder =>
-{
-    tracerProviderBuilder
-    .AddXRayTraceId()
-        .AddSource("AWSConceptsLambdaApi")
-        .SetResourceBuilder(
-            ResourceBuilder.CreateDefault()
-                .AddService(serviceName: "AWSConceptsLambdaApi", serviceVersion: "1"))
-        .AddHttpClientInstrumentation()
-        .AddAspNetCoreInstrumentation()
-    .AddAWSLambdaConfigurations()
-        ;
-});
+//builder.Services.AddOpenTelemetryTracing(tracerProviderBuilder =>
+//{
+//    tracerProviderBuilder
+//    .AddXRayTraceId()
+//        .AddSource("AWSConceptsLambdaApi")
+//        .SetResourceBuilder(
+//            ResourceBuilder.CreateDefault()
+//                .AddService(serviceName: "AWSConceptsLambdaApi", serviceVersion: "1"))
+//        .AddHttpClientInstrumentation()
+//        .AddAspNetCoreInstrumentation()
+//    .AddAWSLambdaConfigurations()
+//        ;
+//});
+builder.Services.AddScoped<IApplicationLogger, XrayInstrumentation>();
 
 var app = builder.Build();
 

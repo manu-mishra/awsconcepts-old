@@ -26,7 +26,7 @@ namespace Infrastructure.Search
             }
             Uri[] uris = new Uri[] { new Uri("https://search-awsconcepts-f6zgsd3tkq5fi6hododigdm7vm.us-east-1.es.amazonaws.com/") };
             StaticConnectionPool connectionPool = new StaticConnectionPool(uris);
-            ConnectionSettings settings = new ConnectionSettings(connectionPool)
+            ConnectionSettings settings = new ConnectionSettings(connectionPool, new TracedConnection())
                 .BasicAuthentication(userName, password);
 
             return new OpenSearchClient(settings);
