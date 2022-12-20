@@ -1,9 +1,14 @@
 import { getTheme, IStackStyles, PrimaryButton, Stack } from '@fluentui/react'
 import { API } from 'aws-amplify'
 import { useState } from 'react'
+import { useAuthenticator } from '@aws-amplify/ui-react';
 
 export const RaiseError = () => {
-    
+    const { route,  user } = useAuthenticator((context) => [
+        context.route,
+        context.user
+      ]);
+
   let theme = getTheme();
     async function RaiseError() {
         const callApi = async () => {
@@ -31,7 +36,16 @@ export const RaiseError = () => {
             <PrimaryButton onClick={() => RaiseError()}>Raise Errors</PrimaryButton>
             {
                 (errorCount > 0) ?
-                    <p>Total {errorCount} errors raised!</p> :
+                    <div>
+                        <p>Total {errorCount} errors raised!</p>
+                        <p>
+                            <strong>search x-ray for</strong> <br></br>
+                            annotation.domainOperation = "Application.Common.Test.RaiseErrorCommand"<br></br>
+                            {route === 'authenticated' ?
+                            <span> annotation.user="{user?.attributes?.sub}"</span>
+                            :<span></span>}
+                        </p>
+                    </div> :
                     (<div ></div>)
             }
         </Stack>

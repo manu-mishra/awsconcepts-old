@@ -30,10 +30,16 @@ export const UserPersona = () => {
   const signinIcon: IIconProps = { iconName: 'AddFriend' }
   const menuItems: IContextualMenuItem[] = [
     {
+      key: 'userId',
+      text: user?.attributes?.email,
+      title:user?.attributes?.sub,
+      onClick: () => console.log(user),
+    },
+    {
       key: 'signOut',
       text: 'Sign Out',
       onClick: () => signOut(),
-    }
+    }    
   ];
   return (
     <Stack horizontal tokens={{ childrenGap: 10 }}>
