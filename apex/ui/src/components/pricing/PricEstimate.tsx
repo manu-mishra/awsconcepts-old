@@ -50,28 +50,28 @@ export default function PricEstimate() {
     }
   };
   const serviceList: Estimate[] = [
-    { serviceName: 'AWS Web Application Firewall (WAF)', configuration: '', cost: '' },
-    { serviceName: 'Amazon DynamoD', configuration: '', cost: '665.80 USD' },
-    { serviceName: 'AWS Shield', configuration: '', cost: '3,051.32 USD' },
-    { serviceName: 'Amazon Simple Storage Service (S3)', configuration: '', cost: '' },
-    { serviceName: 'AWS Lambda', configuration: '', cost: '' },
-    { serviceName: 'Amazon API Gateway', configuration: '', cost: '' },
-    { serviceName: 'Amazon CloudFront', configuration: '', cost: '' },
-    { serviceName: 'Business Support Plan', configuration: '', cost: '' },
-    { serviceName: 'Amazon OpenSearch Service', configuration: '', cost: '' }
+    { serviceName: 'AWS Web Application Firewall (WAF)', configuration: '30 Million requests per month', cost: 84.00 },
+    { serviceName: 'Amazon DynamoD', configuration: 'On Demand, 5 million reads, 15 million reads (with back up and data streams) ', cost: 2342.05 },
+    { serviceName: 'AWS Shield', configuration: 'For all resources', cost: 3128.00},
+    { serviceName: 'Amazon Simple Storage Service (S3)', configuration: '3.5 TB', cost: 52.15},
+    { serviceName: 'AWS Lambda', configuration: '22 Million requests per month', cost: 67.73 },
+    { serviceName: 'Amazon API Gateway', configuration: '15 Million requests per month', cost: 15.00},
+    { serviceName: 'Amazon CloudFront', configuration: '30 Million requests per month', cost: 127.04},
+    { serviceName: 'Business Support Plan', configuration: '24/7 phone and email access, less than 1 hour response time', cost: 991.59 },
+    { serviceName: 'Amazon OpenSearch Service', configuration: 'Highly available (3 data nodes and 3 master nodes) ', cost: 4099.96 }
   ];
   const [ServiceList, setServiceList] = useState<Estimate[]>(serviceList);
 
   const _columns: IColumn[] = [
     {
-      key: 'serviceName', name: 'Service Name', fieldName: 'serviceName', minWidth: 100, maxWidth: 200, isResizable: true, onColumnClick: _onColumnClick, isRowHeader: true,
+      key: 'serviceName', name: 'Service Name', fieldName: 'serviceName', minWidth: 300, maxWidth: 200, isResizable: true, onColumnClick: _onColumnClick, isRowHeader: true,
       isSorted: false,
       isSortedDescending: false,
       sortAscendingAriaLabel: 'Sorted A to Z',
       sortDescendingAriaLabel: 'Sorted Z to A',
     },
     {
-      key: 'configuration', name: 'Configuration', fieldName: 'configuration', minWidth: 100, maxWidth: 200, isResizable: true, onColumnClick: _onColumnClick, isRowHeader: true,
+      key: 'configuration', name: 'Configuration', fieldName: 'configuration', minWidth: 400, maxWidth: 200, isResizable: true, onColumnClick: _onColumnClick, isRowHeader: true,
       isSorted: false,
       isSortedDescending: false,
       sortAscendingAriaLabel: 'Sorted A to Z',
@@ -85,6 +85,16 @@ export default function PricEstimate() {
       sortDescendingAriaLabel: 'Sorted Z to A',
     },
   ];
+  function _renderItemColumn(item: Estimate, index: number|undefined, column: IColumn|undefined) {
+    const fieldContent = item[column?.fieldName as keyof Estimate] as string;
+    switch (column?.key) {
+      case 'cost':
+        return <span>{fieldContent} USD</span>
+  
+      default:
+        return <span>{fieldContent}</span>;
+    }
+  }
   const [columns, setColumns] = useState<IColumn[]>(_columns);
 
   function _copyAndSort<T>(items: T[], columnKey: string, isSortedDescending?: boolean): T[] {
@@ -99,9 +109,11 @@ export default function PricEstimate() {
         <Stack horizontal verticalAlign='baseline' tokens={smallSpacingToken} >
           <h1>Price Estimate</h1>
           <PrimaryButton iconProps={{ iconName: "PDF" }} onClick={() => openPanel1()}>Show PDF</PrimaryButton>
+          <PrimaryButton iconProps={{ iconName: "NavigateExternalInline" }} onClick={() => window.open("https://calculator.aws/#/estimate?id=1693e63cec25ffa7214ef39bf031bb447cd761c4")}>Modify Your Copy</PrimaryButton>
         </Stack>
         <Label>1 million request per day with 40% cache hit ratio.</Label>
-        <DetailsList items={ServiceList} columns={_columns} setKey="set" layoutMode={DetailsListLayoutMode.justified} selectionMode={SelectionMode.none} />
+        <DetailsList items={ServiceList} columns={_columns} setKey="set" layoutMode={DetailsListLayoutMode.justified} selectionMode={SelectionMode.none} 
+        onRenderItemColumn={_renderItemColumn}/>
       </Stack >
 
 
