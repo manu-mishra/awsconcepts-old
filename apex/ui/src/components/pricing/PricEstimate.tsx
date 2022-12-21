@@ -3,7 +3,7 @@
 import CSS from 'csstype';
 import { Worker, Viewer } from '@react-pdf-viewer/core';
 
-import { DetailsList, DetailsListLayoutMode, getTheme, IColumn, IStackStyles, IStackTokens, Label, Panel, PanelType, PrimaryButton, SelectionMode, Stack } from '@fluentui/react';
+import { ActionButton, DetailsList, DetailsListLayoutMode, getTheme, IColumn, IStackStyles, IStackTokens, Label, Panel, PanelType, PrimaryButton, SelectionMode, Stack } from '@fluentui/react';
 import { useBoolean } from '@fluentui/react-hooks';
 import { useState } from 'react';
 import { Estimate } from './Estimate';
@@ -50,15 +50,15 @@ export default function PricEstimate() {
     }
   };
   const serviceList: Estimate[] = [
-    { serviceName: 'AWS Web Application Firewall (WAF)', configuration: '30 Million requests per month', cost: 84.00 },
-    { serviceName: 'Amazon DynamoD', configuration: 'On Demand, 5 million reads, 15 million reads (with back up and data streams) ', cost: 2342.05 },
-    { serviceName: 'AWS Shield', configuration: 'For all resources', cost: 3128.00},
-    { serviceName: 'Amazon Simple Storage Service (S3)', configuration: '3.5 TB', cost: 52.15},
-    { serviceName: 'AWS Lambda', configuration: '22 Million requests per month', cost: 67.73 },
-    { serviceName: 'Amazon API Gateway', configuration: '15 Million requests per month', cost: 15.00},
-    { serviceName: 'Amazon CloudFront', configuration: '30 Million requests per month', cost: 127.04},
-    { serviceName: 'Business Support Plan', configuration: '24/7 phone and email access, less than 1 hour response time', cost: 991.59 },
-    { serviceName: 'Amazon OpenSearch Service', configuration: 'Highly available (3 data nodes and 3 master nodes) ', cost: 4099.96 }
+    { serviceName: 'AWS Web Application Firewall (WAF)', configuration: '30 Million requests per month', cost: 84.00, productUrl:"https://aws.amazon.com/waf/", limitsUrl:"https://docs.aws.amazon.com/waf/latest/developerguide/limits.html", faq:"https://aws.amazon.com/waf/faqs/" },
+    { serviceName: 'Amazon DynamoD', configuration: 'On Demand, 5 million writes, 15 million reads (with back up and data streams) ', cost: 2342.05, productUrl:"https://aws.amazon.com/dynamodb/", limitsUrl:"https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ServiceQuotas.html", faq:"https://aws.amazon.com/dynamodb/faqs/" },
+    { serviceName: 'AWS Shield', configuration: 'For all resources', cost: 3128.00, productUrl:"https://aws.amazon.com/shield/", limitsUrl:"https://docs.aws.amazon.com/waf/latest/developerguide/shield-limits.html", faq:"https://aws.amazon.com/shield/faqs/"},
+    { serviceName: 'Amazon Simple Storage Service (S3)', configuration: '3.5 TB', cost: 52.15, productUrl:"https://aws.amazon.com/s3/", limitsUrl:"https://docs.aws.amazon.com/AmazonS3/latest/userguide/BucketRestrictions.html", faq:"https://aws.amazon.com/s3/faqs/?nc=sn&loc=7"},
+    { serviceName: 'AWS Lambda', configuration: '22 Million requests per month', cost: 67.73, productUrl:"https://aws.amazon.com/lambda/", limitsUrl:"https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html", faq:"https://aws.amazon.com/lambda/faqs/" },
+    { serviceName: 'Amazon API Gateway', configuration: '15 Million requests per month', cost: 15.00, productUrl:"https://aws.amazon.com/api-gateway/", limitsUrl:"https://docs.aws.amazon.com/apigateway/latest/developerguide/limits.html", faq:"https://aws.amazon.com/api-gateway/faqs/"},
+    { serviceName: 'Amazon CloudFront', configuration: '30 Million requests per month', cost: 127.04, productUrl:"https://aws.amazon.com/cloudfront/", limitsUrl:"https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html", faq:"https://aws.amazon.com/cloudfront/faqs/?nc=sn&loc=5&dn=2"},
+    { serviceName: 'Business Support Plan', configuration: '24/7 phone and email access, less than 1 hour response time', cost: 991.59 , productUrl:"https://aws.amazon.com/premiumsupport/plans/business/", limitsUrl:"https://aws.amazon.com/premiumsupport/plans/", faq:"https://aws.amazon.com/premiumsupport/faqs/?nc=sn&loc=6"},
+    { serviceName: 'Amazon OpenSearch Service', configuration: 'Highly available (3 data nodes and 3 master nodes) ', cost: 4099.96 , productUrl:"https://aws.amazon.com/opensearch-service/", limitsUrl:"https://docs.aws.amazon.com/opensearch-service/latest/developerguide/limits.html", faq:"https://aws.amazon.com/opensearch-service/faqs/"}
   ];
   const [ServiceList, setServiceList] = useState<Estimate[]>(serviceList);
 
@@ -84,12 +84,25 @@ export default function PricEstimate() {
       sortAscendingAriaLabel: 'Sorted A to Z',
       sortDescendingAriaLabel: 'Sorted Z to A',
     },
+    {
+      key: 'more', name: 'More Information', fieldName: 'cost', minWidth: 100, maxWidth: 200, isResizable: true, onColumnClick: _onColumnClick, isRowHeader: true,
+      isSorted: false,
+      isSortedDescending: false,
+      sortAscendingAriaLabel: 'Sorted A to Z',
+      sortDescendingAriaLabel: 'Sorted Z to A',
+    },
   ];
   function _renderItemColumn(item: Estimate, index: number|undefined, column: IColumn|undefined) {
     const fieldContent = item[column?.fieldName as keyof Estimate] as string;
     switch (column?.key) {
       case 'cost':
         return <span>{fieldContent} USD</span>
+      case 'more':
+        return <Stack horizontal>
+          <ActionButton iconProps={{ iconName: "Globe" }} onClick={() => window.open(item.productUrl)}>Product Link</ActionButton>
+          <ActionButton iconProps={{ iconName: "ReportWarning" }} onClick={() => window.open(item.limitsUrl)}>Limits and Quotas</ActionButton>
+          <ActionButton iconProps={{ iconName: "StatusCircleQuestionMark" }} onClick={() => window.open(item.faq)}>FAQs</ActionButton>
+        </Stack>
   
       default:
         return <span>{fieldContent}</span>;

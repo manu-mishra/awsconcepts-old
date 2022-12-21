@@ -198,7 +198,7 @@ export function Home() {
         closeButtonAriaLabel="Close"
         headerText={'Target Application Architecture'}
         onDismiss={dismissPanel2}>
-        <Stack styles={stackStyles} verticalFill horizontalAlign='stretch' >
+        <Stack styles={stackStyles} verticalFill horizontalAlign='stretch'>
           <img src='/FullArchitecture.png' alt='aws concepts architecture' style={{ paddingBottom: '2vw', paddingTop: '2vw', paddingRight: '1vw', paddingLeft: '1vw' }} />
         </Stack>
       </Panel>
