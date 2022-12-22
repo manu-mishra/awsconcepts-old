@@ -64,14 +64,14 @@ export default function PricEstimate() {
 
   const _columns: IColumn[] = [
     {
-      key: 'serviceName', name: 'Service Name', fieldName: 'serviceName', minWidth: 300, maxWidth: 200, isResizable: true, onColumnClick: _onColumnClick, isRowHeader: true,
+      key: 'serviceName', name: 'Service Name', fieldName: 'serviceName', minWidth: 100, maxWidth: 200, isResizable: true, onColumnClick: _onColumnClick, isRowHeader: true,
       isSorted: false,
       isSortedDescending: false,
       sortAscendingAriaLabel: 'Sorted A to Z',
       sortDescendingAriaLabel: 'Sorted Z to A',
     },
     {
-      key: 'configuration', name: 'Configuration', fieldName: 'configuration', minWidth: 400, maxWidth: 200, isResizable: true, onColumnClick: _onColumnClick, isRowHeader: true,
+      key: 'configuration', name: 'Configuration', fieldName: 'configuration', minWidth: 100, maxWidth: 200, isResizable: true, onColumnClick: _onColumnClick, isRowHeader: true,
       isSorted: false,
       isSortedDescending: false,
       sortAscendingAriaLabel: 'Sorted A to Z',
