@@ -1,6 +1,6 @@
 // components/Home.js
 
-import { DocumentCard, DocumentCardImage, ImageFit, DocumentCardDetails, DocumentCardTitle, DocumentCardActivity, IDocumentCardStyles, IDocumentCardActivityPerson, IIconProps, Stack, IStackStyles, Panel, PanelType, getTheme } from '@fluentui/react';
+import { Pivot, PivotItem, DocumentCard, DocumentCardImage, ImageFit, DocumentCardDetails, DocumentCardTitle, DocumentCardActivity, IDocumentCardStyles, IDocumentCardActivityPerson, IIconProps, Stack, IStackStyles, Panel, PanelType, getTheme } from '@fluentui/react';
 import CSS from 'csstype';
 import { useNavigate } from 'react-router-dom';
 import { useBoolean } from '@fluentui/react-hooks';
@@ -60,30 +60,18 @@ export function Home() {
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    maxWidth:'1100px',
+    maxWidth: '1100px',
     minHeight: '85vh',
     backgroundColor: 'white',
     alignItems: 'center'
 
   }
   const [isPanel1Open, { setTrue: openPanel1, setFalse: dismissPanel1 }] = useBoolean(false);
-  const [isPanel2Open, { setTrue: openPanel2, setFalse: dismissPanel2 }] = useBoolean(false);
   return (
     <>
       <div style={maincomponent}>
         <div style={menucomponent}>
-          <DocumentCard aria-label={'App architecture (POC)'} styles={cardStyles} onClick={() => openPanel1()}>
-            <DocumentCardImage height={200} imageFit={ImageFit.center} iconProps={architectureIconProps} />
-            <DocumentCardDetails>
-              <DocumentCardTitle title="Application Architecture" shouldTruncate />
-              <DocumentCardTitle
-                title="Click to view"
-                shouldTruncate
-                showAsSecondaryTitle
-              />
-            </DocumentCardDetails>
-            <DocumentCardActivity activity="Modified Dec 12, 2022" people={people.slice(0, 3)} />
-          </DocumentCard>
+ 
           <DocumentCard
             styles={cardStyles}
             onClick={() => navigate('/anyjobs/')}
@@ -144,14 +132,10 @@ export function Home() {
             <DocumentCardActivity activity="Modified Dec 12, 2022" people={people.slice(0, 3)} />
           </DocumentCard>
 
-          <DocumentCard
-            aria-label={'App architecture'}
-            styles={cardStyles}
-            onClick={() => openPanel2()}
-          >
+          <DocumentCard aria-label={'App architecture (POC)'} styles={cardStyles} onClick={() => openPanel1()}>
             <DocumentCardImage height={200} imageFit={ImageFit.center} iconProps={architectureIconProps} />
             <DocumentCardDetails>
-              <DocumentCardTitle title="Target Application Architecture" shouldTruncate />
+              <DocumentCardTitle title="Application Architecture" shouldTruncate />
               <DocumentCardTitle
                 title="Click to view"
                 shouldTruncate
@@ -185,21 +169,23 @@ export function Home() {
         isOpen={isPanel1Open}
         type={PanelType.extraLarge}
         closeButtonAriaLabel="Close"
-        headerText={'Initial Application Architecture'}
+        headerText={'Application Architecture'}
         onDismiss={dismissPanel1}>
         <Stack styles={stackStyles} verticalFill horizontalAlign='stretch' >
-          <img src='/InitialArchitecture.png' alt='aws concepts architecture' style={{ paddingBottom: '2vw', paddingTop: '2vw', paddingRight: '1vw', paddingLeft: '1vw' }} />
-        </Stack>
-      </Panel>
-      <Panel
-        isLightDismiss
-        isOpen={isPanel2Open}
-        type={PanelType.extraLarge}
-        closeButtonAriaLabel="Close"
-        headerText={'Target Application Architecture'}
-        onDismiss={dismissPanel2}>
-        <Stack styles={stackStyles} verticalFill horizontalAlign='stretch'>
-          <img src='/FullArchitecture.png' alt='aws concepts architecture' style={{ paddingBottom: '2vw', paddingTop: '2vw', paddingRight: '1vw', paddingLeft: '1vw' }} />
+          <Pivot aria-label="Document Analysis">
+            <PivotItem
+              headerText="Current State"
+              headerButtonProps={{
+                'data-order': 1,
+                'data-title': 'Current Architecture',
+              }}
+            >
+              <img src='/ProductionArchitecture.png' alt='aws concepts architecture' style={{ height:'80vh', width:'80vw', paddingBottom: '1vw', paddingTop: '1vw', paddingRight: '1vw', paddingLeft: '1vw' }} />
+            </PivotItem>
+            <PivotItem headerText="Future Possibilities">
+              <img src='/FutureArchitecture.png' alt='aws concepts architecture' style={{ height:'80vh', width:'80vw', paddingBottom: '1vw', paddingTop: '1vw', paddingRight: '1vw', paddingLeft: '1vw' }} />
+            </PivotItem>
+          </Pivot>
         </Stack>
       </Panel>
     </>
