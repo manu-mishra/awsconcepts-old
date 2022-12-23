@@ -1,23 +1,17 @@
 // components/Home.js
 
-import { Pivot, PivotItem, DocumentCard, DocumentCardImage, ImageFit, DocumentCardDetails, DocumentCardTitle, DocumentCardActivity, IDocumentCardStyles, IDocumentCardActivityPerson, IIconProps, Stack, IStackStyles, Panel, PanelType, getTheme } from '@fluentui/react';
+import { Pivot, PivotItem, DocumentCard, DocumentCardImage, ImageFit, DocumentCardDetails, DocumentCardTitle, IDocumentCardStyles, IIconProps, Stack, IStackStyles, Panel, PanelType, getTheme } from '@fluentui/react';
 import CSS from 'csstype';
 import { useNavigate } from 'react-router-dom';
 import { useBoolean } from '@fluentui/react-hooks';
 export function Home() {
   const navigate = useNavigate();
-  const people: IDocumentCardActivityPerson[] = [
-    { name: 'Manu Mishra', profileImageSrc: '', initials: 'MM' },
-  ];
 
   const architectureIconProps: IIconProps = {
     iconName: 'ProductVariant',
     styles: { root: { color: '#0078d4', fontSize: '120px', width: '120px', height: '120px' } },
   };
-  const newsSearchIconProps: IIconProps = {
-    iconName: 'NewsSearch',
-    styles: { root: { color: '#0078d4', fontSize: '120px', width: '120px', height: '120px' } },
-  };
+
   const wordSearchIconProps: IIconProps = {
     iconName: 'SearchAndApps',
     styles: { root: { color: '#0078d4', fontSize: '120px', width: '120px', height: '120px' } },
@@ -29,17 +23,24 @@ export function Home() {
   const documentAnalysisIconProps: IIconProps = {
     iconName: 'AnalyticsReport',
     styles: { root: { color: '#0078d4', fontSize: '120px', width: '120px', height: '120px' } },
+
   };
   const costEstimateIconProps: IIconProps = {
     iconName: 'Money',
-    styles: { root: { color: '#0078d4', fontSize: '120px', width: '120px', height: '120px' } },
+    styles: { root: { color: '#0078d4', fontSize: '120px', width: '120px', height: '120px'} },
   };
   let theme = getTheme();
   const cardStyles: IDocumentCardStyles = {
     root: {
-      display: 'inline-block', marginTop: 10, marginLeft: 20, marginBottom: 20, width: 400,
+      display: 'inline-block', marginTop: 10, marginLeft: 20, marginBottom: 20, paddingBottom:10, width: 400,
       boxShadow: theme.effects.elevation8,
-      borderRadius: theme.effects.roundedCorner4
+      borderRadius: theme.effects.roundedCorner4,
+      selectors: {
+        ':hover': {
+          boxShadow: theme.effects.elevation16,
+          borderColor:theme.palette.magenta
+        },
+      } 
     },
   };
   const stackStyles: Partial<IStackStyles> = {
@@ -71,7 +72,34 @@ export function Home() {
     <>
       <div style={maincomponent}>
         <div style={menucomponent}>
- 
+   
+        <DocumentCard aria-label={'App architecture (POC)'} styles={cardStyles} onClick={() => openPanel1()}>
+            <DocumentCardImage height={200} imageFit={ImageFit.center} iconProps={architectureIconProps} />
+            <DocumentCardDetails>
+              <DocumentCardTitle title="Application Architecture" shouldTruncate />
+              <DocumentCardTitle
+                title="POC architecture and future architecture"
+                shouldTruncate
+                showAsSecondaryTitle
+              />
+            </DocumentCardDetails>
+          </DocumentCard>
+
+          <DocumentCard
+            aria-label={'Cost Estimate'}
+            styles={cardStyles}
+            onClick={() => navigate('/costestimate')}
+          >
+            <DocumentCardImage height={200} imageFit={ImageFit.center} iconProps={costEstimateIconProps} />
+            <DocumentCardDetails>
+              <DocumentCardTitle title="Cost Estimate" shouldTruncate />
+              <DocumentCardTitle
+                title="POC cost estimate, view and modify"
+                shouldTruncate
+                showAsSecondaryTitle
+              />
+            </DocumentCardDetails>
+          </DocumentCard>
           <DocumentCard
             styles={cardStyles}
             onClick={() => navigate('/anyjobs/')}
@@ -85,24 +113,8 @@ export function Home() {
                 showAsSecondaryTitle
               />
             </DocumentCardDetails>
-            <DocumentCardActivity activity="Modified Dec 12, 2022" people={people.slice(0, 3)} />
           </DocumentCard>
 
-          <DocumentCard
-            styles={cardStyles}
-            onClick={() => navigate('/anyjobs/jobs/searchparaphrase/')}
-          >
-            <DocumentCardImage height={200} imageFit={ImageFit.center} iconProps={newsSearchIconProps} />
-            <DocumentCardDetails>
-              <DocumentCardTitle title="Praphrase Search" shouldTruncate />
-              <DocumentCardTitle
-                title="Example showing advance Praphrase search capabilities with AWS open search."
-                shouldTruncate
-                showAsSecondaryTitle
-              />
-            </DocumentCardDetails>
-            <DocumentCardActivity activity="Modified Dec 12, 2022" people={people.slice(0, 3)} />
-          </DocumentCard>
           <DocumentCard styles={cardStyles} onClick={() => navigate('/login')} >
             <DocumentCardImage height={200} imageFit={ImageFit.center} iconProps={authenticationIconProps} />
             <DocumentCardDetails>
@@ -113,7 +125,6 @@ export function Home() {
                 showAsSecondaryTitle
               />
             </DocumentCardDetails>
-            <DocumentCardActivity activity="Modified Dec 12, 2022" people={people.slice(0, 3)} />
           </DocumentCard>
 
           <DocumentCard
@@ -124,44 +135,12 @@ export function Home() {
             <DocumentCardDetails>
               <DocumentCardTitle title="Comprehend text Analysis" shouldTruncate />
               <DocumentCardTitle
-                title="Example extracting meaningfull insights from document using COmprehend"
+                title="Example extracting meaningfull insights from document using Comprehend"
                 shouldTruncate
                 showAsSecondaryTitle
               />
             </DocumentCardDetails>
-            <DocumentCardActivity activity="Modified Dec 12, 2022" people={people.slice(0, 3)} />
           </DocumentCard>
-
-          <DocumentCard aria-label={'App architecture (POC)'} styles={cardStyles} onClick={() => openPanel1()}>
-            <DocumentCardImage height={200} imageFit={ImageFit.center} iconProps={architectureIconProps} />
-            <DocumentCardDetails>
-              <DocumentCardTitle title="Application Architecture" shouldTruncate />
-              <DocumentCardTitle
-                title="Click to view"
-                shouldTruncate
-                showAsSecondaryTitle
-              />
-            </DocumentCardDetails>
-            <DocumentCardActivity activity="Modified Dec 12, 2022" people={people.slice(0, 3)} />
-          </DocumentCard>
-
-          <DocumentCard
-            aria-label={'Cost Estimate'}
-            styles={cardStyles}
-            onClick={() => navigate('/costestimate')}
-          >
-            <DocumentCardImage height={200} imageFit={ImageFit.center} iconProps={costEstimateIconProps} />
-            <DocumentCardDetails>
-              <DocumentCardTitle title="Cost Estimate" shouldTruncate />
-              <DocumentCardTitle
-                title="Click to view"
-                shouldTruncate
-                showAsSecondaryTitle
-              />
-            </DocumentCardDetails>
-            <DocumentCardActivity activity="Modified Dec 12, 2022" people={people.slice(0, 3)} />
-          </DocumentCard>
-
         </div>
       </div>
       <Panel
