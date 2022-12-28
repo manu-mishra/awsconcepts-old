@@ -51,7 +51,7 @@ export default function PricEstimate() {
   };
   const serviceList: Estimate[] = [
     { serviceName: 'AWS Web Application Firewall (WAF)', configuration: '30 Million requests per month', cost: 84.00, productUrl:"https://aws.amazon.com/waf/", limitsUrl:"https://docs.aws.amazon.com/waf/latest/developerguide/limits.html", faq:"https://aws.amazon.com/waf/faqs/" },
-    { serviceName: 'Amazon DynamoD', configuration: 'On Demand, 5 million writes, 15 million reads (with back up and data streams) ', cost: 2342.05, productUrl:"https://aws.amazon.com/dynamodb/", limitsUrl:"https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ServiceQuotas.html", faq:"https://aws.amazon.com/dynamodb/faqs/" },
+    { serviceName: 'Amazon DynamoD', configuration: 'On Demand, 5 million writes, 15 million reads (with back up and data streams) ', cost: 1086.05, productUrl:"https://aws.amazon.com/dynamodb/", limitsUrl:"https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ServiceQuotas.html", faq:"https://aws.amazon.com/dynamodb/faqs/" },
     { serviceName: 'AWS Shield', configuration: 'For all resources', cost: 3128.00, productUrl:"https://aws.amazon.com/shield/", limitsUrl:"https://docs.aws.amazon.com/waf/latest/developerguide/shield-limits.html", faq:"https://aws.amazon.com/shield/faqs/"},
     { serviceName: 'Amazon Simple Storage Service (S3)', configuration: '3.5 TB', cost: 52.15, productUrl:"https://aws.amazon.com/s3/", limitsUrl:"https://docs.aws.amazon.com/AmazonS3/latest/userguide/BucketRestrictions.html", faq:"https://aws.amazon.com/s3/faqs/?nc=sn&loc=7"},
     { serviceName: 'AWS Lambda', configuration: '22 Million requests per month', cost: 67.73, productUrl:"https://aws.amazon.com/lambda/", limitsUrl:"https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html", faq:"https://aws.amazon.com/lambda/faqs/" },
@@ -122,7 +122,7 @@ export default function PricEstimate() {
         <Stack horizontal verticalAlign='baseline' tokens={smallSpacingToken} >
           <h1>Price Estimate</h1>
           <PrimaryButton iconProps={{ iconName: "PDF" }} onClick={() => openPanel1()}>Show PDF</PrimaryButton>
-          <PrimaryButton iconProps={{ iconName: "NavigateExternalInline" }} onClick={() => window.open("https://calculator.aws/#/estimate?id=1693e63cec25ffa7214ef39bf031bb447cd761c4")}>Modify Your Copy</PrimaryButton>
+          <PrimaryButton iconProps={{ iconName: "NavigateExternalInline" }} onClick={() => window.open("https://calculator.aws/#/estimate?id=efe2bbda6220f3b05466555484c86192acd4efe5")}>Modify Your Copy</PrimaryButton>
         </Stack>
         <Label>1 million request per day with 40% cache hit ratio.</Label>
         <DetailsList items={ServiceList} columns={_columns} setKey="set" layoutMode={DetailsListLayoutMode.justified} selectionMode={SelectionMode.none} 
