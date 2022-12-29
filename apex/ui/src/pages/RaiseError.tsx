@@ -18,7 +18,7 @@ export const RaiseError = () => {
         }
         callApi().catch(() => {
             console.log(errorCount + 'errors');
-            setErrorCount(errorCount + 1);
+            setErrorCount((errorCount)=> errorCount + 1);
         });
     }
     const stackStyles: IStackStyles = {
