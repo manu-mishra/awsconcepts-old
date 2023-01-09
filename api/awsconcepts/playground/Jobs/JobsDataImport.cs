@@ -1,7 +1,6 @@
 ﻿using Application.Organizations.Dto;
 using Flurl.Http;
 using Microsoft.Extensions.Configuration;
-using Nest;
 using System.Text.Json;
 
 namespace playground.Jobs
@@ -105,7 +104,6 @@ namespace playground.Jobs
             var jobTitles= ArmenianJobsReader.GetTitles();
             jobTitles.AddRange(AmazonJobsReader.GetTitles());
             jobTitles.AddRange(NaukriJobsReader.GetTitles());
-
             var distinctTitles = jobTitles.Distinct().Select(x=>new {Title=x });
             var result =  JsonSerializer.Serialize(distinctTitles);
         }

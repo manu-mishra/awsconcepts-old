@@ -1,25 +1,26 @@
-<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
-    <AWSProjectType>Lambda</AWSProjectType>
-    <!-- This property makes the build directory similar to a publish directory and helps the AWS .NET Lambda Mock Test Tool find project dependencies. -->
-    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-    <!-- Generate ready to run images during publishing to improve cold start time. -->
-    <PublishReadyToRun>true</PublishReadyToRun>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="Amazon.Lambda.Core" Version="2.1.0" />
-    <PackageReference Include="Amazon.Lambda.Serialization.SystemTextJson" Version="2.3.0" />
-    <PackageReference Include="Amazon.Lambda.DynamoDBEvents" Version="2.1.1" />
-    <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.3.64" />
-    <PackageReference Include="AWSSDK.Kinesis" Version="3.7.100.28" />
-    <PackageReference Include="AWSXRayRecorder.Handlers.AwsSdk" Version="2.11.0" />
-    <PackageReference Include="NEST" Version="7.13.2" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Domain\Domain.csproj" />
-  </ItemGroup>
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+		<AWSProjectType>Lambda</AWSProjectType>
+		<!-- This property makes the build directory similar to a publish directory and helps the AWS .NET Lambda Mock Test Tool find project dependencies. -->
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+		<!-- Generate ready to run images during publishing to improve cold start time. -->
+		<PublishReadyToRun>true</PublishReadyToRun>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Amazon.Lambda.Core" Version="2.1.0" />
+		<PackageReference Include="Amazon.Lambda.Serialization.SystemTextJson" Version="2.3.0" />
+		<PackageReference Include="Amazon.Lambda.DynamoDBEvents" Version="2.1.1" />
+		<PackageReference Include="AWSXRayRecorder.Handlers.System.Net" Version="2.10.0" />
+		<PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.3.64" />
+		<PackageReference Include="AWSSDK.Kinesis" Version="3.7.100.28" />
+		<PackageReference Include="AWSXRayRecorder.Handlers.AwsSdk" Version="2.11.0" />
+		<PackageReference Include="OpenSearch.Client" Version="1.2.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Domain\Domain.csproj" />
+	</ItemGroup>
 </Project>

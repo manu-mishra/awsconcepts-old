@@ -10,7 +10,6 @@ export const App: React.FunctionComponent = () => {
     <Authenticator.Provider>
       <ApplicationRoutes />
     </Authenticator.Provider>
-
   );
 };
 

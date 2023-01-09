@@ -1,5 +1,5 @@
-﻿using Elasticsearch.Net;
-using Nest;
+﻿using OpenSearch.Client;
+using OpenSearch.Net;
 using System.Reflection;
 using System.Text.Json;
 
@@ -7,7 +7,7 @@ namespace DataStreamProcessor
 {
     public static class Indexer
     {
-        static ElasticClient elasticClient;
+        static OpenSearchClient elasticClient;
         static Assembly domainAssembly;
         static Indexer()
         {
@@ -19,10 +19,10 @@ namespace DataStreamProcessor
             string? userName = Environment.GetEnvironmentVariable("elasticUserName");
             string? password = Environment.GetEnvironmentVariable("elasticPassword");
 
-            SniffingConnectionPool connectionPool = new SniffingConnectionPool(uris);
-            ConnectionSettings settings = new ConnectionSettings(connectionPool)
+            StaticConnectionPool connectionPool = new StaticConnectionPool(uris);
+            ConnectionSettings settings = new ConnectionSettings(connectionPool, new TracedConnection())
                 .BasicAuthentication(userName, password);
-            elasticClient = new ElasticClient(settings);
+            elasticClient = new OpenSearchClient(settings);
         }
         public static async Task Index(DomainEvent domainEvent)
         {
