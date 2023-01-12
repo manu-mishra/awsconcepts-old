@@ -36,7 +36,7 @@ export default  function ProfilesList (){
     return (
         <>
             <Stack horizontal horizontalAlign='center' styles={stackStyles}>
-                <CommandBarButton iconProps={addIcon} text="New Profile" onClick={() => navigate('/anyjobs/profiles/drafts/new')} />
+                <CommandBarButton iconProps={addIcon} text="News Profile" onClick={() => navigate('/anyjobs/profiles/drafts/new')} />
                 <CommandBarButton iconProps={makePrimaryIcon} text="Make Default Profile" />
                 <CommandBarButton iconProps={deleteIcon} text="Delete Profile" />
             </Stack>
